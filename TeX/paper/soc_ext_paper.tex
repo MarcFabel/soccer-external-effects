@@ -1,0 +1,379 @@
+%--------------------------------------------------------------------
+%	DOCUMENT CLASS
+%--------------------------------------------------------------------
+\documentclass[11pt, a4paper]{article} % type of document (paper, presentation, book,...); scrartcl class with sans serif titles, European layout 
+\usepackage{fullpage} % leaves less space at margins of page
+\usepackage[onehalfspacing]{setspace} % determine line pitch to 1.5
+
+%--------------------------------------------------------------------
+%	INPUT
+%--------------------------------------------------------------------
+\usepackage[T1]{fontenc} 	% Use 8-bit encoding that has 256 glyphs
+\usepackage[utf8]{inputenc} % Required for including letters with accents, Umlaute,...
+\usepackage{float} 			% better control over placement of tables and figures in the text
+\usepackage{graphicx} 		% input of graphics
+\usepackage{xcolor} 		% advanced color package
+\usepackage{url, hyperref} 	% include (clickable) URLs
+\usepackage{pdfpages}		% insert pages of external pdf documents
+\setlength{\parskip}{0em}	% vertical spacing for paragraphs
+\setlength{\parindent}{0em}	% horizonzal spacing for paragraphs
+\usepackage{tikz}
+\usepackage{tikzscale}		% helps to adjust tikz pictures to textwidth/linewidth
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{arrows}
+\usepackage{eurosym}		% Eurosymbol
+
+% Have sections in TOC, but not in text
+\usepackage{xparse}% for easier management of optional arguments
+\ExplSyntaxOn
+\NewDocumentCommand{\TODO}{msom}
+{
+	\IfBooleanF{#1}% do nothing if it's starred
+	{
+		\cs_if_eq:NNT #1 \chapter { \cleardoublepage\mbox{} }
+		\refstepcounter{\cs_to_str:N #1}
+		\IfNoValueTF{#3}
+		{
+			\addcontentsline{toc}{\cs_to_str:N #1}{\protect\numberline{\use:c{the\cs_to_str:N #1}}#4}
+		}
+		{
+			\addcontentsline{toc}{\cs_to_str:N #1}{\protect\numberline{\use:c{the\cs_to_str:N #1}}#3}
+		}
+	}
+	\cs_if_eq:NNF #1 \chapter { \mbox{} }% allow page breaks after sections
+}
+\ExplSyntaxOff
+
+%--------------------------------------------------------------------
+%	TABLES, FIGURES, LISTS
+%--------------------------------------------------------------------
+\usepackage{booktabs} 		% better tables
+\usepackage{longtable}		% tables that may be continued on the next page
+\usepackage{threeparttable} % add notes below tables
+\renewcommand\TPTrlap{}		% add margins on the side of the notes
+	\renewcommand\TPTnoteSettings{%
+	\setlength\leftmargin{5 pt}%
+	\setlength\rightmargin{5 pt}%
+}
+\usepackage[
+center, format=plain,
+font=normalsize,
+nooneline,
+labelfont={bf}
+]{caption} 				% change format of captions of tables and graphs 
+%USED IN MPHIL: \usepackage[labelfont=bf,labelsep = period, singlelinecheck=off,justification=raggedright]{caption}, other specifications which are nice: labelformat = parens -> number in paranthesis 
+
+
+%\usepackage{threeparttablex} % for "ThreePartTable" environment, helps to combine threepart and longtable
+
+% Allow line breaks with \\ in column headings of tables
+\newcommand{\clb}[3][c]{%
+	\begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}
+
+% allow line breaks with \\ in row titles
+\usepackage{multirow}
+
+\newcommand{\rlb}[3][c]{%
+\multirow{2}{*}{\begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}}% optional argument: b = bottom or t= top alignment
+
+
+\usepackage[singlelinecheck=on]{subcaption}%both together help to have subfigures
+\usepackage{wrapfig}				% wrap text around figure
+
+
+\usepackage{rotating}				% rotating figures & tables
+\usepackage{enumerate}				% change appearance of the enumerator
+\usepackage{paralist, enumitem}		% better enumerations
+\setlist{noitemsep}					% no additional vertical spacing for enurations
+%--------------------------------------------------------------------
+%	MATH
+%--------------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsfonts} % more math symbols and commands
+\let\vec\mathbf				 % make vector bold, with no arrow and not in italic
+
+%--------------------------------------------------------------------
+%	LANGUAGE SPECIFICS
+%--------------------------------------------------------------------
+\usepackage[american]{babel} % man­ages cul­tur­ally-de­ter­mined ty­po­graph­i­cal (and other) rules, and hy­phen­ation pat­terns
+\usepackage{csquotes} % language specific quotations
+
+%--------------------------------------------------------------------
+%	BIBLIOGRAPHY & CITATIONS
+%--------------------------------------------------------------------
+\usepackage{csquotes} % language specific quotations
+\usepackage{etex}		% some more Tex functionality
+\usepackage[nottoc]{tocbibind} %add bibliography to TOC
+\usepackage[authoryear, round, comma]{natbib} %biblatex
+
+%--------------------------------------------------------------------
+%	PATHS
+%--------------------------------------------------------------------
+\makeatletter
+\def\input@path{{../../analysis/output/tables/}}	%PATH TO TABLES
+%or: \def\input@path{{/path/to/folder/}{/path/to/other/folder/}}
+\makeatother
+\graphicspath{{../../analysis/output/graphs/}}		% PATH TO GRAPHS
+
+%--------------------------------------------------------------------
+%	LAYOUT
+%--------------------------------------------------------------------
+\usepackage[left=3cm,right=3cm,top=2cm,bottom=3cm]{geometry}
+\usepackage{pdflscape} % lscape.sty Produce landscape pages in a (mainly) portrait document.
+
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\newcommand\natalia[1]{\textcolor{orange}{#1}}
+
+% CAPTIAL LETTERS FOR SECTION CAPTIONS
+%\usepackage{sectsty}
+%\sectionfont{\normalfont\scshape\centering\textbf}
+%\renewcommand{\thesection}{\Roman{section}.}
+%\renewcommand{\thesubsection}{\Alph{subsection}.}%\thesection\Alph{subsection}.
+%\subsectionfont{\itshape}
+%\subsubsectionfont{\scshape}
+%\newcommand\relphantom[1]{\mathrel{\phantom{#1}}}
+%\setlength\topmargin{0.1in} \setlength\headheight{0.1in}
+%\setlength\headsep{0in} \setlength\textheight{9.2in}
+%\setlength\textwidth{6.3in} \setlength\oddsidemargin{0.1in}
+%\setlength\evensidemargin{0.1in}
+
+\hypersetup{
+  colorlinks  = true,
+  citecolor   = darkblue,
+ 	linkcolor   = darkblue,
+  urlcolor    = darkblue 
+} % macht die URLS blau   
+     
+\usepackage{lettrine}	% First letter capitalized
+
+% have date in month year format (i.e. omit the day in dates)
+\usepackage{datetime}
+\newdateformat{monthyeardate}{%
+  \monthname[\THEMONTH], \THEYEAR}
+%--------------------------------------------------------------------
+%	AUTHOR & TITLE
+%--------------------------------------------------------------------
+\title{Crime externalities from soccer games in Germany\footnote{I am very grateful to Helmut Rainer for valuable comments and discussions. The author gratefully acknowledges financial support from the Leibniz association. Dominik Ammon provided excellent research assistance. All errors and omissions are my own.
+}}
+\author{
+	Marc Fabel 
+		\thanks{Munich Graduate School of Economics (MGSE) and ifo Institute for Economic Research, ifo Center for Labor and Demographic Economics (email: \href{mailto:fabel@ifo.de}{fabel@ifo.de}).
+		}
+}
+
+\date{\monthyeardate\today}
+
+
+
+
+
+
+
+
+%--------------------------------------------------------------------
+%	BEGIN DOCUMENT
+%--------------------------------------------------------------------
+\begin{document}
+\setcounter{page}{0}  
+% \tableofcontents
+\newpage
+\setcounter{page}{1}    
+\maketitle
+
+%\textbf{\color{red} Preliminary and incomplete draft\newline Please do not cite or circulate without the author's permission}
+%\renewcommand{\abstractname}{\vspace{-\baselineskip}} % GET RID OF ABSTRACT TITLE
+
+%  \begin{abstract}\noindent 
+%   \footnotesize{\begin{center}\textbf{Abstract}\end{center} Place abstract here}
+%    \end{abstract}
+
+\bigskip
+\tableofcontents
+
+\newpage
+
+
+%--------------------------------------------------------------------
+% INTRODUCTION
+%--------------------------------------------------------------------
+\section{Introduction}\label{sec_soc_ext:introduction}
+
+
+
+
+
+
+%--------------------------------------------------------------------
+% BACKGROUND
+%--------------------------------------------------------------------
+\bigskip
+\section{Background}\label{sec_soc_ext:background}
+
+German football league system, different leagues/divisions
+https://www.dfl.de/en/about/history/
+Bundesliga is an independent body , sperated from the German Football Association (DFL)
+
+
+%--------------------------------------------------------------------
+% IDENTIFICATION
+%--------------------------------------------------------------------
+\bigskip
+\section{Empirical strategy}\label{sec_soc_ext:empirical_strategy}
+
+
+
+
+
+
+
+
+
+%--------------------------------------------------------------------
+% DATA & VARIABLES
+%--------------------------------------------------------------------
+\bigskip
+\section{Data}\label{sec_soc_ext:data} 
+% Description data
+
+sample spans the period 2011-2015
+
+\subsection{Soccer data}
+self-collected, obtained via web-scraping from kicker.de and transfermarkt.de, geographic encoding of the stadiums plus marking of affected districts
+
+\subsection{Crime data}
+German uniform crime reporting program (Polizeiliche Kriminalstatistik) by the Federal Criminal Police Office (Bundeskriminalamt)
+
+\subsection{Weather data}
+Deutscher Wetterdienst
+
+\subsection{Regional Database}
+GENESIS
+
+
+
+
+
+%--------------------------------------------------------------------
+% RESULTS
+%--------------------------------------------------------------------
+\newpage
+\section{Results}\label{sec_soc_ext:results}
+
+\begin{itemize}
+	\item general effect of a game (increase number of FE)
+	\item separately by home/away game
+	\item break it down to hour windows: before, during, and after the game
+	\item spillover/displacement effects (temporal \& spatial), important for validity of the identification scheme
+	\item \textbf{heterogeneity of the effects:}
+	\begin{itemize}
+		\item \underline{victim characteristics:} demographics (age, gender), relationship between offender and victim (known/unknown)
+		\item \underline{crime characteristics:} timing (season), type of charge (definition of assault), assault execution
+		\item \underline{game and club characteristics:} prominent game(derby, rivalry, BL/2L/3L) or team, , covariate space that was scraped from kicker and transfermarkt, emotional cues (Card \& Dahl story or referee quality, penalty in last minutes,...)
+		\item \underline{region characteristics:} Regionaldatenbank - treatment effect heterogeneity (causal forests) - just for this part or for all heterogeneity aspects?
+	\end{itemize}
+	\item \textbf{robustness:}
+	\begin{itemize}
+		\item different specification of what are the affected regions, vary radius around stadium which region is affected
+		\item estimation with Poisson? (many zeros and discrete nature of reports - use number of assaults)
+	\end{itemize}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+%--------------------------------------------------------------------
+% CONCLUSION
+%-------------------------------------------------------------------
+\bigskip
+\section{Concluding remarks}\label{sec_soc_ext:conclusion}
+
+
+
+
+%--------------------------------------------------------------------
+% BIBLIOGRAPHY
+%--------------------------------------------------------------------
+\newpage
+
+
+%\bibliographystyle{ecca_edited}%previous style-chicago
+%\bibliography{mlch_bibliography}
+
+%\printbibliography
+
+
+%--------------------------------------------------------------------
+% FIGURES AND TABLES
+%--------------------------------------------------------------------
+%\newpage
+%\section{Figures and tables}
+\newpage
+\TODO\section{Figures}
+\vspace*{\fill}
+{\Huge \begin{center}\textbf{FIGURES}\end{center}}
+\vspace*{\fill}\clearpage
+%--------------------------------------------
+
+
+
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{The stadiums}\label{fig_soc_ext: map_stadiums_gemeinde}
+	\includegraphics[width=\linewidth]{soc_ext_2010_2015_Gemeinde_100.png}
+	\begin{minipage}{0.95\linewidth}
+		\scriptsize{\emph{Notes:} This map shows the stadiums used in the analysis over the seasons 2010/11 until 2014/15. The black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
+
+
+
+
+
+
+%--------------------------------------------------------------------
+% TABLES
+%--------------------------------------------------------------------
+\newpage
+\TODO\section{Tables}
+\vspace*{\fill}
+{\Huge \begin{center}\textbf{TABLES}\end{center}}
+\vspace*{\fill}\clearpage
+
+
+
+
+
+
+
+
+
+%--------------------------------------------------------------------
+% APPENDIX
+%--------------------------------------------------------------------
+\newpage
+\TODO\section{Appendix}
+\vspace*{\fill}
+{\Huge \begin{center}\textbf{APPENDIX}\end{center}}
+\vspace*{\fill}\clearpage
+
+
+\renewcommand\thefigure{A\arabic{figure}}
+\setcounter{figure}{0} 
+\captionsetup[subfigure]{labelformat=parens}
+
+
+
+
+
+
+\end{document}
