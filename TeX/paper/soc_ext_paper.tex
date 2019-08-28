@@ -217,21 +217,59 @@ Bundesliga is an independent body , sperated from the German Football Associatio
 %--------------------------------------------------------------------
 % IDENTIFICATION
 %--------------------------------------------------------------------
-\bigskip
+\newpage
 \section{Empirical strategy}\label{sec_soc_ext:empirical_strategy}
 
 
 
 
+\begin{align}
+	Crime_{rcdwmy} = \alpha + \beta Gameday_{rcdwmy} + \underbrace{\gamma_d + \delta_m +  \eta_w + \theta_y}_{date_{dwmy}} + \vartheta_r + X_{rdwmy} \lambda + \varepsilon_{rcdwmy}
+	\label{eq_soc_ext:model}
+\end{align}
+with Crime is crime rate in region $r$, associated with club $c$, on day-of-the-week $d$, in week-of-year $w$, in month $m$ and year $y$. Number of assaults per 100,000 individuals times 365. $X_{rdwmy}$ contains school and public holidays and weather controls.\newline
+
+\underline{Possible interactions:} 
+\begin{itemize}
+	\item $(\gamma_d \times \delta_m)$: month-specific DOW fixed effects
+	\item $r \times time$: e.g. $r \times m$, $r \times w$, $r \times y \times m$,  $r \times y \times w$
+\end{itemize}
+
+\underline{Standard errors:}
+\begin{itemize}
+	\item clustered at club level $c$ (allow for correlation over time within region and across regions corresponding to the same club)
+	\item twoway cluster (i) district-year and (ii) year-month
+	\item adjust for serial correlation: 
+	\begin{itemize}
+		\item BDM (2004) clustered at club level
+		\item CGM (2008) wild cluster bootstrap t-procedures
+	\end{itemize}
+\end{itemize}
+
+\underline{drop observations:}
+\begin{itemize}
+	\item are there games on all DOW, probably yes with league 3
+	\item drop never affected regions, i.e. regions that are never in a certain radius to a stadium where a game is taking place
+	\item focus on only season (i.e. exclude June and winter break)
+	\item how many games are played on holidays? drop these? 
+	\item focus on particular age group and gender of victims
+	\item drop when information of crime is not available on the hour
+\end{itemize}
 
 
+\underline{other remarks}
+\begin{itemize}
+	\item different definition of a day: 6:00 AM - 5:59 AM the next day, see Lindo paper
+	\item lags and leads in Gameday see Lindo paper
+	\item estimation sample only until June 2015 see Timo's paper?
+\end{itemize}
 
 
 
 %--------------------------------------------------------------------
 % DATA & VARIABLES
 %--------------------------------------------------------------------
-\bigskip
+\newpage
 \section{Data}\label{sec_soc_ext:data} 
 % Description data
 
@@ -268,13 +306,15 @@ GENESIS
 	\begin{itemize}
 		\item \underline{victim characteristics:} demographics (age, gender), relationship between offender and victim (known/unknown)
 		\item \underline{crime characteristics:} timing (season), type of charge (definition of assault), assault execution
-		\item \underline{game and club characteristics:} prominent game(derby, rivalry, BL/2L/3L) or team, , covariate space that was scraped from kicker and transfermarkt, emotional cues (Card \& Dahl story or referee quality, penalty in last minutes,...)
+		\item \underline{game and club characteristics:} prominent game or team (derby, rivalry, BL/2L/3L), covariate space that was scraped from kicker and transfermarkt, emotional cues (Card \& Dahl story or referee quality, penalty in last minutes,...)
 		\item \underline{region characteristics:} Regionaldatenbank - treatment effect heterogeneity (causal forests) - just for this part or for all heterogeneity aspects?
 	\end{itemize}
 	\item \textbf{robustness:}
 	\begin{itemize}
 		\item different specification of what are the affected regions, vary radius around stadium which region is affected
 		\item estimation with Poisson? (many zeros and discrete nature of reports - use number of assaults)
+		\item placebo games?
+		\item control for mass events (see BHR paper)
 	\end{itemize}
 \end{itemize}
 
