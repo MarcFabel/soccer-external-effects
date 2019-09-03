@@ -10,11 +10,11 @@ import pandas as pd
 import re
 
 #paths & magic numbers
-soccer_data = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/soccer/webscraping/output/'
+#soccer_data = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/soccer/webscraping/output/'
 
 
 # HOME directories
-#soccer_data = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/soccer/webscraping/output/'
+soccer_data = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/soccer/webscraping/output/'
 
 #magic numbers
 first_year_wave = 2010
@@ -161,14 +161,20 @@ matches.home_team = matches.home_team.replace({
         'Bayern II' 		: 'Bayern München II',
         'VfB II' 			: 'Stuttgart II',
         'Union' 			: 'Union Berlin',
-        'Wehen' 			: 'Wehen Wiesbaden'})
+        'Wehen' 			: 'Wehen Wiesbaden',
+        'HSV'           : 'Hamburger SV',
+        'Stuttg. Kick.' : 'Stuttgarter Kickers',
+        'TSV 1860'      : '1860 München'})
 
 matches.away_team = matches.away_team.replace({
         'Bayern' 			: 'Bayern München',
         'Bayern II' 		: 'Bayern München II',
         'VfB II' 			: 'Stuttgart II',
         'Union' 			: 'Union Berlin',
-        'Wehen' 			: 'Wehen Wiesbaden'})
+        'Wehen' 			: 'Wehen Wiesbaden',
+        'HSV'           : 'Hamburger SV',
+        'Stuttg. Kick.' : 'Stuttgarter Kickers',
+        'TSV 1860'      : '1860 München'})
 
 
 ########## drop some variables ##########
@@ -289,7 +295,7 @@ tm.team = tm.team.replace({
 	'Greuther Fürth' 			: 'Fürth',
 	'Bor. M\'gladbach' 			: 'Gladbach',
 	'Sonnenhof-Gr.' 			: 'Großaspach',
-	'Hamburger SV' 				: 'HSV',
+	'Hamburger SV' 				: 'Hamburger SV',
 	'Unterhaching' 				: 'Haching',
 	'Hallescher FC' 			: 'Halle',
 	'Hannover 96' 				: 'Hannover',
@@ -319,10 +325,10 @@ tm.team = tm.team.replace({
 	'SV Sandhausen' 			: 'Sandhausen',
 	'FC Schalke 04' 			: 'Schalke',
 	'FC St. Pauli' 				: 'St. Pauli',
-	'Stuttg. Kickers' 			: 'Stuttg. Kick.',
+	'Stuttg. Kickers' 			: 'Stuttgarter Kickers',
 	'VfB Stuttgart' 			: 'Stuttgart',
 	'Stuttgart II' 				: 'Stuttgart II',
-	'1860 München' 				: 'TSV 1860',
+	'1860 München' 				: '1860 München',
 	'Union Berlin' 				: 'Union Berlin',
 	'Wehen Wiesbaden' 			: 'Wehen Wiesbaden',
 	'VfL Wolfsburg' 			: 'Wolfsburg'})
@@ -346,9 +352,9 @@ delete_entries = t1[  (t1['season_first_number']<first_year_wave) | ((t1['season
 t1.drop(delete_entries, inplace=True)
 t1.drop('season_first_number', axis=1, inplace=True)
 t1['league'] = 1
-t1['champion'] = t1['team'].str.contains('\(.*?M.*?\)').astype(int)
-t1['winner_cup'] = t1['team'].str.contains('\(.*?P.*?\)').astype(int)
-t1['promoted'] = t1['team'].str.contains('\(.*?N.*?\)').astype(int)
+t1['D_champion'] = t1['team'].str.contains('\(.*?M.*?\)').astype(int)
+t1['D_winner_cup'] = t1['team'].str.contains('\(.*?P.*?\)').astype(int)
+t1['D_promoted'] = t1['team'].str.contains('\(.*?N.*?\)').astype(int)
 
 t2 = pd.read_csv(soccer_data +  'kicker_tablestandings_2l.csv', sep=';', encoding='ISO-8859-1')
 t2['season_first_number'] = pd.to_numeric(t2['season'].str.slice(0,4))
@@ -356,8 +362,8 @@ delete_entries = t2[  (t2['season_first_number']<first_year_wave) | ((t2['season
 t2.drop(delete_entries, inplace=True)
 t2.drop('season_first_number', axis=1, inplace=True)
 t2['league'] = 2
-t2['promoted'] = t2['team'].str.contains('\(.*?N.*?\)').astype(int)
-t2['relegated'] = t2['team'].str.contains('\(.*?A.*?\)').astype(int)
+t2['D_promoted'] = t2['team'].str.contains('\(.*?N.*?\)').astype(int)
+t2['D_relegated'] = t2['team'].str.contains('\(.*?A.*?\)').astype(int)
 
 t3 = pd.read_csv(soccer_data +  'kicker_tablestandings_3l.csv', sep=';', encoding='ISO-8859-1')
 t3['season_first_number'] = pd.to_numeric(t3['season'].str.slice(0,4))
@@ -365,25 +371,109 @@ delete_entries = t3[  (t3['season_first_number']<first_year_wave) | ((t3['season
 t3.drop(delete_entries, inplace=True)
 t3.drop('season_first_number', axis=1, inplace=True)
 t3['league'] = 3
-t3['promoted'] = t3['team'].str.contains('\(.*?N.*?\)').astype(int)
-t3['relegated'] = t3['team'].str.contains('\(.*?A.*?\)').astype(int)
+t3['D_promoted'] = t3['team'].str.contains('\(.*?N.*?\)').astype(int)
+t3['D_relegated'] = t3['team'].str.contains('\(.*?A.*?\)').astype(int)
 
 t = t1.append(t2)
 t = t.append(t3)
+t.reset_index(inplace=True, drop=True)
 
-# set mssings to zero
+# reset original order
+t = t[['league', 'spieltag', 'season', 'table_place', 'team', 'games', 'wins', 'draw',
+       'defeats', 'goals', 'diff', 'points', 'D_champion',
+       'D_winner_cup', 'D_promoted', 'D_relegated']]
+
+t.fillna({'D_champion' : 0, 'D_winner_cup' : 0, 'D_relegated' : 0}, inplace = True)
+t['D_point_deduction'] = t['team'].str.contains('.*\*').astype(int)
+t.rename(columns={'spieltag':'gameday'}, inplace=True)
+
+# adjust the names of the teams - make consistent
+t['team'] = t['team'].str.replace('( \([^)]*\) ?\*?)|( \*)', '')
 
 
-#pregamepoint difference
+t.team = t.team.replace({
+	'Alemannia Aachen' 			: 'Aachen',
+	'VfR Aalen' 				: 'Aalen',
+	'Rot Weiss Ahlen' 			: 'Ahlen',
+	'Erzgebirge Aue' 			: 'Aue',
+	'FC Augsburg' 				: 'Augsburg',
+	'SV Babelsberg 03' 			: 'Babelsberg',
+	'Bayern München' 			: 'Bayern München',
+	'Bayern München II' 		: 'Bayern München II',
+	'Arminia Bielefeld'			: 'Bielefeld',
+	'VfL Bochum' 				: 'Bochum',
+	'Eintracht Braunschweig' 	: 'Braunschweig',
+	'Werder Bremen' 			: 'Bremen',
+	'Werder Bremen II' 			: 'Bremen II',
+	'Wacker Burghausen' 		: 'Burghausen',
+	'Chemnitzer FC' 			: 'Chemnitz',
+	'Energie Cottbus' 			: 'Cottbus',
+	'SV Darmstadt 98' 			: 'Darmstadt',
+	'Borussia Dortmund'			: 'Dortmund',
+	'Borussia Dortmund II' 		: 'Dortmund II',
+	'Dynamo Dresden' 			: 'Dresden',
+	'MSV Duisburg' 				: 'Duisburg',
+	'Fortuna Düsseldorf' 		: 'Düsseldorf',
+	'SV Elversberg' 			: 'Elversberg',
+	'Rot-Weiß Erfurt' 			: 'Erfurt',
+	'FSV Frankfurt' 			: 'FSV Frankfurt',
+	'Fortuna Köln' 				: 'Fortuna Köln',
+	'Eintracht Frankfurt' 		: 'Frankfurt',
+	'SC Freiburg' 				: 'Freiburg',
+	'SpVgg Greuther Fürth' 		: 'Fürth',
+	'Bor. Mönchengladbach' 		: 'Gladbach',
+	'SG Sonnenhof Großaspach' 	: 'Großaspach',
+	'Hamburger SV' 				: 'Hamburger SV',
+	'SpVgg Unterhaching' 		: 'Haching',
+	'Hallescher FC' 			: 'Halle',
+	'Hannover 96' 				: 'Hannover',
+	'1. FC Heidenheim' 			: 'Heidenheim',
+	'Hertha BSC' 				: 'Hertha',
+	'TSG Hoffenheim' 			: 'Hoffenheim',
+	'FC Ingolstadt 04' 			: 'Ingolstadt',
+	'Carl Zeiss Jena' 			: 'Jena',
+	'1. FC Kaiserslautern'		: 'K\'lautern',
+	'Karlsruher SC' 			: 'Karlsruhe',
+	'Holstein Kiel' 			: 'Kiel',
+	'TuS Koblenz' 				: 'Koblenz',
+	'1. FC Köln' 				: 'Köln',
+	'RB Leipzig' 				: 'Leipzig',
+	'Bayer 04 Leverkusen' 		: 'Leverkusen',
+	'1. FSV Mainz 05' 			: 'Mainz',
+	'1. FSV Mainz 05 II' 		: 'Mainz II',
+	'Preußen Münster' 			: 'Münster',
+	'1. FC Nürnberg' 			: 'Nürnberg',
+	'Rot-Weiß Oberhausen' 		: 'Oberhausen',
+	'Kickers Offenbach' 		: 'Offenbach',
+	'VfL Osnabrück' 			: 'Osnabrück',
+	'SC Paderborn 07' 			: 'Paderborn',
+	'Jahn Regensburg' 			: 'Regensburg',
+	'Hansa Rostock' 			: 'Rostock',
+	'1. FC Saarbrücken' 		: 'Saarbrücken',
+	'SV Sandhausen' 			: 'Sandhausen',
+	'FC Schalke 04' 			: 'Schalke',
+	'FC St. Pauli' 				: 'St. Pauli',
+	'Stuttgarter Kickers' 		: 'Stuttgarter Kickers',
+	'VfB Stuttgart' 			: 'Stuttgart',
+	'VfB Stuttgart II' 			: 'Stuttgart II',
+	'1860 München' 				: '1860 München',
+	'1. FC Union Berlin' 		: 'Union Berlin',
+	'SV Wehen Wiesbaden' 		: 'Wehen Wiesbaden',
+	'VfL Wolfsburg' 			: 'Wolfsburg'})
+
+# correction of mistakes (kicker has wrong names)
+t.team = t.team.replace({
+	'SV Frankfurt' 			: 'FSV Frankfurt',
+	'ayern München II'		: 'Bayern München II',
+	'erder Bremen'			: 'Bremen',
+	'intracht Frankfurt'	: 'Frankfurt',
+	'lemannia Aachen'		: 'Aachen'})
 
 
 
-# Aufsteiger, Pokalsiger und Meister
-# vereinheitlichen von Namen mit den matches
 
 
-
-# merge macthes und Transfermarktdaten
+# to do next: merge macthes und Transfermarktdaten, clean up file
 
 
 # TO DOS:
@@ -394,5 +484,6 @@ t = t.append(t3)
 
 
 
+#pregamepoint difference
 
 
