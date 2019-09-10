@@ -140,13 +140,32 @@ l3.rename(columns={'               home_result_end':'home_result_end',
                    '               away_yellow':'away_yellow',}, inplace=True)
 
 
-########## manual corrections (StPauli vs S04) ##########
+########## manual corrections  ##########
+# StPauli vs S04 - game canceled and evaluated as 0:2 (0:1)
 game_identifier = (l1['season'] == '2010-11') & (l1['gameday'] == 28) & (l1['home_team'] == 'St. Pauli')
 l1.loc[game_identifier, 'home_result_end'] = 0
 l1.loc[game_identifier, 'away_result_end'] = 2
 l1.loc[game_identifier, 'home_result_break'] = 0
 l1.loc[game_identifier, 'away_result_break'] = 1
-# game canceled and evaluated as 0:2 (0:1)
+
+# corrections for attendance (matches played behind closed doors)
+game_identifier = (l2['season'] == '2011-12') & (l2['gameday'] == 19) & (l2['home_team'] == 'Rostock')
+l2.loc[game_identifier, 'attendance'] = 0   # Zuschauerausschluss
+l2.loc[game_identifier, 'sold_out'] = 0
+
+game_identifier = (l2['season'] == '2011-12') & (l2['gameday'] == 25) & (l2['home_team'] == 'Dresden')
+l2.loc[game_identifier, 'attendance'] = 0   # Zuschauerausschluss
+l2.loc[game_identifier, 'sold_out'] = 0
+
+game_identifier = (l3['season'] == '2012-13') & (l3['gameday'] == 4) & (l3['home_team'] == 'Karlsruhe')
+l3.loc[game_identifier, 'attendance'] = 0   # Zuschauerausschluss
+l3.loc[game_identifier, 'sold_out'] = 0
+
+game_identifier = (l3['season'] == '2014-15') & (l3['gameday'] == 24) & (l3['home_team'] == 'Dresden')
+l3.loc[game_identifier, 'attendance'] = 0   # Zuschauerausschluss
+l3.loc[game_identifier, 'sold_out'] = 0
+
+
 
 
 ########## append the different leagues ##########
@@ -517,7 +536,7 @@ tm.rename(columns={'size' : 'team_size',
 
 
 ###############################################################################
-#       4) COMBINE ALL PREPARED DATA -> FINAL DF
+#       4) COMBINE ALL PREPARED DATA & CREATE VARIABLES  -> FINAL DF
 ###############################################################################
 
 #   merge matches to table, for home and away team seperately, remove games 
@@ -619,6 +638,26 @@ for var in ['team_average_age', 'team_market_value']:
     df[var] = df[var].str.replace(',', '.')
     df[var] = pd.to_numeric(df[var], errors='ignore')
     
+
+
+########## Pregame point difference ##########
+# subset of columns, set gameday number forward by one day
+pgpd = df[['league', 'season', 'gameday', 'points', 'team']].copy()
+pgpd['gameday'] += 1
+pgpd.rename(columns={'points':'points_last_gameday'}, inplace=True)
+
+# merge to data frame 
+df = df.merge(pgpd, on=['league','season','gameday', 'team'], how='left', indicator=False)
+df['points_last_gameday'].fillna(value=0, inplace=True)
+df.rename(columns={'points_last_gameday':'points_last_gameday_own'}, inplace = True)
+
+pgpd.rename(columns={'team':'opp_team'}, inplace=True)
+df = df.merge(pgpd, on=['league','season','gameday', 'opp_team'], how='left', indicator=False)
+df['points_last_gameday'].fillna(value=0, inplace=True)
+df.rename(columns={'points_last_gameday':'points_last_gameday_opp'}, inplace = True)
+
+df['pregame_point_diff']= df['points_last_gameday_own'] - df['points_last_gameday_opp']
+df.drop(['points_last_gameday_own', 'points_last_gameday_opp'], axis=1, inplace=True)
     
     
 
@@ -626,7 +665,7 @@ for var in ['team_average_age', 'team_market_value']:
 df = 	df[[
     'league', 'season', 'gameday', 
 	'table_place', 'points', 'team', 
-	'opp_team', 'D_home_game', 'date', 'weekday', 'time', 
+	'opp_team', 'pregame_point_diff', 'D_home_game', 'date', 'weekday', 'time', 
 	'stadium', 'attendance', 'own_result_end', 'opp_result_end',
     'own_result_break', 'opp_result_break', 'goal_order', 'goal_time',
     'goal_penalty', 'penalties', 'opp_red', 'opp_yellow', 'own_red',
@@ -639,13 +678,33 @@ df.sort_values(['league','season','gameday','table_place'], inplace=True)
 df.reset_index(inplace=True, drop=True)
 
 
+# correct dtypes
+col_float_to_int = [
+	'pregame_point_diff',
+	'D_home_game',
+	'attendance',
+	'own_result_end',
+	'opp_result_end',
+	'own_result_break',
+	'opp_result_break',
+	'penalties',
+	'opp_red',
+	'opp_yellow',
+	'own_red',
+	'own_yellow',
+	'D_delayed',
+	'D_champion',
+	'D_winner_cup',
+	'D_relegated'] # gameday_delayed taken out, as nan cannot be converted to int
+df[col_float_to_int] = df[col_float_to_int].astype(int)    
+    
+
 # read out
 df.to_csv(soccer_output + 'soccer_prepared.csv', sep=';')
 
 ###############################################################################
 #           END OF FILE
 ###############################################################################
-
 
 
 
@@ -659,9 +718,7 @@ df.to_csv(soccer_output + 'soccer_prepared.csv', sep=';')
 
 
 # TO DO:
-#   1) some variables are float that should be int, e.g D_delayed
-#   2) pregamepoint difference
-#   3) merge to stadiums df geographic information collected by Dominik
+#   - merge to stadiums df geographic information collected by Dominik
 
 
 
