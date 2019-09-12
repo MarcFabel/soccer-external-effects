@@ -10,19 +10,21 @@ connected together in the final df (df).
 @author: Fabel
 """
 
-#packages
+# packages
 import pandas as pd
 import numpy as np
 
-#paths & magic numbers
-#soccer_source = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/webscraping/output/'
+# paths
+#soccer_webscraping_source = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/webscraping/output/'
+#soccer_source = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/'
 #soccer_output = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/'
 
 # HOME directories
-soccer_source = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/webscraping/output/'
-soccer_output = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/'
+soccer_webscraping_source = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/webscraping/output/'
+soccer_source = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/'
+soccer_output = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/soccer/'
 
-#magic numbers
+# magic numbers
 first_year_wave = 2010
 last_year_wave = 2014
 
@@ -36,9 +38,9 @@ last_year_wave = 2014
 
 
 ########## league 1 ##########
-l1 = pd.read_csv(soccer_source + 'cross-sections/' + 'kicker_matchday_bl_' + str(first_year_wave) + '.csv', sep=';', encoding='ISO-8859-1')
+l1 = pd.read_csv(soccer_webscraping_source + 'cross-sections/' + 'kicker_matchday_bl_' + str(first_year_wave) + '.csv', sep=';', encoding='ISO-8859-1')
 for item in range(first_year_wave+1, last_year_wave+1):
-    l1_temp = pd.read_csv(soccer_source + 'cross-sections/' + 'kicker_matchday_bl_{}.csv'.format(item), sep=';', encoding='ISO-8859-1')
+    l1_temp = pd.read_csv(soccer_webscraping_source + 'cross-sections/' + 'kicker_matchday_bl_{}.csv'.format(item), sep=';', encoding='ISO-8859-1')
     l1 = l1.append(l1_temp)
 l1['league']= 1
 l1.reset_index(inplace=True, drop=True)
@@ -52,7 +54,7 @@ doubling = l1[ (l1['season'] == '2013-14') & (l1['gameday'] == 18) & (l1['home_t
 l1.drop(doubling, inplace=True)
 
 # merge delayed games
-l1_delayed = pd.read_csv(soccer_source + 'kicker_matchdayresults_delayedgames_bl.csv', sep=';', encoding='ISO-8859-1')
+l1_delayed = pd.read_csv(soccer_webscraping_source + 'kicker_matchdayresults_delayedgames_bl.csv', sep=';', encoding='ISO-8859-1')
 l1_delayed['season_first_number'] = pd.to_numeric(l1_delayed['season'].str.slice(0,4))
 delete_entries = l1_delayed[  (l1_delayed['season_first_number']<first_year_wave) | ((l1_delayed['season_first_number']>last_year_wave))  ].index
 l1_delayed.drop(delete_entries, inplace=True)
@@ -65,15 +67,15 @@ l1['D_delayed'].fillna(value=0, inplace=True)
 
 
 ########## league 2 ##########
-l2 = pd.read_csv(soccer_source + 'cross-sections/' + 'kicker_matchday_2l_' + str(first_year_wave) + '.csv', sep=';', encoding='ISO-8859-1')
+l2 = pd.read_csv(soccer_webscraping_source + 'cross-sections/' + 'kicker_matchday_2l_' + str(first_year_wave) + '.csv', sep=';', encoding='ISO-8859-1')
 for item in range(first_year_wave+1, last_year_wave+1):
-    l2_temp = pd.read_csv(soccer_source + 'cross-sections/' + 'kicker_matchday_2l_{}.csv'.format(item), sep=';', encoding='ISO-8859-1')
+    l2_temp = pd.read_csv(soccer_webscraping_source + 'cross-sections/' + 'kicker_matchday_2l_{}.csv'.format(item), sep=';', encoding='ISO-8859-1')
     l2 = l2.append(l2_temp)
 l2['league']= 2
 l2.reset_index(inplace=True, drop=True)
 
 # merge delayed games
-l2_delayed = pd.read_csv(soccer_source + 'kicker_matchdayresults_delayedgames_2l.csv', sep=';', encoding='ISO-8859-1')
+l2_delayed = pd.read_csv(soccer_webscraping_source + 'kicker_matchdayresults_delayedgames_2l.csv', sep=';', encoding='ISO-8859-1')
 l2_delayed['season_first_number'] = pd.to_numeric(l2_delayed['season'].str.slice(0,4))
 delete_entries = l2_delayed[  (l2_delayed['season_first_number']<first_year_wave) | ((l2_delayed['season_first_number']>last_year_wave))  ].index
 l2_delayed.drop(delete_entries, inplace=True)
@@ -89,7 +91,7 @@ l2.home_team = l2.home_team.replace({'öln':'Köln'})
 
 
 ########## league 3 ##########
-l3 = pd.read_csv(soccer_source + 'kicker_matchday_3l.csv', sep=';', encoding='ISO-8859-1')
+l3 = pd.read_csv(soccer_webscraping_source + 'kicker_matchday_3l.csv', sep=';', encoding='ISO-8859-1')
 l3['league'] = 3
 l3['season_first_number'] = pd.to_numeric(l3['season'].str.slice(0,4))
 
@@ -111,7 +113,7 @@ l3.away_team = l3.away_team.replace({'SaarbrÃ¼cken': 'Saarbrücken',
                                       'F. KÃ¶ln': 'Fortuna Köln'})
 
 # merge delayed games
-l3_delayed = pd.read_csv(soccer_source + 'kicker_matchdayresults_delayedgames_3l.csv', sep=';', encoding='ISO-8859-1')
+l3_delayed = pd.read_csv(soccer_webscraping_source + 'kicker_matchdayresults_delayedgames_3l.csv', sep=';', encoding='ISO-8859-1')
 l3_delayed['season_first_number'] = pd.to_numeric(l3_delayed['season'].str.slice(0,4))
 delete_entries = l3_delayed[  (l3_delayed['season_first_number']<first_year_wave) | ((l3_delayed['season_first_number']>last_year_wave))  ].index
 l3_delayed.drop(delete_entries, inplace=True)
@@ -252,7 +254,10 @@ teams.reset_index(inplace=True, drop=True)
 matches.stadium = matches.stadium.replace({
     'Impuls-Arena, Augsburg'                            : 'WWK-Arena, Augsburg',
     'SGL-Arena, Augsburg'                               : 'WWK-Arena, Augsburg',
+    'Scholz-Arena, Aalen'                               : 'Ostalb Arena, Aalen',
+    'Sparkassen-Erzgebirgsstadion, Aue'                 : 'Erzgebirgsstadion, Aue',
     'SchÃ¼co-Arena, Bielefeld'                          : 'Schüco-Arena, Bielefeld',
+    'Rewirpower-Stadion, Bochum'                        : 'Vonovia-Ruhrstadion, Bochum',
     'Stadion an der GellertstraÃe, Chemnitz'           : 'Stadion an der Gellertstraße, Chemnitz',
     'StÃ¤dtisches Stadion am BÃ¶llenfalltor, Darmstadt' : 'Merck-Stadion am Böllenfalltor, Darmstadt',
     'GlÃ¼cksgas-Stadion, Dresden'                       : 'Rudolf-Harbig-Stadion, Dresden',
@@ -264,6 +269,7 @@ matches.stadium = matches.stadium.replace({
     'Badenova-Stadion, Freiburg'                        : 'Schwarzwald-Stadion, Freiburg',
     'Stadion am Laubenweg, Fürth'                       : 'Sportpark Ronhof | Thomas Sommer, Fürth',
     'Trolli-Arena, Fürth'                               : 'Sportpark Ronhof | Thomas Sommer, Fürth',
+    'Imtech-Arena, Hamburg'                             : 'Volksparkstadion, Hamburg',
     'Millerntor-Stadion, Hamburg-St. Pauli'             : 'Millerntor-Stadion, Hamburg-St.Pauli',
     'AWD-Arena, Hannover'                               : 'HDI Arena, Hannover',
     'SÃ¼dstadion, KÃ¶ln'                                : 'Südstadion, Köln',
@@ -272,25 +278,52 @@ matches.stadium = matches.stadium.replace({
     'PreuÃenstadion, MÃ¼nster'                         : 'Preußenstadion, Münster',
     'Easy-Credit-Stadion, Nürnberg'                     : 'Grundig-Stadion, Nürnberg',
     'Bieberer Berg, Offenbach'                          : 'Sparda-Bank-Hessen-Stadion, Offenbach',
-    'Osnatel-Arena, OsnabrÃ¼ck'                         : 'Osnatel-Arena, Osnabrück',
+    'Osnatel-Arena, OsnabrÃ¼ck'                         : 'Bremer Brücke, Osnabrück',
+    'Osnatel-Arena, Osnabrück'                          : 'Bremer Brücke, Osnabrück',
     'Energieteam-Arena, Paderborn'                      : 'Benteler-Arena, Paderborn',
     'StÃ¤dtisches Jahnstadion, Regensburg'              : 'Städtisches Jahnstadion, Regensburg',
+    'DKB-Arena, Rostock'                                : 'Ostseestadion, Rostock',
     'Ludwigsparkstadion, SaarbrÃ¼cken'                  : 'Ludwigsparkstadion, Saarbrücken',
+    'Hardtwaldstadion, Sandhausen'                      : 'BWT-Stadion am Hardtwald, Sandhausen',
     'Rhein-Neckar-Arena, Sinsheim'                      : 'Wirsol Rhein-Neckar-Arena, Sinsheim',
     'Generali-Sportpark, Unterhaching'                  : 'Stadion am Sportpark, Unterhaching',
     'Alpenbauer Sportpark, Unterhaching'                : 'Stadion am Sportpark, Unterhaching'})    
-            
-    
+ 
+           
+# drop duplicates    
 stadiums =  matches.drop_duplicates(subset=['stadium']) # , 'home_team'
 stadiums = stadiums['stadium'].copy() #, 'home_team'
-stadiums.sort_values(inplace=True)    
-stadiums.reset_index(inplace=True, drop=True)
-stadiums = stadiums.str.split(pat=',', expand=True)
-stadiums.sort_values(1, inplace=True)
-stadiums = stadiums.rename(columns={0:'stadium', 1:'city'})
+#stadiums = stadiums.str.split(pat=',', expand=True)
+#stadiums.sort_values(1, inplace=True)
+#stadiums = stadiums.rename(columns={0:'stadium', 1:'city'})
+stadiums = stadiums.to_frame()
+len_stadiums = len(stadiums)
 
 # 69 stadiums
 # team - stadiums: 77 combinations
+
+
+# add Geographic components (intern Domink set up the data base)
+stadiums_geo = pd.read_excel(soccer_source + 'stadiums_coordinates_2012_1617.xlsx')
+stadiums = stadiums.merge(stadiums_geo, on=['stadium'], how='outer', indicator=True)
+stadiums.sort_values(['Ort'], inplace=True)
+drop_rows = stadiums[stadiums['_merge'] != 'both'].index
+stadiums.drop(drop_rows, inplace=True)
+assert(len(stadiums) == len_stadiums)
+stadiums.drop('_merge', inplace=True, axis=1)
+
+#count number of matches played in the single stadiums
+number_matches_stadium = matches['stadium'].value_counts().to_frame()
+number_matches_stadium.reset_index(inplace=True)
+number_matches_stadium.rename(columns={
+        'index':'stadium', 'stadium':'games_played'}, inplace =True)
+stadiums = stadiums.merge(number_matches_stadium, on='stadium', how='inner')
+
+
+# write out for QGIS:
+stadiums.sort_values(by='Ort', inplace=True)    
+stadiums.reset_index(inplace=True, drop=True)
+stadiums.to_csv(soccer_output + 'stadiums_geographic_information.csv', sep=';')
 
 
 
@@ -299,7 +332,7 @@ stadiums = stadiums.rename(columns={0:'stadium', 1:'city'})
 #              2)  TABLE
 ###############################################################################
 
-t1 = pd.read_csv(soccer_source +  'kicker_tablestandings_bl.csv', sep=';', encoding='ISO-8859-1')
+t1 = pd.read_csv(soccer_webscraping_source +  'kicker_tablestandings_bl.csv', sep=';', encoding='ISO-8859-1')
 t1['season_first_number'] = pd.to_numeric(t1['season'].str.slice(0,4))
 delete_entries = t1[  (t1['season_first_number']<first_year_wave) | ((t1['season_first_number']>last_year_wave))  ].index
 t1.drop(delete_entries, inplace=True)
@@ -309,7 +342,7 @@ t1['D_champion'] = t1['team'].str.contains('\(.*?M.*?\)').astype(int)
 t1['D_winner_cup'] = t1['team'].str.contains('\(.*?P.*?\)').astype(int)
 t1['D_promoted'] = t1['team'].str.contains('\(.*?N.*?\)').astype(int)
 
-t2 = pd.read_csv(soccer_source +  'kicker_tablestandings_2l.csv', sep=';', encoding='ISO-8859-1')
+t2 = pd.read_csv(soccer_webscraping_source +  'kicker_tablestandings_2l.csv', sep=';', encoding='ISO-8859-1')
 t2['season_first_number'] = pd.to_numeric(t2['season'].str.slice(0,4))
 delete_entries = t2[  (t2['season_first_number']<first_year_wave) | ((t2['season_first_number']>last_year_wave))  ].index
 t2.drop(delete_entries, inplace=True)
@@ -318,7 +351,7 @@ t2['league'] = 2
 t2['D_promoted'] = t2['team'].str.contains('\(.*?N.*?\)').astype(int)
 t2['D_relegated'] = t2['team'].str.contains('\(.*?A.*?\)').astype(int)
 
-t3 = pd.read_csv(soccer_source +  'kicker_tablestandings_3l.csv', sep=';', encoding='ISO-8859-1')
+t3 = pd.read_csv(soccer_webscraping_source +  'kicker_tablestandings_3l.csv', sep=';', encoding='ISO-8859-1')
 t3['season_first_number'] = pd.to_numeric(t3['season'].str.slice(0,4))
 delete_entries = t3[  (t3['season_first_number']<first_year_wave) | ((t3['season_first_number']>last_year_wave))  ].index
 t3.drop(delete_entries, inplace=True)
@@ -430,19 +463,19 @@ t.team = t.team.replace({
 ###############################################################################
 #              3)  TRANSFERMARKTDATEN
 ###############################################################################
-l1_tm = pd.read_csv(soccer_source + 'transfermarkt_mv_age_foreigners_bl.csv', sep=';', encoding='ISO-8859-1')
+l1_tm = pd.read_csv(soccer_webscraping_source + 'transfermarkt_mv_age_foreigners_bl.csv', sep=';', encoding='ISO-8859-1')
 l1_tm['season_first_number'] = pd.to_numeric(l1_tm['season'].str.slice(0,4))
 delete_entries = l1_tm[  (l1_tm['season_first_number']<first_year_wave) | ((l1_tm['season_first_number']>last_year_wave))  ].index
 l1_tm.drop(delete_entries, inplace=True)
 l1_tm['league'] = 1
 
-l2_tm = pd.read_csv(soccer_source + 'transfermarkt_mv_age_foreigners_2l.csv', sep=';', encoding='ISO-8859-1')
+l2_tm = pd.read_csv(soccer_webscraping_source + 'transfermarkt_mv_age_foreigners_2l.csv', sep=';', encoding='ISO-8859-1')
 l2_tm['season_first_number'] = pd.to_numeric(l2_tm['season'].str.slice(0,4))
 delete_entries = l2_tm[  (l2_tm['season_first_number']<first_year_wave) | ((l2_tm['season_first_number']>last_year_wave))  ].index
 l2_tm.drop(delete_entries, inplace=True)
 l2_tm['league'] = 2
 
-l3_tm = pd.read_csv(soccer_source + 'transfermarkt_mv_age_foreigners_3l.csv', sep=';', encoding='ISO-8859-1')
+l3_tm = pd.read_csv(soccer_webscraping_source + 'transfermarkt_mv_age_foreigners_3l.csv', sep=';', encoding='ISO-8859-1')
 l3_tm['season_first_number'] = pd.to_numeric(l3_tm['season'].str.slice(0,4))
 delete_entries = l3_tm[  (l3_tm['season_first_number']<first_year_wave) | ((l3_tm['season_first_number']>last_year_wave))  ].index
 l3_tm.drop(delete_entries, inplace=True)
@@ -631,7 +664,7 @@ df['grade_ref'] = pd.to_numeric(df['grade_ref'], errors='ignore')
 
 
 
-########## Transfermakrtdaten ##########
+########## Transfermarktdaten ##########
 df = df.merge(tm, on=['season', 'team', 'league'], how='outer')
 #encode variables
 for var in ['team_average_age', 'team_market_value']: 
@@ -708,16 +741,41 @@ df.to_csv(soccer_output + 'soccer_prepared.csv', sep=';')
 
 
 
-# Comments:
-#   - für mehr jahre siehe korrekturen v Dominik
-#   - fürth Stadion name was changed; is a match possible? ('|')
-#   - match for osnabrück possible or did Dominik use the Bremer Brücke?
-#   - Mainz: Bruchweg Stadion: Dominik changed it erroneously to Opel Arena
-#       -> coordinates might be missing
-
-
-
 # TO DO:
+#   - control geographic information collecetd by Dominik
+#   - drop games that take place in weird locations: e.g. at Lohmühle Lübeck, Airberlin Düsseldorf, others? 
+#       * => check in stadiums df: there is a column with the number of games played in that location
+#       * # drop special game between St Pauli vs. Ingolstadt that took place in Lübeck:
+#         drop_game = l2[ (l2['season'] == '2011-12') & (l2['gameday'] == 1) & (l2['home_team'] == 'St. Pauli')].index
+#         l2.drop(drop_game, inplace=True)
+
+
+
+
+# Comments:
+#   - juts focus on games with 
+#   - more years of correction of stadiums (in case the window of games is enlarged): 
+
+#Daten$stadium[Daten$stadium == "Allianz-Arena, MÃ¼nchen"] <- "Allianz-Arena, München"
+#Daten$stadium[Daten$stadium == "Rhein-Energie-Stadion, KÃ¶ln"] <- "Rhein-Energie-Stadion, Köln"
+#Daten$stadium[Daten$stadium == "Borussia-Park, MÃ¶nchengladbach"] <- "Borussia-Park, Mönchengladbach"
+#Daten$stadium[Daten$stadium == "LTU-Arena, DÃ¼sseldorf"] <- "LTU-Arena, Düsseldorf"
+#Daten$stadium[Daten$stadium == "Merck-Stadion am BÃ¶llenfalltor, Darmstadt"] <- "Merck-Stadion am Böllenfalltor, Darmstadt"
+#
+#Daten$stadium[Daten$stadium == "Jonathan-Heimes-Stadion am Böllenfalltor, Darmstadt"] <- "Merck-Stadion am Böllenfalltor, Darmstadt"
+#Daten$stadium[Daten$stadium == "Flyeralarm-Arena, WÃ¼rzburg"] <- "Flyeralarm-Arena, Würzburg"
+#Daten$stadium[Daten$stadium == "Bremer BrÃ¼cke, OsnabrÃ¼ck"] <- "Bremer Brücke, Osnabrück"
+#Daten$stadium[Daten$stadium == "HÃ¤nsch-Arena, Meppen"] <- "Hänsch-Arena, Meppen"
+#Daten$stadium[Daten$stadium == "Bruchwegstadion, Mainz"] <- "Opel-Arena, Mainz"
+#Daten$stadium[Daten$stadium == "Hardtwaldstadion, Sandhausen"] <- "BWT-Stadion am Hardtwald, Sandhausen"
+#Daten$stadium[Daten$stadium == "Community4you-Arena, Chemnitz"] <- "Stadion an der Gellertstraße, Chemnitz"
+#Daten$stadium[Daten$stadium == "Gagfah-Arena, Heidenheim"] <- "Voith-Arena, Heidenheim"
+#Daten$stadium[Daten$stadium == "Gottlieb-Daimler Stadion, Stuttgart"] <- "Mercedes-Benz-Arena, Stuttgart"
+#Daten$stadium[Daten$stadium == "LTU-Arena, Düsseldorf"] <- "Esprit-Arena, Düsseldorf"
+#Daten$stadium[Daten$stadium == "Paragon-Arena, Paderborn"] <- "Benteler-Arena, Paderborn"
+#Daten$stadium[Daten$stadium == "Stadion Dresden, Dresden"] <- "Rudolf-Harbig-Stadion, Dresden"
+#Daten$stadium[Daten$stadium == "Stadion Nürnberg, Nürnberg"] <- "Grundig-Stadion, Nürnberg"
+
 #   - merge to stadiums df geographic information collected by Dominik
 
 
