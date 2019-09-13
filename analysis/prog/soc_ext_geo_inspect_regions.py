@@ -13,8 +13,8 @@ import pandas as pd
 import numpy as np
 
 # paths
-regions_source = 'F:/econ/soc_ext/analysis/data/BKA/Kataloge-Datenblatt_EDS_Opfer_'
-regions_output = 'F:/econ/soc_ext/analysis/output/data/intermediate/'
+regions_source = 'F:/econ/soc_ext/analysis/data/source/BKA/Kataloge-Datenblatt_EDS_Opfer_'
+regions_output = 'F:/econ/soc_ext/analysis/data/intermediate/soccer/'
 
 # home paths irrelevant (data only on server)
 
@@ -132,6 +132,8 @@ df = df [['ags', 'name11', 'D_all_years', 'y11', 'y12', 'y13',  'y14', 'y15',
         'name12','name13', 'name14', 'name15',
        'von11', 'von12', 'von13', 'von14', 'von15',
        ]]
+
+df.sort_values('ags', inplace = True)
 
 df = df[['ags', 'name11', 'D_all_years']]
 
