@@ -2,8 +2,8 @@
 """
 Created on Thu Aug 29 10:59:13 2019
 
-This Program reads in the data for the matches, the table and team data. 
-Each of the data sets is prepared (the prepared df are: matches, t, tm) and is 
+This Program reads in the data for the matches, the table and team data.
+Each of the data sets is prepared (the prepared df are: matches, t, tm) and is
 connected together in the final df (df).
 
 
@@ -15,14 +15,14 @@ import pandas as pd
 import numpy as np
 
 # paths
-#soccer_webscraping_source = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/webscraping/output/'
-#soccer_source = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/'
-#soccer_output = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/'
+soccer_webscraping_source = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/webscraping/output/'
+soccer_source = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/'
+soccer_output = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/soccer/'
 
 # HOME directories
-soccer_webscraping_source = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/webscraping/output/'
-soccer_source = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/'
-soccer_output = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/soccer/'
+#soccer_webscraping_source = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/webscraping/output/'
+#soccer_source = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/'
+#soccer_output = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/soccer/'
 
 # magic numbers
 first_year_wave = 2010
@@ -33,7 +33,7 @@ last_year_wave = 2014
 ###############################################################################
 #       1)    MATCHES
 ###############################################################################
-#   read in all leagues from season 2010/11 untill 2014/15, 
+#   read in all leagues from season 2010/11 untill 2014/15,
 #   generate one large file, that contains the matches across leagues
 
 
@@ -248,7 +248,7 @@ teams.reset_index(inplace=True, drop=True)
 # 68 teams in the data set
 
 
-    
+
 ########## Stadiums ##########
 # correct some stadiums
 matches.stadium = matches.stadium.replace({
@@ -263,7 +263,7 @@ matches.stadium = matches.stadium.replace({
     'GlÃ¼cksgas-Stadion, Dresden'                       : 'Rudolf-Harbig-Stadion, Dresden',
     'Glücksgas-Stadion, Dresden'                        : 'Rudolf-Harbig-Stadion, Dresden',
     'DDV-Stadion, Dresden'                              : 'Rudolf-Harbig-Stadion, Dresden',
-    'Stadion Dresden, Dresden'                          : 'Rudolf-Harbig-Stadion, Dresden',        
+    'Stadion Dresden, Dresden'                          : 'Rudolf-Harbig-Stadion, Dresden',
     'Stadion an der Schwarzwaldstraße, Freiburg'        : 'Schwarzwald-Stadion, Freiburg',
     'Mage-Solar-Stadion, Freiburg'                      : 'Schwarzwald-Stadion, Freiburg',
     'Badenova-Stadion, Freiburg'                        : 'Schwarzwald-Stadion, Freiburg',
@@ -274,7 +274,7 @@ matches.stadium = matches.stadium.replace({
     'AWD-Arena, Hannover'                               : 'HDI Arena, Hannover',
     'SÃ¼dstadion, KÃ¶ln'                                : 'Südstadion, Köln',
     'Coface-Arena, Mainz'                               : 'Opel-Arena, Mainz',
-    'Stadion an der GrÃ¼nwalder StraÃe, MÃ¼nchen'      : 'Stadion an der Grünwalder Straße, München',    
+    'Stadion an der GrÃ¼nwalder StraÃe, MÃ¼nchen'      : 'Stadion an der Grünwalder Straße, München',
     'PreuÃenstadion, MÃ¼nster'                         : 'Preußenstadion, Münster',
     'Easy-Credit-Stadion, Nürnberg'                     : 'Grundig-Stadion, Nürnberg',
     'Bieberer Berg, Offenbach'                          : 'Sparda-Bank-Hessen-Stadion, Offenbach',
@@ -287,10 +287,10 @@ matches.stadium = matches.stadium.replace({
     'Hardtwaldstadion, Sandhausen'                      : 'BWT-Stadion am Hardtwald, Sandhausen',
     'Rhein-Neckar-Arena, Sinsheim'                      : 'Wirsol Rhein-Neckar-Arena, Sinsheim',
     'Generali-Sportpark, Unterhaching'                  : 'Stadion am Sportpark, Unterhaching',
-    'Alpenbauer Sportpark, Unterhaching'                : 'Stadion am Sportpark, Unterhaching'})    
- 
-           
-# drop duplicates    
+    'Alpenbauer Sportpark, Unterhaching'                : 'Stadion am Sportpark, Unterhaching'})
+
+
+# drop duplicates
 stadiums =  matches.drop_duplicates(subset=['stadium']) # , 'home_team'
 stadiums = stadiums['stadium'].copy() #, 'home_team'
 #stadiums = stadiums.str.split(pat=',', expand=True)
@@ -321,7 +321,7 @@ stadiums = stadiums.merge(number_matches_stadium, on='stadium', how='inner')
 
 
 # write out for QGIS:
-stadiums.sort_values(by='Ort', inplace=True)    
+stadiums.sort_values(by='Ort', inplace=True)
 stadiums.reset_index(inplace=True, drop=True)
 stadiums.to_csv(soccer_output + 'stadiums_geographic_information.csv', sep=';')
 
@@ -572,10 +572,10 @@ tm.rename(columns={'size' : 'team_size',
 #       4) COMBINE ALL PREPARED DATA & CREATE VARIABLES  -> FINAL DF
 ###############################################################################
 
-#   merge matches to table, for home and away team seperately, remove games 
+#   merge matches to table, for home and away team seperately, remove games
 #    where there's no information. In the end append the two data sets
-    
-    
+
+
 ########## Home team ##########
 matches_ht = matches.copy()
 matches_ht.rename(columns={
@@ -613,19 +613,19 @@ matches_at.rename(columns={
         'home_red'          : 'opp_red',
         'home_yellow'       : 'opp_yellow'}, inplace=True)
 
-# Reverse the score (change perspective to the away team)    
+# Reverse the score (change perspective to the away team)
 def reverse_score(score):
     if score is not None:
-        if score is not np.nan: 
+        if score is not np.nan:
             L = score.split(':')
             S = str(L[1]) + ":" + str(L[0])
-        else: 
+        else:
             S = np.nan
     else:
         S = None
     return S
 
-goal_order_at = matches_at['goal_order']    
+goal_order_at = matches_at['goal_order']
 goal_order_at = goal_order_at.str.split(pat='/', expand=True)
 list_number_goals_in_game = []    # needed to concetenate columns
 for column in range(0, len(goal_order_at.columns)):
@@ -633,7 +633,7 @@ for column in range(0, len(goal_order_at.columns)):
     goal_order_at[column] = goal_order_at[column].fillna('')
     list_number_goals_in_game.append(column)
 
-# put together again 
+# put together again
 goal_order_at['reversed'] = goal_order_at[list_number_goals_in_game].apply(
         lambda row: '/'.join(row.values.astype(str)), axis=1)
 goal_order_at['reversed'] = goal_order_at['reversed'].str.rstrip('/')
@@ -667,10 +667,10 @@ df['grade_ref'] = pd.to_numeric(df['grade_ref'], errors='ignore')
 ########## Transfermarktdaten ##########
 df = df.merge(tm, on=['season', 'team', 'league'], how='outer')
 #encode variables
-for var in ['team_average_age', 'team_market_value']: 
+for var in ['team_average_age', 'team_market_value']:
     df[var] = df[var].str.replace(',', '.')
     df[var] = pd.to_numeric(df[var], errors='ignore')
-    
+
 
 
 ########## Pregame point difference ##########
@@ -679,7 +679,7 @@ pgpd = df[['league', 'season', 'gameday', 'points', 'team']].copy()
 pgpd['gameday'] += 1
 pgpd.rename(columns={'points':'points_last_gameday'}, inplace=True)
 
-# merge to data frame 
+# merge to data frame
 df = df.merge(pgpd, on=['league','season','gameday', 'team'], how='left', indicator=False)
 df['points_last_gameday'].fillna(value=0, inplace=True)
 df.rename(columns={'points_last_gameday':'points_last_gameday_own'}, inplace = True)
@@ -691,19 +691,19 @@ df.rename(columns={'points_last_gameday':'points_last_gameday_opp'}, inplace = T
 
 df['pregame_point_diff']= df['points_last_gameday_own'] - df['points_last_gameday_opp']
 df.drop(['points_last_gameday_own', 'points_last_gameday_opp'], axis=1, inplace=True)
-    
-    
+
+
 
 ########## Sort & Order ##########
 df = 	df[[
-    'league', 'season', 'gameday', 
-	'table_place', 'points', 'team', 
-	'opp_team', 'pregame_point_diff', 'D_home_game', 'date', 'weekday', 'time', 
+    'league', 'season', 'gameday',
+	'table_place', 'points', 'team',
+	'opp_team', 'pregame_point_diff', 'D_home_game', 'date', 'weekday', 'time',
 	'stadium', 'attendance', 'own_result_end', 'opp_result_end',
     'own_result_break', 'opp_result_break', 'goal_order', 'goal_time',
     'goal_penalty', 'penalties', 'opp_red', 'opp_yellow', 'own_red',
     'own_yellow', 'grade_ref', 'ref_city', 'ref_name', 'ref_str',
-    'D_delayed', 'gameday_delayed', 
+    'D_delayed', 'gameday_delayed',
 	'games', 'wins', 'draw', 'defeats', 'goals', 'diff',
 	'D_champion', 'D_winner_cup', 'D_promoted', 'D_relegated', 'D_point_deduction',
     'team_size', 'team_average_age', 'team_foreigners', 'team_market_value']]
@@ -729,8 +729,8 @@ col_float_to_int = [
 	'D_champion',
 	'D_winner_cup',
 	'D_relegated'] # gameday_delayed taken out, as nan cannot be converted to int
-df[col_float_to_int] = df[col_float_to_int].astype(int)    
-    
+df[col_float_to_int] = df[col_float_to_int].astype(int)
+
 
 # read out
 df.to_csv(soccer_output + 'soccer_prepared.csv', sep=';')
@@ -743,7 +743,7 @@ df.to_csv(soccer_output + 'soccer_prepared.csv', sep=';')
 
 # TO DO:
 #   - control geographic information collecetd by Dominik
-#   - drop games that take place in weird locations: e.g. at Lohmühle Lübeck, Airberlin Düsseldorf, others? 
+#   - drop games that take place in weird locations: e.g. at Lohmühle Lübeck, Airberlin Düsseldorf, others?
 #       * => check in stadiums df: there is a column with the number of games played in that location
 #       * # drop special game between St Pauli vs. Ingolstadt that took place in Lübeck:
 #         drop_game = l2[ (l2['season'] == '2011-12') & (l2['gameday'] == 1) & (l2['home_team'] == 'St. Pauli')].index
@@ -753,8 +753,8 @@ df.to_csv(soccer_output + 'soccer_prepared.csv', sep=';')
 
 
 # Comments:
-#   - juts focus on games with 
-#   - more years of correction of stadiums (in case the window of games is enlarged): 
+#   - juts focus on games with
+#   - more years of correction of stadiums (in case the window of games is enlarged):
 
 #Daten$stadium[Daten$stadium == "Allianz-Arena, MÃ¼nchen"] <- "Allianz-Arena, München"
 #Daten$stadium[Daten$stadium == "Rhein-Energie-Stadion, KÃ¶ln"] <- "Rhein-Energie-Stadion, Köln"
