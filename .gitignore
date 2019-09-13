@@ -1,5 +1,5 @@
-# don't track crime data
-analysis/data/BKA
+# don't track data -in particular the crime data from the BKA
+analysis/data/*
 
 # don't track temp & graphs in output folder, except dummy dataset (mit ! arbeiten)
 analysis/output/temp/*
