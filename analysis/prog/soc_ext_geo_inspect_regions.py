@@ -3,7 +3,7 @@
 Created on Wed Sep 11 10:16 2019
 
 This program reads in regions (gemeinden) and compares their availability over
-time. 
+time.
 
 @author: Marc Fabel
 """
@@ -136,6 +136,10 @@ df = df [['ags', 'name11', 'D_all_years', 'y11', 'y12', 'y13',  'y14', 'y15',
 df = df[['ags', 'name11', 'D_all_years']]
 
 df.drop(df[df['D_all_years'] == 0].index, inplace=True)
+
+# apply format in order to have leading zeros
+df['ags']=df['ags'].apply(lambda x: '{0:0>8}'.format(x))
+
 df.rename(columns={'ags':'AGS'}, inplace=True)
 
 df.to_csv(regions_output + 'ags_2011_availabilty_over_years.csv', sep=';')
