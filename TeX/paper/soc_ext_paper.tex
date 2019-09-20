@@ -287,6 +287,21 @@ self-collected, obtained via web-scraping from kicker.de and transfermarkt.de, g
 \subsection{Crime data}
 German uniform crime reporting program (Polizeiliche Kriminalstatistik) by the Federal Criminal Police Office (Bundeskriminalamt)
 
+There are roughly 120 types of criminal offenses in use (recorded in 6 digit codes), though the vast majority of the cases concentrate on only a handful codes.\footnote{The top 10 of the most prevalent crime keys comprise more than 90\% of the cases.} Figure \ref{fig_soc_ext:offense_types_distribution_2015} shows the distribution of cases per crime key for the twenty most common offense types. The intentional simple bodily injury is by far the most prevalent offense and it contributes to about 45\% of all cases. 
+
+assaults, 
+variation see figure \ref{fig_soc_ext:assault_time_distribution_2014}
+per month roughly around 1,000 per day, higher numbers in the warmer months, lowest figures in winter
+per dow: condsiderably higher values on the weekends
+per hour: drop cases (roughly 17 \% where there is no information on the hour)
+
+
+
+
+
+
+
+
 \subsection{Weather data}
 Deutscher Wetterdienst
 
@@ -372,10 +387,55 @@ GENESIS
 
 
 
+
+
+%WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
+% DATA
+%WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
+
+%--------------------------------------------
+% crime - key distribution
 \vspace*{\fill}
 \begin{figure}[H]\centering
-	\caption{The stadiums}\label{fig_soc_ext: map_stadiums_gemeinde}
-	\includegraphics[width=\linewidth]{soc_ext_2010_2015_Gemeinde_100.png}
+	\caption{The types of criminal offenses}\label{fig_soc_ext:offense_types_distribution_2014}
+	\includegraphics[width=0.9 \linewidth]{descriptive/soc_ext_offense_key_distribution_2014}
+	\begin{minipage}{0.95\linewidth}
+		\scriptsize{\emph{Notes:} The figure depicts the frequency distribution of the most common criminal offenses in the Federal Republic of Germany in 2014. The most common offense type is intentional simple bodily injury (224000), followed by threats (232300), and two forms of dangerous and serious bodily injury (222110 \& 222010). These four offense types together comprise around 75\% of all criminal offenses. \newline \emph{Source:} Own representation with data from the Federal Criminal Police Office.}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
+%--------------------------------------------
+
+% crime - assault distribution over time
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{Distribution of assaults across time}\label{fig_soc_ext:assault_time_distribution_2014}
+	\begin{subfigure}[h]{0.48\linewidth}\centering%\caption{Federal law gazette}
+		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_month_2014}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.48\linewidth}\centering%\caption{Federal Minister of Family Affairs Antje Huber} 
+		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_dow_2014}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.48\linewidth}\centering%\caption{Federal Minister of Family Affairs Antje Huber} 
+		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_hour_2014}
+	\end{subfigure}
+	
+	\begin{minipage}{\linewidth}
+		\scriptsize{\emph{Notes:} The figure shows the distribution of assaults across months (adjusted for the number of days per month), day of the weeks and across the course of a day in the Federal Republic of Germany in 2014.\newline \emph{Source:} Own representation with data from the Federal Criminal Police Office.}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
+%--------------------------------------------
+
+
+
+%WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
+% MAPS
+%WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{The stadiums}\label{fig_soc_ext:map_gem_stadiums}
+	\includegraphics[width=0.9\linewidth]{maps/soc_ext_2010_2015_Gemeinde_stadiums_75.png}
 	\begin{minipage}{0.95\linewidth}
 		\scriptsize{\emph{Notes:} This map shows the stadiums used in the analysis over the seasons 2010/11 until 2014/15. The black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
 	\end{minipage}
@@ -384,7 +444,21 @@ GENESIS
 
 
 
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{The stadiums and their closest weather monitors}\label{fig_soc_ext:map_gem_stadiums_nearest_monitor}
+	\includegraphics[width=0.9 \linewidth]{maps/soc_ext_2010_2015_Gemeinde_stadiums_nearest_monitor_75.png}
+	\begin{minipage}{0.95\linewidth}
+		\scriptsize{\emph{Notes:} This map shows the stadiums used in the analysis over the seasons 2010/11 until 2014/15 (red dots) and the closest weather monitors (blue dots). The orange lines indicate how the weather monitors are assigned to the stadiums. The black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
 
+
+
+% To be put in: 
+%	- histogram: distance weather monitors to stadiums
+%	- barplot: number of offences, by key
 
 
 %--------------------------------------------------------------------
