@@ -904,6 +904,16 @@ format mdy %td
 
 drop bew_Ferien type*
 
+
+
+* generate fasching dummy
+	xtset bula mdy
+	qui gen ft10 = 1 if feiertag == "Ostermontag"
+	qui gen fasching = 0 
+	qui replace fasching = 1 if F47.ft10==1 |  F48.ft10==1 |  F49.ft10==1 |  F50.ft10==1 |  F51.ft10==1 |  F52.ft10==1 |  F53.ft10==1
+	drop ft10
+
+
 save  "${outputdata}\Schulferien_1015.dta",replace 
 
 restore
