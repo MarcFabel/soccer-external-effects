@@ -24,6 +24,8 @@ import pandas as pd
 #import matplotlib.pyplot as plt
 #import seaborn as sns
 #import matplotlib.style as style
+import time
+start_time = time.time()
 
 
 
@@ -52,10 +54,14 @@ z_territory =       '11_territory/'
 z_population =      '12_population/'
 z_labor_market =    '13_labor_market/'
 z_elections =       '14_elections/'
+z_buildings =       '31_buildings/'
+z_manufacturing =   '42_manufactoring/'
+z_tourism =         '45_tourism/'
+z_transport =       '46_transport/'
+z_public_budgets =  '71_public_budgets/'
+
+
 #education =         "05 - Bildung/"
-#buildings =         "10 - Gebäude/"
-#accidents =         "11 - Verkehr/"
-#tourism =           "12 - Tourismus/"
 #industry_sector =   "13 - Wirtschaftszweig/nach Wirtschaftszweig/"
 
 
@@ -349,20 +355,35 @@ labor_market = labor_market.merge(unemployment, on=['year', 'AGS'])
 
 
 ########## 141_GERMAN ##########
-elec_ger = pd.read_csv(z_regional_source + z_elections + '141_German_2013.csv',
+elec_ger13 = pd.read_csv(z_regional_source + z_elections + '141_German_2013.csv',
                      sep=';', encoding='ISO-8859-1', skiprows=10, skipfooter=4, dtype=str)
-elec_ger.columns = ['date', 'AGS', 'AGS_Name', '13g_nr_eligibles', '13g_turnout', '13g_valid_votes', 
+elec_ger13.columns = ['date', 'AGS', 'AGS_Name', '13g_nr_eligibles', '13g_turnout', '13g_valid_votes', 
                     'cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']
-elec_ger['AGS'] = elec_ger['AGS'].str.ljust(8, fillchar='0')
-elec_ger['13g_turnout'] = elec_ger['13g_turnout'].str.replace(',','.')
-elec_ger['AGS'] = elec_ger['AGS'].astype(int)
-elec_ger = elec_ger.merge(active_regions, on='AGS')
-elec_ger = elec_ger.apply(pd.to_numeric, errors='coerce')
+elec_ger13['AGS'] = elec_ger13['AGS'].str.ljust(8, fillchar='0')
+elec_ger13['13g_turnout'] = elec_ger13['13g_turnout'].str.replace(',','.')
+elec_ger13['AGS'] = elec_ger13['AGS'].astype(int)
+elec_ger13 = elec_ger13.merge(active_regions, on='AGS')
+elec_ger13 = elec_ger13.apply(pd.to_numeric, errors='coerce')
 # have vote shares per party
 for party in ['cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']: 
-	elec_ger['13g_' + party] = (elec_ger[party] / elec_ger['13g_valid_votes']) * 100
-	elec_ger.drop(party, inplace=True, axis=1)
-elec_ger.drop(['date', 'AGS_Name', 'active', '13g_nr_eligibles', '13g_valid_votes'], inplace=True, axis=1)
+	elec_ger13['13g_' + party] = (elec_ger13[party] / elec_ger13['13g_valid_votes']) * 100
+	elec_ger13.drop(party, inplace=True, axis=1)
+elec_ger13.drop(['date', 'AGS_Name', 'active', '13g_nr_eligibles', '13g_valid_votes'], inplace=True, axis=1)
+
+elec_ger17 = pd.read_csv(z_regional_source + z_elections + '141_German_2017.csv',
+                     sep=';', encoding='ISO-8859-1', skiprows=10, skipfooter=4, dtype=str)
+elec_ger17.columns = ['date', 'AGS', 'AGS_Name', '17g_nr_eligibles', '17g_turnout', '17g_valid_votes', 
+                    'cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']
+elec_ger17['AGS'] = elec_ger17['AGS'].str.ljust(8, fillchar='0')
+elec_ger17['17g_turnout'] = elec_ger17['17g_turnout'].str.replace(',','.')
+elec_ger17['AGS'] = elec_ger17['AGS'].astype(int)
+elec_ger17 = elec_ger17.merge(active_regions, on='AGS')
+elec_ger17 = elec_ger17.apply(pd.to_numeric, errors='coerce')
+# have vote shares per party
+for party in ['cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']: 
+	elec_ger17['17g_' + party] = (elec_ger17[party] / elec_ger17['17g_valid_votes']) * 100
+	elec_ger17.drop(party, inplace=True, axis=1)
+elec_ger17.drop(['date', 'AGS_Name', 'active', '17g_nr_eligibles', '17g_valid_votes'], inplace=True, axis=1)
 
 
 
@@ -389,11 +410,155 @@ elec_eur.drop(['date', 'AGS_Name', 'active', '14e_nr_eligibles', '14e_valid_vote
 
 
 ########## COMBINE ELECTION DATA ##########
-elections = elec_ger.copy()
+elections = elec_ger13.copy()
+elections = elections.merge(elec_ger17, on='AGS')
 elections = elections.merge(elec_eur, on='AGS')
 
 
 
+
+
+###############################################################################
+#           31  BUILDINGS
+###############################################################################
+
+########## 311_BUILDINGS_PERMITS ##########
+perm= {}
+for year in range(z_first_year_wave, z_last_year_wave+1):
+	perm[year] = pd.read_csv(z_regional_source + z_buildings + '311_permits_' + str(year) + '.csv', 
+		sep=';', encoding='ISO-8859-1', skiprows=12, skipfooter=4, dtype=str)
+
+	# keep only few columns
+	perm[year].columns = list(range(perm[year].shape[1]))
+	perm[year] = perm[year][[0, 2, 6, 10]]
+	perm[year].rename(columns={0:'AGS', 2:'perm_resid_builds', 6:'perm_flats', 10:'perm_dwelling_area'}, inplace=True)
+
+	# have AGS in the right format (fill up with trailing zeros, str8)
+	perm[year]['AGS'] = perm[year]['AGS'].str.ljust(8, fillchar='0')
+	perm[year]['AGS'] = perm[year]['AGS'].astype(int)
+
+	perm[year]['perm_dwelling_area'] = perm[year]['perm_dwelling_area'].str.replace(',','.')
+		
+	# select only active regions
+	perm[year] = perm[year].merge(active_regions, on='AGS', how='inner')
+	perm[year].drop(['active'], inplace=True, axis=1)
+	perm[year]['year'] = year
+
+# make large df from the cross-sections
+buildings_permits = perm[z_first_year_wave].copy()
+for year in range(z_first_year_wave+1,z_last_year_wave+1):
+	buildings_permits = buildings_permits.append(perm[year])
+
+# fill NaNs with zeros
+for var in ['perm_resid_builds', 'perm_flats']:
+    buildings_permits[var] = buildings_permits[var].str.replace('-', '0')
+
+# buildings_permits columns as integeres
+buildings_permits = buildings_permits.apply(pd.to_numeric, errors='coerce')
+
+
+
+########## 311_BUILDINGS_COMPLETED ##########
+cmpltd= {}
+for year in range(z_first_year_wave, z_last_year_wave+1):
+	cmpltd[year] = pd.read_csv(z_regional_source + z_buildings + '311_construction_completed_' + str(year) + '.csv',
+		sep=';', encoding='ISO-8859-1', skiprows=12, skipfooter=4, dtype=str)
+
+	# keep only few columns
+	cmpltd[year].columns = list(range(cmpltd[year].shape[1]))
+	cmpltd[year] = cmpltd[year][[0, 2, 6, 10]]
+	cmpltd[year].rename(columns={0:'AGS', 2:'completed_resid_builds', 6:'completed_flats', 10:'completed_dwelling_area'}, inplace=True)
+
+	# have AGS in the right format (fill up with trailing zeros, str8)
+	cmpltd[year]['AGS'] = cmpltd[year]['AGS'].str.ljust(8, fillchar='0')
+	cmpltd[year]['AGS'] = cmpltd[year]['AGS'].astype(int)
+
+	cmpltd[year]['completed_dwelling_area'] = cmpltd[year]['completed_dwelling_area'].str.replace(',','.')
+		
+	# select only active regions
+	cmpltd[year] = cmpltd[year].merge(active_regions, on='AGS', how='inner')
+	cmpltd[year].drop(['active'], inplace=True, axis=1)
+	cmpltd[year]['year'] = year
+
+# make large df from the cross-sections
+buildings_completed = cmpltd[z_first_year_wave].copy()
+for year in range(z_first_year_wave+1,z_last_year_wave+1):
+	buildings_completed = buildings_completed.append(cmpltd[year])
+
+# fill NaNs with zeros
+for var in ['completed_resid_builds', 'completed_flats']:
+    buildings_completed[var] = buildings_completed[var].str.replace('-', '0')
+
+# buildings_completed columns as integeres
+buildings_completed = buildings_completed.apply(pd.to_numeric, errors='coerce')
+
+
+
+########## 312_STOCK_OF_BUILDINGS_&_DWELLINGS ##########
+buildings_stock = pd.read_csv(z_regional_source + z_buildings + '312_stock_buildings.csv', 
+	sep=';', encoding='ISO-8859-1', skiprows=10, skipfooter=4, dtype=str)
+
+# keep only few columns
+buildings_stock.columns = list(range(buildings_stock.shape[1]))
+buildings_stock = buildings_stock[[0, 1, 3, 8, 9]]
+buildings_stock.rename(columns={0:'date', 1:'AGS', 3:'stock_resid_builds', 9:'stock_flats', 8:'stock_dwelling_area'}, inplace=True)
+
+# drop irrelevent rows
+z_delete_rows = buildings_stock[buildings_stock['AGS'] == 'DG'].index
+buildings_stock.drop(z_delete_rows, inplace=True)
+buildings_stock['year'] = pd.to_numeric(buildings_stock.date.str.slice(-4,))
+z_delete_rows = buildings_stock[ (buildings_stock['year'] < z_first_year_wave) | (buildings_stock['year'] > z_last_year_wave)].index
+buildings_stock.drop(z_delete_rows, inplace=True)
+
+# correct formats
+buildings_stock['AGS'] = buildings_stock['AGS'].str.ljust(8, fillchar='0')
+buildings_stock['AGS'] = buildings_stock['AGS'].astype(int)
+buildings_stock['stock_dwelling_area'] = buildings_stock['stock_dwelling_area'].str.replace(',','.')
+	
+# select only active regions
+buildings_stock = buildings_stock.merge(active_regions, on='AGS', how='inner')
+buildings_stock.drop(['active', 'date'], inplace=True, axis=1)
+
+# buildings_stock columns as integeres
+buildings_stock = buildings_stock.apply(pd.to_numeric)
+
+
+
+########## COMBINE BUILDINGS VARIABLES ##########
+buildings = buildings_permits.copy()
+buildings = buildings.merge(buildings_completed, on=['AGS', 'year'])
+buildings = buildings.merge(buildings_stock, on=['AGS', 'year'])
+
+
+
+
+
+###############################################################################
+#           4 ECONOMIC SECTORS
+###############################################################################
+
+########## 421_MANUFACTURING_REPORT ##########
+#z_manufacturing =   '42_manufactoring/'
+
+
+########## 454_TOURISM_SURVEY ##########
+#z_tourism =         '45_tourism/'
+
+
+########## 462_ROAD_TRAFFIC_ACCIDENTS ##########
+#z_transport =       '46_transport/'
+
+
+
+
+
+
+###############################################################################
+#           71 PUBLIC BUDGETS
+###############################################################################
+
+########## 712_TAX_BUDGET ##########
+#z_public_budgets =  '71_public_budgets/'
 
 
 
@@ -406,12 +571,14 @@ regional_data = territory.copy()
 regional_data = regional_data.merge(population, on=['year', 'AGS'])
 regional_data = regional_data.merge(labor_market, on=['year', 'AGS'])
 regional_data = regional_data.merge(elections, on='AGS')
+regional_data = regional_data.merge(buildings, on=['year', 'AGS'])
 
 
 # reorder columns
 z_cols_to_order = ['year', 'AGS', 'AGS_Name', 'area', 'pop_t', 'c11_share_foreigners_t',
                    'births_t', 'deaths_t', 'mig_in_t', 'mig_out_t',
-                   'employees_t', 'ue', '13g_turnout', '14e_turnout']
+                   'employees_t', 'ue', '13g_turnout', '17g_turnout', '14e_turnout',
+                   'completed_resid_builds', 'stock_flats']
 z_new_columns = z_cols_to_order + (regional_data.columns.drop(z_cols_to_order).tolist())
 regional_data = regional_data[z_new_columns]
 
@@ -419,7 +586,8 @@ regional_data = regional_data[z_new_columns]
 
 # check whether there are some missing data
 print('There are {} variables with mssing values'.format(regional_data.isna().sum().sum()))
-
+print("--- %s seconds ---" % (time.time() - start_time))
+# at home:--- 9.050151824951172 seconds ---
 
 
 # XXX ideas of constructing variables
@@ -428,6 +596,8 @@ print('There are {} variables with mssing values'.format(regional_data.isna().su
 # D_more_deaths_than_births
 # number of births per women aged 15_40, was soll das genau sagen
 # (un-)employment rate
+# number of dwellings per person, indicates wohnungsnot
+# 
 
 ###############################################################################
 #           END OF FILE
@@ -435,4 +605,8 @@ print('There are {} variables with mssing values'.format(regional_data.isna().su
 
 
 
-# to do:
+# XXX to do:
+#   - Anere Datenquellen:
+#       - 1) Bundesagentur für Arbeit die noch interessant sein könnten? zb Sozialleistungen
+#       - 2) Regionalatlas
+#   - DESTATIS fragen was mit den fehlenden Jahren in den Tabellen 731_wage_income_statistics und 715_cash_results ist
