@@ -428,13 +428,13 @@ for year in range(z_first_year_wave, z_last_year_wave+1):
 	# keep only few columns
 	perm[year].columns = list(range(perm[year].shape[1]))
 	perm[year] = perm[year][[0, 2, 6, 10]]
-	perm[year].rename(columns={0:'AGS', 2:'perm_resid_builds', 6:'perm_flats', 10:'perm_dwelling_area'}, inplace=True)
+	perm[year].rename(columns={0:'AGS', 2:'build_prmts_resid_builds', 6:'build_prmts_flats', 10:'build_prmts_dwelling_area'}, inplace=True)
 
 	# have AGS in the right format (fill up with trailing zeros, str8)
 	perm[year]['AGS'] = perm[year]['AGS'].str.ljust(8, fillchar='0')
 	perm[year]['AGS'] = perm[year]['AGS'].astype(int)
 
-	perm[year]['perm_dwelling_area'] = perm[year]['perm_dwelling_area'].str.replace(',','.')
+	perm[year]['build_prmts_dwelling_area'] = perm[year]['build_prmts_dwelling_area'].str.replace(',','.')
 
 	# select only active regions
 	perm[year] = perm[year].merge(active_regions, on='AGS', how='inner')
@@ -447,7 +447,7 @@ for year in range(z_first_year_wave+1,z_last_year_wave+1):
 	buildings_permits = buildings_permits.append(perm[year])
 
 # fill NaNs with zeros
-for var in ['perm_resid_builds', 'perm_flats']:
+for var in ['build_prmts_resid_builds', 'build_prmts_flats']:
     buildings_permits[var] = buildings_permits[var].str.replace('-', '0')
 
 # buildings_permits columns as integeres
@@ -464,13 +464,13 @@ for year in range(z_first_year_wave, z_last_year_wave+1):
 	# keep only few columns
 	cmpltd[year].columns = list(range(cmpltd[year].shape[1]))
 	cmpltd[year] = cmpltd[year][[0, 2, 6, 10]]
-	cmpltd[year].rename(columns={0:'AGS', 2:'completed_resid_builds', 6:'completed_flats', 10:'completed_dwelling_area'}, inplace=True)
+	cmpltd[year].rename(columns={0:'AGS', 2:'build_cmpltd_resid_builds', 6:'build_cmpltd_flats', 10:'build_cmpltd_dwelling_area'}, inplace=True)
 
 	# have AGS in the right format (fill up with trailing zeros, str8)
 	cmpltd[year]['AGS'] = cmpltd[year]['AGS'].str.ljust(8, fillchar='0')
 	cmpltd[year]['AGS'] = cmpltd[year]['AGS'].astype(int)
 
-	cmpltd[year]['completed_dwelling_area'] = cmpltd[year]['completed_dwelling_area'].str.replace(',','.')
+	cmpltd[year]['build_cmpltd_dwelling_area'] = cmpltd[year]['build_cmpltd_dwelling_area'].str.replace(',','.')
 
 	# select only active regions
 	cmpltd[year] = cmpltd[year].merge(active_regions, on='AGS', how='inner')
@@ -483,7 +483,7 @@ for year in range(z_first_year_wave+1,z_last_year_wave+1):
 	buildings_completed = buildings_completed.append(cmpltd[year])
 
 # fill NaNs with zeros
-for var in ['completed_resid_builds', 'completed_flats']:
+for var in ['build_cmpltd_resid_builds', 'build_cmpltd_flats']:
     buildings_completed[var] = buildings_completed[var].str.replace('-', '0')
 
 # buildings_completed columns as integeres
@@ -498,7 +498,7 @@ buildings_stock = pd.read_csv(z_regional_source + z_buildings + '312_stock_build
 # keep only few columns
 buildings_stock.columns = list(range(buildings_stock.shape[1]))
 buildings_stock = buildings_stock[[0, 1, 3, 8, 9]]
-buildings_stock.rename(columns={0:'date', 1:'AGS', 3:'stock_resid_builds', 9:'stock_flats', 8:'stock_dwelling_area'}, inplace=True)
+buildings_stock.rename(columns={0:'date', 1:'AGS', 3:'build_stock_resid_builds', 9:'build_stock_flats', 8:'build_stock_dwelling_area'}, inplace=True)
 
 # drop irrelevent rows
 z_delete_rows = buildings_stock[buildings_stock['AGS'] == 'DG'].index
@@ -510,7 +510,7 @@ buildings_stock.drop(z_delete_rows, inplace=True)
 # correct formats
 buildings_stock['AGS'] = buildings_stock['AGS'].str.ljust(8, fillchar='0')
 buildings_stock['AGS'] = buildings_stock['AGS'].astype(int)
-buildings_stock['stock_dwelling_area'] = buildings_stock['stock_dwelling_area'].str.replace(',','.')
+buildings_stock['build_stock_dwelling_area'] = buildings_stock['build_stock_dwelling_area'].str.replace(',','.')
 
 # select only active regions
 buildings_stock = buildings_stock.merge(active_regions, on='AGS', how='inner')
@@ -692,7 +692,7 @@ regional_data = regional_data.merge(tax_budget, on=['year', 'AGS'])
 z_cols_to_order = ['year', 'AGS', 'AGS_Name', 'area', 'pop_t', 'c11_share_foreigners_t',
                    'births_t', 'deaths_t', 'mig_in_t', 'mig_out_t',
                    'employees_t', 'ue', 'elec_13g_turnout', 'elec_17g_turnout', 'elec_14e_turnout',
-                   'completed_resid_builds', 'stock_flats',
+                   'build_cmpltd_resid_builds', 'build_stock_flats',
                    'manuf_firms', 'trsm_accomodations', 'acc_total',
                    'tax_trade_revenue_thsnd']
 z_new_columns = z_cols_to_order + (regional_data.columns.drop(z_cols_to_order).tolist())
