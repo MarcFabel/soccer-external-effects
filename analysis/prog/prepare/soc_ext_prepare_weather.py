@@ -24,15 +24,19 @@ Inputs:
 Updates: 26/09/2019: 
     a) error in building up the weather df, merge has to be outer, otherwise it drops dates from the df! 
     b) NaNs in the column are no filled with preceeding values
+    
+    - 02/10/2019: select monitors that are present over all waves, selection now 
+        on start and end date of crime data time window
      
 """
 
 # packages
 import pandas as pd
-import numpy as np
+#import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import matplotlib.style as style
+from datetime import datetime
 
 
 # paths work
@@ -53,9 +57,10 @@ z_prefix =                              'soc_ext_'
 
 
 # magic numbers
-first_year_wave = 2010
-last_year_wave = 2015
-
+z_first_year_wave = 2011
+z_last_year_wave = 2015
+z_start_date = datetime(z_first_year_wave,1,1)      # is the time window from the crime data
+z_end_date = datetime(z_last_year_wave,6,30)
 
 
 ###############################################################################
@@ -73,7 +78,7 @@ for var in ['TMK', 'TXK', 'TNK', 'TGK', 'VPM', 'NM', 'PM', 'UPM', 'RS', 'SDK', '
      data.drop(['Produkt_Code','Qualitaet_Niveau', 'Qualitaet_Byte'], axis=1, inplace=True)
      data.rename(columns={'Zeitstempel':'date'}, inplace=True)
      data['year'] = pd.to_numeric(data['date'].astype(str).str.slice(0,4))
-     delete_rows = data[ (data['year']<first_year_wave) | (data['year']>last_year_wave) ].index
+     delete_rows = data[ (data['year']< z_first_year_wave) | (data['year']>z_last_year_wave) ].index
      data.drop(delete_rows, inplace=True)
      data.drop('year', axis=1, inplace=True)
      data.rename(columns={'Wert':var}, inplace=True)
@@ -103,30 +108,66 @@ df_number_monitors = pd.DataFrame(dictionary)
 ###############################################################################
 #       2 ) Weather monitors & their distance to stadiums
 ###############################################################################
-
-monitors = weather.drop_duplicates(subset='SDO_ID')
-monitors = monitors[['SDO_ID', 'date', 'SDO_Name', 'geo_x', 'geo_y']].copy()
+# per monitor what is start date and what end date:
+monitors = weather.copy()   # [['SDO_ID', 'date', 'SDO_Name', 'geo_x', 'geo_y']]
+monitors['min'] = monitors.groupby('SDO_ID')['date'].transform('min')
+monitors['max'] = monitors.groupby('SDO_ID')['date'].transform('max')
+# count number of observations per weather variable
+for var in ['TMK', 'TXK', 'TNK', 'TGK', 'VPM', 'NM', 'PM', 'UPM', 'RS', 'SDK', 'SH', 'FM']: #
+    monitors[var] = monitors.groupby('SDO_ID')[var].transform('count')
+monitors = monitors.drop_duplicates(subset='SDO_ID')
+monitors['date_min'] = pd.to_datetime(monitors['min'], format='%Y%m%d') # , errors='coerce'
+monitors['date_max'] = pd.to_datetime(monitors['max'], format='%Y%m%d') # , errors='coerce'
 
 # drop monitors which are not present over the entire period:
-delete_rows = monitors[ (monitors['date'] != 20110101) ].index
+delete_rows = monitors[ (monitors['date_min'] > z_start_date) | (monitors['date_max'] < z_end_date) ].index
 monitors.drop(delete_rows, inplace=True)
-monitors['D_all_years'] = 1
+
+# drop monitors, which do not measure one variable
+#monitors[['TMK', 'TXK', 'TNK', 'TGK', 'VPM', 'NM', 'PM', 'UPM', 'RS', 'SDK', 'SH', 'FM']].astype(bool).sum(axis=0)
+#TMK    484
+#TXK    463
+#TNK    463
+#TGK    478
+#VPM    484
+#NM     470
+#PM     197     mittlerer Luftdruck in hpa
+#UPM    484
+#RS     467
+#SDK    296     Sonnenscheindauer in Stunden
+#SH     457
+#FM     210     mittlere Windgeschwindigkeit
+for var in ['TMK', 'TXK', 'TNK', 'TGK', 'VPM', 'NM', 'PM', 'UPM', 'RS', 'SDK', 'SH', 'FM']: #
+    monitors.drop( monitors[ (monitors[var] == 0 )].index, inplace = True)
+    
+
+# delete monitor if more than 10% of observations must be filled in (except for SH)
+for var in ['TMK', 'TXK', 'TNK', 'TGK', 'VPM', 'NM', 'PM', 'UPM', 'RS', 'SDK', 'FM']: # ! SH IS NOT PART OF THE LIST! 
+    monitors.drop(monitors[ monitors[var] < 0.9 * monitors[var].max()].index, inplace= True)
+
 
 # read out
-monitors.to_csv(z_weather_output + 'weather_monitors_coordinates_outer_merge.csv', sep=';', encoding='UTF-8')   #name and location changed 26/09/2019
+monitors[['SDO_ID', 'SDO_Name', 'geo_x', 'geo_y']].to_csv(z_weather_output + 'weather_monitors_coordinates_outer_merge_new.csv', sep=';', encoding='UTF-8')   #name and location changed 26/09/2019
 
 
 # now go to QGIS and look for the nearest stadium-monitor pair and use only subset of monotors for output
 # has to create     map_stadium_nearest_weather_monitor.csv'
 
 # open up edited stadium-monitor pair
-stadium_monitor = pd.read_csv(z_map_stadium_weather_monitor_input + 'map_stadium_nearest_weather_monitor.csv', sep=';', encoding = 'UTF-8')
-stadium_monitor.drop(['field_1', 'Koordinaten_Nord', 'Koordinaten_Ost', 'PLZ', 'Straße', 'Hausnummer', 'games_played'], axis=1, inplace=True)
+stadium_monitor = pd.read_csv(z_map_stadium_weather_monitor_input + 'map_region_nearest_weather_monitor.csv', sep=';', encoding = 'UTF-8')
+stadium_monitor = stadium_monitor[['AGS', 'stadium', 'Ort', 'HubName', 'HubDist']]
 stadium_monitor.rename(columns={'HubName':'SDO_ID', 'HubDist':'distance_closest_sdo'}, inplace=True)
 
+# which ones are the active monitors (the closest monitor to the centroid of the region)
+active_monitors = stadium_monitor.copy().drop_duplicates(subset='SDO_ID')
+active_monitors.drop(['AGS', 'stadium', 'Ort'], inplace=True, axis=1)
+
+# map monitor -> region
+map_monitor_region = stadium_monitor[['AGS', 'SDO_ID']].copy()
+map_monitor_region =  map_monitor_region.drop_duplicates(subset='AGS')
 
 # merge with weather data (inner)
-weather = weather.merge(stadium_monitor, on=['SDO_ID'], how='inner')
+weather = weather.merge(active_monitors, on=['SDO_ID'], how='inner')
 
 
 
@@ -159,13 +200,20 @@ for var in weather[['TMK', 'TXK', 'TNK', 'TGK', 'VPM', 'NM', 'PM', 'UPM', 'RS', 
 ###############################################################################
 #       4 ) read out
 ###############################################################################
+temp = weather.copy()
+
+# add information about which monitor belongs to which AGS
+weather = weather.merge(map_monitor_region, on=['SDO_ID'])
+
 # sort & order
 weather = weather[[
-     'date', 'stadium', 'Ort', 'SDO_ID', 'SDO_Name',
+     'date', 'AGS', 'SDO_ID', 'SDO_Name',
      'TMK', 'TXK', 'TNK', 'TGK', 'VPM', 'NM', 'PM', 'UPM', 'RS', 'SDK', 'SH', 'FM',
      'distance_closest_sdo', 'geo_x', 'geo_y']]
 
-weather.sort_values(['Ort','date'], inplace=True)
+weather.sort_values(['AGS','date'], inplace=True)
+
+weather.reset_index(inplace=True, drop=True)
 
 # drop variables
 weather.drop(['geo_x', 'geo_y'], axis=1, inplace=True)
@@ -174,8 +222,7 @@ weather.drop(['geo_x', 'geo_y'], axis=1, inplace=True)
 # read out
 weather.to_csv(z_weather_output + 'weather_prepared.csv', sep=';', encoding='UTF-8')
 
-
-# MISSING: WHAT IS THE AGS OF THE RESPECTIVE STADIUM
+print(len(weather.drop_duplicates(subset='AGS')))
 
 ###############################################################################
 #       5) Plotting distance of weather monitors to stadiums
@@ -207,7 +254,6 @@ plt.savefig(z_weather_figures_desc + z_prefix + 'distance_monitors_stadiums.pdf'
 
 
 
-# to do: what shall I do with NANs in the columns
 
 # Comments:
 # - first I use the subset of monitors that have all the variables over all years
