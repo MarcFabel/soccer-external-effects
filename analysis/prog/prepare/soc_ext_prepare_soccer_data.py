@@ -299,12 +299,12 @@ stadiums = stadiums['stadium'].copy() #, 'home_team'
 stadiums = stadiums.to_frame()
 len_stadiums = len(stadiums)
 
-# 69 stadiums
+# 69 stadiums, w/o the weird stadiums: 65
 # team - stadiums: 77 combinations
 
 
 # add Geographic components (intern Domink set up the data base)
-stadiums_geo = pd.read_excel(soccer_source + 'stadiums_coordinates_2012_1617.xlsx')
+stadiums_geo = pd.read_excel(soccer_source + 'stadiums_coordinates_1011_1617.xlsx')
 stadiums = stadiums.merge(stadiums_geo, on=['stadium'], how='outer', indicator=True)
 stadiums.sort_values(['Ort'], inplace=True)
 drop_rows = stadiums[stadiums['_merge'] != 'both'].index
@@ -320,10 +320,22 @@ number_matches_stadium.rename(columns={
 stadiums = stadiums.merge(number_matches_stadium, on='stadium', how='inner')
 
 
+# drop stadiums which are used only sporadically (i.e. less than a season)
+#stadiums['drop'] = np.where(stadiums.games_played < 17, 1, 0)
+#drop_stadiums =  stadiums.loc[stadiums['drop']==1][['stadium', 'drop']]
+#stadiums.drop( stadiums[stadiums['drop']==1].index, inplace=True)
+#stadiums.drop('drop', axis=1, inplace=True)
+
+
 # write out for QGIS:
 stadiums.sort_values(by='Ort', inplace=True)
 stadiums.reset_index(inplace=True, drop=True)
 stadiums.to_csv(soccer_output + 'stadiums_geographic_information.csv', sep=';')
+
+
+# delete 30 matches which are taking place in arenas where there are usually no games (see two blocks above)
+#matches = matches.merge(drop_stadiums, on=['stadium'], how='outer')
+#matches.drop( matches[matches['drop']==1].index, inplace=True)
 
 
 
