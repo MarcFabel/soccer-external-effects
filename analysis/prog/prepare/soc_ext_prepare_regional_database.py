@@ -30,8 +30,8 @@ start_time = time.time()
 
 
 # WORK directories
-z_regional_source = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/regional_database/'
-
+z_regional_source =      'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/regional_database/'
+z_regional_output =      'F:/econ/soc_ext/analysis/data/intermediate/regional_database/'
 
 # HOME directories
 #z_regional_source =                  '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/regional_database/'
@@ -121,12 +121,12 @@ census.drop(['c11_pop_total_ger', 'c11_pop_male_ger', 'c11_pop_female_ger', 'AGS
 census = census.apply(pd.to_numeric,errors='coerce')
 
 # construct share foreigners
-census['c11_share_foreigners_t'] = census['c11_pop_total_for'] / census['c11_pop_total']
-census['c11_share_foreigners_m'] = census['c11_pop_male_for'] / census['c11_pop_male']
-census['c11_share_foreigners_f'] = census['c11_pop_female_for'] / census['c11_pop_female']
+census['pop_c11_share_foreigners_t'] = (census['c11_pop_total_for']*100) / census['c11_pop_total']
+census['pop_c11_share_foreigners_m'] = (census['c11_pop_male_for']*100) / census['c11_pop_male']
+census['pop_c11_share_foreigners_f'] = (census['c11_pop_female_for']*100) / census['c11_pop_female']
 
 census = census.merge(active_regions, on='AGS')
-census = census[['AGS', 'c11_share_foreigners_t','c11_share_foreigners_m','c11_share_foreigners_f']].copy()
+census = census[['AGS', 'pop_c11_share_foreigners_t','pop_c11_share_foreigners_m','pop_c11_share_foreigners_f']].copy()
 
 
 
@@ -673,7 +673,7 @@ for var in ['tax_prop_A_mult_pct', 'tax_prop_B_mult_pct', 'tax_trade_mult_pct']:
 
 
 
-# XXX einzelne df durchgehen ob die varnames meaningful sind
+
 
 ###############################################################################
 #           COMBINE THE DATA
@@ -688,9 +688,70 @@ regional_data = regional_data.merge(economic_sectors, on=['year', 'AGS'])
 regional_data = regional_data.merge(tax_budget, on=['year', 'AGS'])
 
 
+
+
+
+
+
+###############################################################################
+#           CONSTRUCT VARIABLES FROM THE DATAFRAME
+###############################################################################
+
+
+# Population density
+regional_data['pop_density'] = regional_data['pop_t'] / regional_data['area']
+
+# net migration per 1,000 inhabitants
+regional_data['mig_net_t'] = regional_data['mig_in_t'] - regional_data['mig_out_t']
+regional_data['mig_net_pthsndcap_t'] = (regional_data['mig_net_t']*1000) / regional_data['pop_t']
+# XXX can be extended for the subgroups
+
+# birth rate < death rate
+regional_data['births_net_death'] = regional_data['births_t'] - regional_data['deaths_t']
+regional_data['births_net_death_pthsndcap'] = (regional_data['births_net_death']*1000) / regional_data['pop_t']
+
+# crude birth & death rates: number of births/deaths per 1000 inhabitants
+for var in ['births', 'deaths']:
+     regional_data[var+'_crude_rate'] = (regional_data[var+'_t']*1000) / regional_data['pop_t']
+
+# employment rates
+for gender in['_t', '_m', '_f']:
+     regional_data['employment_rate' + gender] = (regional_data['employees'+gender]*100) /regional_data['pop'+gender]
+
+
+# unemployment rates
+regional_data['pop_15_24'] = regional_data[['pop_15_17_t', 'pop_18_19_t', 'pop_20_24_t']].sum(axis='columns')
+
+for concept in ['', '_longterm']:
+     regional_data['ue_rate'+concept] = (regional_data['ue'+concept] * 100) / regional_data['pop_t']
+regional_data['ue_rate_15_24_'] = (regional_data['ue_15_24'] * 100) / regional_data['pop_15_24']
+
+
+
+
+
+
+
+# XXX continue above and see which original variables, on which the above are based on,
+# have to go out of the data frame
+
+
+# XXX ideas of constructing variables
+# number of dwellings per person, indicates wohnungsnot
+# manuf_firms/person
+# trsm_accomodations / person
+# acc_total / person
+
+
+
+###############################################################################
+#           READ OUT
+###############################################################################
+
 # reorder columns
-z_cols_to_order = ['year', 'AGS', 'AGS_Name', 'area', 'pop_t', 'c11_share_foreigners_t',
-                   'births_t', 'deaths_t', 'mig_in_t', 'mig_out_t',
+z_cols_to_order = ['year', 'AGS', 'AGS_Name', 'pop_t', 'pop_density', 'pop_c11_share_foreigners_t',
+                   'births_crude_rate', 'deaths_crude_rate',
+                   'mig_net_t',
                    'employees_t', 'ue', 'elec_13g_turnout', 'elec_17g_turnout', 'elec_14e_turnout',
                    'build_cmpltd_resid_builds', 'build_stock_flats',
                    'manuf_firms', 'trsm_accomodations', 'acc_total',
@@ -700,22 +761,21 @@ regional_data = regional_data[z_new_columns]
 
 
 
+
+
+
+# read out
+regional_data.to_csv(z_regional_output + 'regional_data_prepared.csv', sep=';', encoding='UTF-8', index=False)
+
+
+
+
 # check whether there are some missing data
 print('There are {} variables with missing values'.format(regional_data.isna().sum().sum()))
 print("--- %s seconds ---" % (time.time() - start_time))
 
 
 
-# XXX ideas of constructing variables
-# population density
-# D_negative_netto_migration
-# D_more_deaths_than_births
-# number of births per women aged 15_40, was soll das genau sagen
-# (un-)employment rate
-# number of dwellings per person, indicates wohnungsnot
-# manuf_firms/person
-# trsm_accomodations / person
-# acc_total / person
 
 ###############################################################################
 #           END OF FILE
@@ -728,3 +788,15 @@ print("--- %s seconds ---" % (time.time() - start_time))
 #       - 1) Bundesagentur für Arbeit die noch interessant sein könnten? zb Sozialleistungen
 #       - 2) Regionalatlas
 #   - DESTATIS fragen was mit den fehlenden Jahren in den Tabellen 731_wage_income_statistics und 715_cash_results ist
+
+
+
+
+
+###############################################################################
+#Unused:
+# define female population in childbearing age
+#
+#     regional_data['pop_15_49_f'] = regional_data[['pop_15_17_f', 'pop_18_19_f',
+#             'pop_20_24_f',	'pop_25_29_f', 'pop_30_34_f', 'pop_35_39_f',
+#             'pop_40_44_f' , 'pop_45_49_f']].sum(axis='columns')
