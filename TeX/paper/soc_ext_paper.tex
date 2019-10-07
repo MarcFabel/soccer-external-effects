@@ -283,19 +283,28 @@ sample spans the period 2011-2015
 
 \subsection{Soccer data}
 self-collected, obtained via web-scraping from kicker.de and transfermarkt.de, geographic encoding of the stadiums plus marking of affected districts
+65 stadiums, stadiums in which not at least a full season is played are exlcuded from the analysis.\footnote{This affects the stadiums in Lübeck (1), Reutlingen (12), Elversberg (14), and the Air-Berlin stadium in Dusseldorf (3). The number in parenthesis indicates the number of games that were held in that venue. This excludes 0.6\% of all macthes.}
 
 \subsection{Crime data}
 German uniform crime reporting program (Polizeiliche Kriminalstatistik) by the Federal Criminal Police Office (Bundeskriminalamt)
 
 There are roughly 120 types of criminal offenses in use (recorded in 6 digit codes), though the vast majority of the cases concentrate on only a handful codes.\footnote{The top 10 of the most prevalent crime keys comprise more than 90\% of the cases.} Figure \ref{fig_soc_ext:offense_types_distribution_2015} shows the distribution of cases per crime key for the twenty most common offense types. The intentional simple bodily injury is by far the most prevalent offense and it contributes to about 45\% of all cases. 
 
+
+cut the data: temporally Jan 2011 - June 2015, and spatially: only the affected regions
+
+Focus only on assaults.
+
 assaults, 
 variation see figure \ref{fig_soc_ext:assault_time_distribution_2014}
-per month roughly around 1,000 per day, higher numbers in the warmer months, lowest figures in winter
-per dow: condsiderably higher values on the weekends
-per hour: drop cases (roughly 17 \% where there is no information on the hour)
+per hour: drop cases (roughly 15 \% where there is no information on the hour), the number of assaults increases over the course of the day and peaks around midnight. In order to assign the cases that occur during the early hours to the day, in which they are rooted in, I define a day as 6:00 AM until 5:59 AM. 
+Per DOW: considerably higher values on Friday and Saturday night, i.e. the night from Fri to Sat (DO MOST OF THE GAMES HAPPEN THEN?) and SAT to SUN.
+Per Month: we see strong seasonality, highest values in May (due to Labor Day), decreases over summer and picks up again towards the colder months. 
+per day roughly around 320 per day, peak on new year's eve, high on holidays (carneval) 
+\footnote{Per month and per day is only for the year 2014. Appendix Figure  \ref{fig_soc_ext:assault_year_distribution} shows the distribution per day for different years. Not so much difference over the years.}
 
 
+other characteristics: 40\% of victims are female, average age just above 32 years, and 40\% haven't had any prior relationship with the suspect
 
 
 
@@ -304,6 +313,16 @@ per hour: drop cases (roughly 17 \% where there is no information on the hour)
 
 \subsection{Weather data}
 Deutscher Wetterdienst
+reduce sample of weather monitors to the subset of stations that measure all relevent weather variables at the same time. From this set choose the weather monitor with the closest proximity to the stadium. The associated weather monitor to each stadium can be found in figure \ref{fig_soc_ext:map_gem_stadiums_nearest_monitor}. 
+
+
+
+
+The quality of the match between the weather monitors and the stadiums is high, the average distance between stadium and monitor is 15 km. The distribution of the  distance between stadium and monitor can be found in figure 
+
+
+
+
 
 \subsection{Regional Database}
 GENESIS
@@ -410,23 +429,37 @@ GENESIS
 \vspace*{\fill}
 \begin{figure}[H]\centering
 	\caption{Distribution of assaults across time}\label{fig_soc_ext:assault_time_distribution_2014}
-	\begin{subfigure}[h]{0.48\linewidth}\centering%\caption{Federal law gazette}
+	\begin{subfigure}[h]{0.48\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_hour}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.48\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_dow}
+	\end{subfigure}
+
+	\begin{subfigure}[h]{0.48\linewidth}\centering
 		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_month_2014}
 	\end{subfigure}
-	\begin{subfigure}[h]{0.48\linewidth}\centering%\caption{Federal Minister of Family Affairs Antje Huber} 
-		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_dow_2014}
+	\begin{subfigure}[h]{0.48\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_day_2014_single}
 	\end{subfigure}
-	\begin{subfigure}[h]{0.48\linewidth}\centering%\caption{Federal Minister of Family Affairs Antje Huber} 
-		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_hour_2014}
-	\end{subfigure}
-	
 	\begin{minipage}{\linewidth}
-		\scriptsize{\emph{Notes:} The figure shows the distribution of assaults across months (adjusted for the number of days per month), day of the weeks and across the course of a day in the Federal Republic of Germany in 2014.\newline \emph{Source:} Own representation with data from the Federal Criminal Police Office.}
+		\scriptsize{\emph{Notes:} The figure shows the distribution of assaults across the course of a day, days of the week, across months (adjusted for the number of days per month), and across the days of the year in the Federal Republic of Germany.\newline \emph{Source:} Own representation with data from the Federal Criminal Police Office.\newline \hspace{1 em} $^1$ The figures in panel C and D are solely based on the year 2014. Please consult the appendix for figures from the other years.}
 	\end{minipage}
 \end{figure}
 \vspace*{\fill}\clearpage
 %--------------------------------------------
 
+% WEATHER MONITORS: histogram of the distance stadium <-> monitor
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{The distance between stadiums and their closest weather monitor}\label{fig_soc_ext:hist_distance_stadium_monitors}
+	\includegraphics[width=0.9 \linewidth]{descriptive/soc_ext_distance_monitors_stadiums}
+	\begin{minipage}{0.95\linewidth}
+		\scriptsize{\emph{Notes:} The figure shows the distribution of the distance between stadiums and their closest weather monitor. The average distance between the two is 15 km. \newline \emph{Source:} Own representation with data from Germany's National Meterological Service (Deutscher Wetterdienst).}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
+%--------------------------------------------
 
 
 %WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
@@ -493,6 +526,32 @@ GENESIS
 \captionsetup[subfigure]{labelformat=parens}
 
 
+
+%--------------------------------------------
+% crime - assault distribution over time
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{Distribution of assaults across days of the year, per year}\label{fig_soc_ext:assault_year_distribution}
+	\begin{subfigure}[h]{0.48\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_day_2011}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.48\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_day_2012}
+	\end{subfigure}\begin{subfigure}[h]{0.48\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_day_2013}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.48\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_day_2014}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.48\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_day_2015}
+	\end{subfigure}
+	\begin{minipage}{\linewidth}
+		\scriptsize{\emph{Notes:} The figure shows the relative frequency of assaults per day between 2011 and 2015 in the Federal Republic of Germany.\newline \emph{Source:} Own representation with data from the Federal Criminal Police Office}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
+%--------------------------------------------
 
 
 
