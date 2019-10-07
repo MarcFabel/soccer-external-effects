@@ -9,18 +9,18 @@ Created on Fri Oct  4 11:55:41 2019
 
 Steps:
 
-     
-     
-Inputs:  
 
-         
-Updates: 
-     
+
+Inputs:
+
+
+Updates:
+
 """
 
 # packages
 import pandas as pd
-#import numpy as np
+import numpy as np
 #import matplotlib.pyplot as plt
 #import seaborn as sns
 #import matplotlib.style as style
@@ -30,11 +30,11 @@ start_time = time.time()
 
 
 # WORK directories
-#z_regional_source = 'F:/econ/soc_ext/analysis/data/source/regional_database/'
+z_regional_source = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/regional_database/'
 
 
 # HOME directories
-z_regional_source =                  '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/regional_database/'
+#z_regional_source =                  '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/regional_database/'
 
 
 z_prefix =                          'soc_ext_'
@@ -47,7 +47,7 @@ z_last_year_wave = 2015
 
 
 ###############################################################################
-#           1) Paths 
+#           1) Paths
 ###############################################################################
 
 z_territory =       '11_territory/'
@@ -60,9 +60,6 @@ z_tourism =         '45_tourism/'
 z_transport =       '46_transport/'
 z_public_budgets =  '71_public_budgets/'
 
-
-#education =         "05 - Bildung/"
-#industry_sector =   "13 - Wirtschaftszweig/nach Wirtschaftszweig/"
 
 
 
@@ -79,7 +76,7 @@ active_regions =pd.read_csv(z_regional_source + 'temp_active_regions.csv', sep='
 ###############################################################################
 
 territory = pd.read_csv(z_regional_source + z_territory + 'territorial_area.csv',
-                        sep=';', encoding='ISO-8859-1', dtype=str, skiprows=6, skipfooter=4) 
+                        sep=';', encoding='ISO-8859-1', dtype=str, skiprows=6, skipfooter=4)
 territory.columns=['date', 'AGS', 'AGS_Name', 'area']
 
 # drop irrelevent rows
@@ -133,34 +130,34 @@ census = census[['AGS', 'c11_share_foreigners_t','c11_share_foreigners_m','c11_s
 
 
 
-########## 124_CURRENT_POPULATION ##########    
+########## 124_CURRENT_POPULATION ##########
 # dictionary with all years
 pop= {}
 for year in range(z_first_year_wave, z_last_year_wave+1):
-	pop[year] = pd.read_csv(z_regional_source + z_population + '124_current_pop_' + str(year) + '.csv', 
+	pop[year] = pd.read_csv(z_regional_source + z_population + '124_current_pop_' + str(year) + '.csv',
 		sep=';', encoding='ISO-8859-1', skiprows=9, skipfooter=4, dtype=str)
- 
-	pop[year].columns = ['AGS', 'AGS_Name', 'pop_0_2_t', 'pop_3_5_t', 'pop_6_9_t', 'pop_10_14_t', 'pop_15_17_t', 'pop_18_19_t', 'pop_20_24_t', 
-		'pop_25_29_t', 'pop_30_34_t', 'pop_35_39_t', 'pop_40_44_t' , 'pop_45_49_t', 'pop_50_54_t', 'pop_55_59_t', 
+
+	pop[year].columns = ['AGS', 'AGS_Name', 'pop_0_2_t', 'pop_3_5_t', 'pop_6_9_t', 'pop_10_14_t', 'pop_15_17_t', 'pop_18_19_t', 'pop_20_24_t',
+		'pop_25_29_t', 'pop_30_34_t', 'pop_35_39_t', 'pop_40_44_t' , 'pop_45_49_t', 'pop_50_54_t', 'pop_55_59_t',
 		'pop_60_64_t', 'pop_65_74_t', 'pop_74+_t', 'pop_t',
 
-		'pop_0_2_m', 'pop_3_5_m', 'pop_6_9_m', 'pop_10_14_m', 'pop_15_17_m', 'pop_18_19_m', 'pop_20_24_m', 
-		'pop_25_29_m', 'pop_30_34_m', 'pop_35_39_m', 'pop_40_44_m' , 'pop_45_49_m', 'pop_50_54_m', 'pop_55_59_m', 
-		'pop_60_64_m', 'pop_65_74_m', 'pop_74+_m', 'pop_m',		
+		'pop_0_2_m', 'pop_3_5_m', 'pop_6_9_m', 'pop_10_14_m', 'pop_15_17_m', 'pop_18_19_m', 'pop_20_24_m',
+		'pop_25_29_m', 'pop_30_34_m', 'pop_35_39_m', 'pop_40_44_m' , 'pop_45_49_m', 'pop_50_54_m', 'pop_55_59_m',
+		'pop_60_64_m', 'pop_65_74_m', 'pop_74+_m', 'pop_m',
 
-		'pop_0_2_f', 'pop_3_5_f', 'pop_6_9_f', 'pop_10_14_f', 'pop_15_17_f', 'pop_18_19_f', 'pop_20_24_f', 
-		'pop_25_29_f', 'pop_30_34_f', 'pop_35_39_f', 'pop_40_44_f' , 'pop_45_49_f', 'pop_50_54_f', 'pop_55_59_f', 
+		'pop_0_2_f', 'pop_3_5_f', 'pop_6_9_f', 'pop_10_14_f', 'pop_15_17_f', 'pop_18_19_f', 'pop_20_24_f',
+		'pop_25_29_f', 'pop_30_34_f', 'pop_35_39_f', 'pop_40_44_f' , 'pop_45_49_f', 'pop_50_54_f', 'pop_55_59_f',
 		'pop_60_64_f', 'pop_65_74_f', 'pop_74+_f', 'pop_f']
 
 	# have AGS in the right format (fill up with trailing zeros, str8)
 	pop[year]['AGS'] = pop[year]['AGS'].str.ljust(8, fillchar='0')
 	pop[year]['AGS'] = pop[year]['AGS'].astype(int)
-		
+
 	# select only active regions
 	pop[year] = pop[year].merge(active_regions, on='AGS', how='inner')
 	pop[year].drop(['active', 'AGS_Name'], inplace=True, axis=1)
 	pop[year]['year'] = year
-    
+
 # make large df from the cross-sections
 current_pop = pop[z_first_year_wave].copy()
 for year in range(z_first_year_wave+1,z_last_year_wave+1):
@@ -223,21 +220,21 @@ deaths = deaths.apply(pd.to_numeric, errors='coerce')
 # dictionary with all years
 mig= {}
 for year in range(z_first_year_wave, z_last_year_wave+1):
-	mig[year] = pd.read_csv(z_regional_source + z_population + '127_migration_' + str(year) + '.csv', 
+	mig[year] = pd.read_csv(z_regional_source + z_population + '127_migration_' + str(year) + '.csv',
 		sep=';', encoding='ISO-8859-1', skiprows=12, skipfooter=7, dtype=str)
 
 	mig[year].columns = ['AGS', 'AGS_Name', 'mig_in_0_17_t', 'mig_in_18_24_t', 'mig_in_25_29_t', 'mig_in_30_49_t', 'mig_in_50_64_t', 'mig_in_65+_t', 'mig_in_t',
-					'mig_in_0_17_m', 'mig_in_18_24_m', 'mig_in_25_29_m', 'mig_in_30_49_m', 'mig_in_50_64_m', 'mig_in_65+_m', 'mig_in_m', 
-					'mig_in_0_17_f', 'mig_in_18_24_f', 'mig_in_25_29_f', 'mig_in_30_49_f', 'mig_in_50_64_f', 'mig_in_65+_f', 'mig_in_f', 
+					'mig_in_0_17_m', 'mig_in_18_24_m', 'mig_in_25_29_m', 'mig_in_30_49_m', 'mig_in_50_64_m', 'mig_in_65+_m', 'mig_in_m',
+					'mig_in_0_17_f', 'mig_in_18_24_f', 'mig_in_25_29_f', 'mig_in_30_49_f', 'mig_in_50_64_f', 'mig_in_65+_f', 'mig_in_f',
 
 					'mig_out_0_17_t', 'mig_out_18_24_t', 'mig_out_25_29_t', 'mig_out_30_49_t', 'mig_out_50_64_t', 'mig_out_65+_t', 'mig_out_t',
-					'mig_out_0_17_m', 'mig_out_18_24_m', 'mig_out_25_29_m', 'mig_out_30_49_m', 'mig_out_50_64_m', 'mig_out_65+_m', 'mig_out_m', 
+					'mig_out_0_17_m', 'mig_out_18_24_m', 'mig_out_25_29_m', 'mig_out_30_49_m', 'mig_out_50_64_m', 'mig_out_65+_m', 'mig_out_m',
 					'mig_out_0_17_f', 'mig_out_18_24_f', 'mig_out_25_29_f', 'mig_out_30_49_f', 'mig_out_50_64_f', 'mig_out_65+_f', 'mig_out_f']
 
 	# have AGS in the right format (fill up with trailing zeros, str8)
 	mig[year]['AGS'] = mig[year]['AGS'].str.ljust(8, fillchar='0')
 	mig[year]['AGS'] = mig[year]['AGS'].astype(int)
-		
+
 	# select only active regions
 	mig[year] = mig[year].merge(active_regions, on='AGS', how='inner')
 	mig[year].drop(['active', 'AGS_Name'], inplace=True, axis=1)
@@ -282,7 +279,7 @@ population = population.merge(migration, on=['year', 'AGS'])
 ########## 131_EMPLOYMENT (at the place of work) ##########
 emp= {}
 for year in range(z_first_year_wave, z_last_year_wave+1):
-	emp[year] = pd.read_csv(z_regional_source + z_labor_market + '131_employment_' + str(year) + '.csv', 
+	emp[year] = pd.read_csv(z_regional_source + z_labor_market + '131_employment_' + str(year) + '.csv',
 		sep=';', encoding='ISO-8859-1', skiprows=11, skipfooter=4, dtype=str)
 
 	emp[year].columns = ['AGS', 'AGS_Name', 'employees_t', 'employees_m', 'employees_f',
@@ -291,7 +288,7 @@ for year in range(z_first_year_wave, z_last_year_wave+1):
 	# have AGS in the right format (fill up with trailing zeros, str8)
 	emp[year]['AGS'] = emp[year]['AGS'].str.ljust(8, fillchar='0')
 	emp[year]['AGS'] = emp[year]['AGS'].astype(int)
-		
+
 	# select only active regions
 	emp[year] = emp[year].merge(active_regions, on='AGS', how='inner')
 	emp[year].drop(['active', 'AGS_Name'], inplace=True, axis=1)
@@ -311,7 +308,7 @@ employment = employment.apply(pd.to_numeric)
 ########## 132_UNEMPLOYMENT ##########
 uemp= {}
 for year in range(z_first_year_wave, z_last_year_wave+1):
-	uemp[year] = pd.read_csv(z_regional_source + z_labor_market + '132_ue_' + str(year) + '.csv', 
+	uemp[year] = pd.read_csv(z_regional_source + z_labor_market + '132_ue_' + str(year) + '.csv',
 		sep=';', encoding='ISO-8859-1', skiprows=9, skipfooter=4, dtype=str)
 
 	uemp[year].columns = ['AGS', 'AGS_Name', 'ue', 'ue_for', 'ue_disabled', 'ue_15_19', 'ue_15_24', 'ue_55_64', 'ue_longterm']
@@ -319,7 +316,7 @@ for year in range(z_first_year_wave, z_last_year_wave+1):
 	# have AGS in the right format (fill up with trailing zeros, str8)
 	uemp[year]['AGS'] = uemp[year]['AGS'].str.ljust(8, fillchar='0')
 	uemp[year]['AGS'] = uemp[year]['AGS'].astype(int)
-		
+
 	# select only active regions
 	uemp[year] = uemp[year].merge(active_regions, on='AGS', how='inner')
 	uemp[year].drop(['active', 'AGS_Name'], inplace=True, axis=1)
@@ -357,7 +354,7 @@ labor_market = labor_market.merge(unemployment, on=['year', 'AGS'])
 ########## 141_GERMAN ##########
 elec_ger13 = pd.read_csv(z_regional_source + z_elections + '141_German_2013.csv',
                      sep=';', encoding='ISO-8859-1', skiprows=10, skipfooter=4, dtype=str)
-elec_ger13.columns = ['date', 'AGS', 'AGS_Name', '13g_nr_eligibles', '13g_turnout', '13g_valid_votes', 
+elec_ger13.columns = ['date', 'AGS', 'AGS_Name', '13g_nr_eligibles', '13g_turnout', '13g_valid_votes',
                     'cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']
 elec_ger13['AGS'] = elec_ger13['AGS'].str.ljust(8, fillchar='0')
 elec_ger13['13g_turnout'] = elec_ger13['13g_turnout'].str.replace(',','.')
@@ -365,14 +362,14 @@ elec_ger13['AGS'] = elec_ger13['AGS'].astype(int)
 elec_ger13 = elec_ger13.merge(active_regions, on='AGS')
 elec_ger13 = elec_ger13.apply(pd.to_numeric, errors='coerce')
 # have vote shares per party
-for party in ['cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']: 
+for party in ['cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']:
 	elec_ger13['13g_' + party] = (elec_ger13[party] / elec_ger13['13g_valid_votes']) * 100
 	elec_ger13.drop(party, inplace=True, axis=1)
 elec_ger13.drop(['date', 'AGS_Name', 'active', '13g_nr_eligibles', '13g_valid_votes'], inplace=True, axis=1)
 
 elec_ger17 = pd.read_csv(z_regional_source + z_elections + '141_German_2017.csv',
                      sep=';', encoding='ISO-8859-1', skiprows=10, skipfooter=4, dtype=str)
-elec_ger17.columns = ['date', 'AGS', 'AGS_Name', '17g_nr_eligibles', '17g_turnout', '17g_valid_votes', 
+elec_ger17.columns = ['date', 'AGS', 'AGS_Name', '17g_nr_eligibles', '17g_turnout', '17g_valid_votes',
                     'cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']
 elec_ger17['AGS'] = elec_ger17['AGS'].str.ljust(8, fillchar='0')
 elec_ger17['17g_turnout'] = elec_ger17['17g_turnout'].str.replace(',','.')
@@ -380,7 +377,7 @@ elec_ger17['AGS'] = elec_ger17['AGS'].astype(int)
 elec_ger17 = elec_ger17.merge(active_regions, on='AGS')
 elec_ger17 = elec_ger17.apply(pd.to_numeric, errors='coerce')
 # have vote shares per party
-for party in ['cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']: 
+for party in ['cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']:
 	elec_ger17['17g_' + party] = (elec_ger17[party] / elec_ger17['17g_valid_votes']) * 100
 	elec_ger17.drop(party, inplace=True, axis=1)
 elec_ger17.drop(['date', 'AGS_Name', 'active', '17g_nr_eligibles', '17g_valid_votes'], inplace=True, axis=1)
@@ -390,7 +387,7 @@ elec_ger17.drop(['date', 'AGS_Name', 'active', '17g_nr_eligibles', '17g_valid_vo
 ########## 142_EUROPEAN ##########
 elec_eur = pd.read_csv(z_regional_source + z_elections + '142_European_2014.csv',
                      sep=';', encoding='ISO-8859-1', skiprows=10, skipfooter=4, dtype=str)
-elec_eur.columns = ['date', 'AGS', 'AGS_Name', '14e_nr_eligibles', '14e_turnout', '14e_valid_votes', 
+elec_eur.columns = ['date', 'AGS', 'AGS_Name', '14e_nr_eligibles', '14e_turnout', '14e_valid_votes',
                     'cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']
 elec_eur['AGS'] = elec_eur['AGS'].str.ljust(8, fillchar='0')
 elec_eur['14e_turnout'] = elec_eur['14e_turnout'].str.replace(',','.')
@@ -400,7 +397,7 @@ elec_eur = elec_eur.merge(active_regions, on='AGS')
 elec_eur = elec_eur.apply(pd.to_numeric, errors='coerce')
 
 # have vote shares per party
-for party in ['cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']: 
+for party in ['cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']:
 	elec_eur['14e_' + party] = (elec_eur[party] / elec_eur['14e_valid_votes']) * 100
 	elec_eur.drop(party, inplace=True, axis=1)
 
@@ -425,7 +422,7 @@ elections = elections.merge(elec_eur, on='AGS')
 ########## 311_BUILDINGS_PERMITS ##########
 perm= {}
 for year in range(z_first_year_wave, z_last_year_wave+1):
-	perm[year] = pd.read_csv(z_regional_source + z_buildings + '311_permits_' + str(year) + '.csv', 
+	perm[year] = pd.read_csv(z_regional_source + z_buildings + '311_permits_' + str(year) + '.csv',
 		sep=';', encoding='ISO-8859-1', skiprows=12, skipfooter=4, dtype=str)
 
 	# keep only few columns
@@ -438,7 +435,7 @@ for year in range(z_first_year_wave, z_last_year_wave+1):
 	perm[year]['AGS'] = perm[year]['AGS'].astype(int)
 
 	perm[year]['perm_dwelling_area'] = perm[year]['perm_dwelling_area'].str.replace(',','.')
-		
+
 	# select only active regions
 	perm[year] = perm[year].merge(active_regions, on='AGS', how='inner')
 	perm[year].drop(['active'], inplace=True, axis=1)
@@ -474,7 +471,7 @@ for year in range(z_first_year_wave, z_last_year_wave+1):
 	cmpltd[year]['AGS'] = cmpltd[year]['AGS'].astype(int)
 
 	cmpltd[year]['completed_dwelling_area'] = cmpltd[year]['completed_dwelling_area'].str.replace(',','.')
-		
+
 	# select only active regions
 	cmpltd[year] = cmpltd[year].merge(active_regions, on='AGS', how='inner')
 	cmpltd[year].drop(['active'], inplace=True, axis=1)
@@ -495,7 +492,7 @@ buildings_completed = buildings_completed.apply(pd.to_numeric, errors='coerce')
 
 
 ########## 312_STOCK_OF_BUILDINGS_&_DWELLINGS ##########
-buildings_stock = pd.read_csv(z_regional_source + z_buildings + '312_stock_buildings.csv', 
+buildings_stock = pd.read_csv(z_regional_source + z_buildings + '312_stock_buildings.csv',
 	sep=';', encoding='ISO-8859-1', skiprows=10, skipfooter=4, dtype=str)
 
 # keep only few columns
@@ -514,7 +511,7 @@ buildings_stock.drop(z_delete_rows, inplace=True)
 buildings_stock['AGS'] = buildings_stock['AGS'].str.ljust(8, fillchar='0')
 buildings_stock['AGS'] = buildings_stock['AGS'].astype(int)
 buildings_stock['stock_dwelling_area'] = buildings_stock['stock_dwelling_area'].str.replace(',','.')
-	
+
 # select only active regions
 buildings_stock = buildings_stock.merge(active_regions, on='AGS', how='inner')
 buildings_stock.drop(['active', 'date'], inplace=True, axis=1)
@@ -537,18 +534,107 @@ buildings = buildings.merge(buildings_stock, on=['AGS', 'year'])
 #           4 ECONOMIC SECTORS
 ###############################################################################
 
+
 ########## 421_MANUFACTURING_REPORT ##########
-#z_manufacturing =   '42_manufactoring/'
+manufacturing = pd.read_csv(z_regional_source + z_manufacturing + '421_manufacturing_report.csv',
+	sep=';', encoding='ISO-8859-1', skiprows=7, skipfooter=4, dtype=str)
+manufacturing.columns = ['date', 'AGS', 'AGS_Name', 'manuf_firms', 'manuf_employees', 'manuf_gross_pay_thsnd']
+# drop irrelevent rows
+z_delete_rows = manufacturing[manufacturing['AGS'] == 'DG'].index
+manufacturing.drop(z_delete_rows, inplace=True)
+manufacturing['year'] = pd.to_numeric(manufacturing.date.str.slice(-4,))
+z_delete_rows = manufacturing[ (manufacturing['year'] < z_first_year_wave) | (manufacturing['year'] > z_last_year_wave)].index
+manufacturing.drop(z_delete_rows, inplace=True)
+# have AGS in the right format (fill up with trailing zeros, str8)
+manufacturing['AGS'] = manufacturing['AGS'].str.ljust(8, fillchar='0')
+manufacturing['AGS'] = manufacturing['AGS'].astype(int)
+# select only active regions
+manufacturing = manufacturing.merge(active_regions, on='AGS', how='inner')
+manufacturing.drop(['active', 'date', 'AGS_Name'], inplace=True, axis=1)
+
+# manufacturing information is missing for 2 regions (3103000 & 9184148) partly
+# ->  mark missings as NaNs |  forward fill per group | still missing replace with mean
+manufacturing = manufacturing.replace('.', np.nan)
+manufacturing.sort_values(['AGS', 'year'], inplace=True)
+for var in ['manuf_employees', 'manuf_gross_pay_thsnd']:
+     manufacturing[var] = manufacturing.groupby('AGS')[var].ffill()
+manufacturing = manufacturing.apply(pd.to_numeric, errors='coerce')
+manufacturing['manuf_gross_pay_thsnd'].fillna(manufacturing['manuf_gross_pay_thsnd'].mean(),
+             inplace =True) # affects Braunschweig (3103000)
+manufacturing['manuf_gross_pay_thsnd'] = manufacturing['manuf_gross_pay_thsnd'].astype(int)
+
 
 
 ########## 454_TOURISM_SURVEY ##########
-#z_tourism =         '45_tourism/'
+tour= {}
+for year in range(z_first_year_wave, z_last_year_wave+1):
+	tour[year] = pd.read_csv(z_regional_source + z_tourism + '454_tourism_survey_' + str(year) + '.csv',
+		sep=';', encoding='ISO-8859-1', skiprows=8, skipfooter=4, dtype=str)
+
+	tour[year].columns = ['AGS', 'AGS_Name', 'trsm_accomodations', 'trsm_beds', 'trsm_guest_nights', 'trsm_guests']
+
+	# have AGS in the right format (fill up with trailing zeros, str8)
+	tour[year]['AGS'] = tour[year]['AGS'].str.ljust(8, fillchar='0')
+	tour[year]['AGS'] = tour[year]['AGS'].astype(int)
+	# select only active regions
+	tour[year] = tour[year].merge(active_regions, on='AGS', how='inner')
+	tour[year].drop(['active', 'AGS_Name'], inplace=True, axis=1)
+	tour[year]['year'] = year
+
+# make large df from the cross-sections
+tourism = tour[z_first_year_wave].copy()
+for year in range(z_first_year_wave+1,z_last_year_wave+1):
+	tourism = tourism.append(tour[year])
+
+# missing values, first fill forward, set the remaining NaNs as zero, only small areas ( 8119087 Aspach, 8226076 Sandhausen )
+tourism.sort_values(['AGS', 'year'], inplace=True)
+tourism = tourism.replace('-', '0') # 10043117 Spiesen-Elversberg there are no accomodations
+tourism = tourism.replace('.', np.nan)
+for var in ['trsm_accomodations', 'trsm_beds', 'trsm_guest_nights', 'trsm_guests']:
+     tourism[var] = tourism.groupby('AGS')[var].ffill()     #forward-fill
+     tourism[var].fillna('0', inplace=True)                 #remaining nans: set to zero
+
+tourism = tourism.apply(pd.to_numeric)
+
 
 
 ########## 462_ROAD_TRAFFIC_ACCIDENTS ##########
-#z_transport =       '46_transport/'
+trans = {}
+for year in range(z_first_year_wave, z_last_year_wave+1):
+	trans[year] = pd.read_csv(z_regional_source + z_transport + '462_road_traffic_accidents_' + str(year) + '.csv',
+		sep=';', encoding='ISO-8859-1', skiprows=8, skipfooter=4, dtype=str)
+
+	trans[year].columns = ['AGS', 'AGS_Name', 'acc_total', 'acc_with_injuries', 'acc_heavy_damage', 'acc_alc_drugs', 'acc_nr_deaths', 'acc_nr_injured']
 
 
+	# have AGS in the right format (fill up with trailing zeros, str8)
+	trans[year]['AGS'] = trans[year]['AGS'].str.ljust(8, fillchar='0')
+	trans[year]['AGS'] = trans[year]['AGS'].astype(int)
+	# select only active regions
+	trans[year] = trans[year].merge(active_regions, on='AGS', how='inner')
+	trans[year].drop(['active', 'AGS_Name'], inplace=True, axis=1)
+	trans[year]['year'] = year
+
+# make large df from the cross-sections
+transport = trans[z_first_year_wave].copy()
+for year in range(z_first_year_wave+1,z_last_year_wave+1):
+	transport = transport.append(trans[year])
+
+# encode variables as integers
+transport.sort_values(['AGS', 'year'], inplace=True)
+transport.reset_index(inplace=True, drop=True)
+transport = transport.replace('-', '0')
+transport = transport.replace('.', np.nan)
+for var in ['acc_nr_deaths']: # affects only Jena 2015
+     transport[var] = transport.groupby('AGS')[var].ffill()
+transport = transport.apply(pd.to_numeric)
+
+
+
+########## COMBINE ECONOMIC SECTORS VARIABLES ##########
+economic_sectors = manufacturing.copy()
+economic_sectors = economic_sectors.merge(tourism, on=['AGS', 'year'])
+economic_sectors = economic_sectors.merge(transport, on=['AGS', 'year'])
 
 
 
@@ -558,10 +644,36 @@ buildings = buildings.merge(buildings_stock, on=['AGS', 'year'])
 ###############################################################################
 
 ########## 712_TAX_BUDGET ##########
-#z_public_budgets =  '71_public_budgets/'
+tax = {}
+for year in range(z_first_year_wave, z_last_year_wave+1):
+	tax[year] = pd.read_csv(z_regional_source + z_public_budgets + '712_tax_budget_' + str(year) + '.csv',
+		sep=';', encoding='ISO-8859-1', skiprows=10, skipfooter=4, dtype=str)
+
+	tax[year].columns = ['AGS', 'AGS_Name', 'tax_prop_A_revenue_thsnd', 'tax_prop_B_revenue_thsnd', 'tax_trade_revenue_thsnd',
+						'tax_prop_A_base_rate_thsnd', 'tax_prop_B_base_rate_thsnd', 'tax_trade_base_rate_thsnd',
+						'tax_prop_A_mult_pct', 'tax_prop_B_mult_pct', 'tax_trade_mult_pct',
+						'tax_income_share_municip_thsnd', 'tax_sales_share_municip_thsnd', 'tax_trade_levy_thsnd', 'tax_trade_net_thsnd']
+
+	# have AGS in the right format (fill up with trailing zeros, str8)
+	tax[year]['AGS'] = tax[year]['AGS'].str.ljust(8, fillchar='0')
+	tax[year]['AGS'] = tax[year]['AGS'].astype(int)
+	# select only active regions
+	tax[year] = tax[year].merge(active_regions, on='AGS', how='inner')
+	tax[year].drop(['active', 'AGS_Name'], inplace=True, axis=1)
+	tax[year]['year'] = year
+
+# make large df from the cross-sections
+tax_budget = tax[z_first_year_wave].copy()
+for year in range(z_first_year_wave+1,z_last_year_wave+1):
+	tax_budget = tax_budget.append(tax[year])
+# encode to numeric and rescale variables in percent
+tax_budget = tax_budget.apply(pd.to_numeric)
+for var in ['tax_prop_A_mult_pct', 'tax_prop_B_mult_pct', 'tax_trade_mult_pct']:
+     tax_budget[var] = tax_budget[var] /10
 
 
 
+# XXX einzelne df durchgehen ob die varnames meaningful sind
 
 ###############################################################################
 #           COMBINE THE DATA
@@ -572,22 +684,26 @@ regional_data = regional_data.merge(population, on=['year', 'AGS'])
 regional_data = regional_data.merge(labor_market, on=['year', 'AGS'])
 regional_data = regional_data.merge(elections, on='AGS')
 regional_data = regional_data.merge(buildings, on=['year', 'AGS'])
+regional_data = regional_data.merge(economic_sectors, on=['year', 'AGS'])
+regional_data = regional_data.merge(tax_budget, on=['year', 'AGS'])
 
 
 # reorder columns
 z_cols_to_order = ['year', 'AGS', 'AGS_Name', 'area', 'pop_t', 'c11_share_foreigners_t',
                    'births_t', 'deaths_t', 'mig_in_t', 'mig_out_t',
                    'employees_t', 'ue', '13g_turnout', '17g_turnout', '14e_turnout',
-                   'completed_resid_builds', 'stock_flats']
+                   'completed_resid_builds', 'stock_flats',
+                   'manuf_firms', 'trsm_accomodations', 'acc_total',
+                   'tax_trade_revenue_thsnd']
 z_new_columns = z_cols_to_order + (regional_data.columns.drop(z_cols_to_order).tolist())
 regional_data = regional_data[z_new_columns]
 
 
 
 # check whether there are some missing data
-print('There are {} variables with mssing values'.format(regional_data.isna().sum().sum()))
+print('There are {} variables with missing values'.format(regional_data.isna().sum().sum()))
 print("--- %s seconds ---" % (time.time() - start_time))
-# at home:--- 9.050151824951172 seconds ---
+
 
 
 # XXX ideas of constructing variables
@@ -597,7 +713,9 @@ print("--- %s seconds ---" % (time.time() - start_time))
 # number of births per women aged 15_40, was soll das genau sagen
 # (un-)employment rate
 # number of dwellings per person, indicates wohnungsnot
-# 
+# manuf_firms/person
+# trsm_accomodations / person
+# acc_total / person
 
 ###############################################################################
 #           END OF FILE
