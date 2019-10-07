@@ -354,43 +354,43 @@ labor_market = labor_market.merge(unemployment, on=['year', 'AGS'])
 ########## 141_GERMAN ##########
 elec_ger13 = pd.read_csv(z_regional_source + z_elections + '141_German_2013.csv',
                      sep=';', encoding='ISO-8859-1', skiprows=10, skipfooter=4, dtype=str)
-elec_ger13.columns = ['date', 'AGS', 'AGS_Name', '13g_nr_eligibles', '13g_turnout', '13g_valid_votes',
+elec_ger13.columns = ['date', 'AGS', 'AGS_Name', 'elec_13g_nr_eligibles', 'elec_13g_turnout', 'elec_13g_valid_votes',
                     'cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']
 elec_ger13['AGS'] = elec_ger13['AGS'].str.ljust(8, fillchar='0')
-elec_ger13['13g_turnout'] = elec_ger13['13g_turnout'].str.replace(',','.')
+elec_ger13['elec_13g_turnout'] = elec_ger13['elec_13g_turnout'].str.replace(',','.')
 elec_ger13['AGS'] = elec_ger13['AGS'].astype(int)
 elec_ger13 = elec_ger13.merge(active_regions, on='AGS')
 elec_ger13 = elec_ger13.apply(pd.to_numeric, errors='coerce')
 # have vote shares per party
 for party in ['cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']:
-	elec_ger13['13g_' + party] = (elec_ger13[party] / elec_ger13['13g_valid_votes']) * 100
+	elec_ger13['elec_13g_' + party] = (elec_ger13[party] / elec_ger13['elec_13g_valid_votes']) * 100
 	elec_ger13.drop(party, inplace=True, axis=1)
-elec_ger13.drop(['date', 'AGS_Name', 'active', '13g_nr_eligibles', '13g_valid_votes'], inplace=True, axis=1)
+elec_ger13.drop(['date', 'AGS_Name', 'active', 'elec_13g_nr_eligibles', 'elec_13g_valid_votes'], inplace=True, axis=1)
 
 elec_ger17 = pd.read_csv(z_regional_source + z_elections + '141_German_2017.csv',
                      sep=';', encoding='ISO-8859-1', skiprows=10, skipfooter=4, dtype=str)
-elec_ger17.columns = ['date', 'AGS', 'AGS_Name', '17g_nr_eligibles', '17g_turnout', '17g_valid_votes',
+elec_ger17.columns = ['date', 'AGS', 'AGS_Name', 'elec_17g_nr_eligibles', 'elec_17g_turnout', 'elec_17g_valid_votes',
                     'cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']
 elec_ger17['AGS'] = elec_ger17['AGS'].str.ljust(8, fillchar='0')
-elec_ger17['17g_turnout'] = elec_ger17['17g_turnout'].str.replace(',','.')
+elec_ger17['elec_17g_turnout'] = elec_ger17['elec_17g_turnout'].str.replace(',','.')
 elec_ger17['AGS'] = elec_ger17['AGS'].astype(int)
 elec_ger17 = elec_ger17.merge(active_regions, on='AGS')
 elec_ger17 = elec_ger17.apply(pd.to_numeric, errors='coerce')
 # have vote shares per party
 for party in ['cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']:
-	elec_ger17['17g_' + party] = (elec_ger17[party] / elec_ger17['17g_valid_votes']) * 100
+	elec_ger17['elec_17g_' + party] = (elec_ger17[party] / elec_ger17['elec_17g_valid_votes']) * 100
 	elec_ger17.drop(party, inplace=True, axis=1)
-elec_ger17.drop(['date', 'AGS_Name', 'active', '17g_nr_eligibles', '17g_valid_votes'], inplace=True, axis=1)
+elec_ger17.drop(['date', 'AGS_Name', 'active', 'elec_17g_nr_eligibles', 'elec_17g_valid_votes'], inplace=True, axis=1)
 
 
 
 ########## 142_EUROPEAN ##########
 elec_eur = pd.read_csv(z_regional_source + z_elections + '142_European_2014.csv',
                      sep=';', encoding='ISO-8859-1', skiprows=10, skipfooter=4, dtype=str)
-elec_eur.columns = ['date', 'AGS', 'AGS_Name', '14e_nr_eligibles', '14e_turnout', '14e_valid_votes',
+elec_eur.columns = ['date', 'AGS', 'AGS_Name', 'elec_14e_nr_eligibles', 'elec_14e_turnout', 'elec_14e_valid_votes',
                     'cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']
 elec_eur['AGS'] = elec_eur['AGS'].str.ljust(8, fillchar='0')
-elec_eur['14e_turnout'] = elec_eur['14e_turnout'].str.replace(',','.')
+elec_eur['elec_14e_turnout'] = elec_eur['elec_14e_turnout'].str.replace(',','.')
 
 elec_eur['AGS'] = elec_eur['AGS'].astype(int)
 elec_eur = elec_eur.merge(active_regions, on='AGS')
@@ -398,10 +398,10 @@ elec_eur = elec_eur.apply(pd.to_numeric, errors='coerce')
 
 # have vote shares per party
 for party in ['cdu_csu', 'spd', 'greens', 'fdp', 'linke', 'afd', 'others']:
-	elec_eur['14e_' + party] = (elec_eur[party] / elec_eur['14e_valid_votes']) * 100
+	elec_eur['elec_14e_' + party] = (elec_eur[party] / elec_eur['elec_14e_valid_votes']) * 100
 	elec_eur.drop(party, inplace=True, axis=1)
 
-elec_eur.drop(['date', 'AGS_Name', 'active', '14e_nr_eligibles', '14e_valid_votes'], inplace=True, axis=1)
+elec_eur.drop(['date', 'AGS_Name', 'active', 'elec_14e_nr_eligibles', 'elec_14e_valid_votes'], inplace=True, axis=1)
 
 
 
@@ -691,7 +691,7 @@ regional_data = regional_data.merge(tax_budget, on=['year', 'AGS'])
 # reorder columns
 z_cols_to_order = ['year', 'AGS', 'AGS_Name', 'area', 'pop_t', 'c11_share_foreigners_t',
                    'births_t', 'deaths_t', 'mig_in_t', 'mig_out_t',
-                   'employees_t', 'ue', '13g_turnout', '17g_turnout', '14e_turnout',
+                   'employees_t', 'ue', 'elec_13g_turnout', 'elec_17g_turnout', 'elec_14e_turnout',
                    'completed_resid_builds', 'stock_flats',
                    'manuf_firms', 'trsm_accomodations', 'acc_total',
                    'tax_trade_revenue_thsnd']
