@@ -7,37 +7,69 @@ Created on Fri Oct  4 11:55:41 2019
 
 
 
-Steps:
+Descritpion:
+     read in the data topic-wise, generate panels(AGS,year) -> topic df
+     topic df are merged into final df
 
 
 
-Inputs:
+Inputs: [source]
+     map_stadiums_AGS.csv                  [intermed_maps]   comes as output from QGIS, which AGS contain a stadium
+
+    territorial_area.csv                   [source]
+	121_census_2011.csv                    [source]
+	124_current_pop_XXXX                   [source]
+	126_births.csv                         [source]
+	126_deaths.csv                         [source]
+	127_migration_XXXX                     [source]
+
+	131_employment_XXXX                    [source]
+	132_ue_XXXX                            [source]
+
+	141_German_2013.csv                    [source]
+	141_German_2017.csv                    [source]
+	142_European_2014.csv                  [source]
+
+	311_permits_XXXX                       [source]
+	311_construction_completed_XXXX        [source]
+	312_stock_buildings.csv
+
+	421_manufacturing_report.csv           [source]
+	454_tourism_survey_XXXX                [source]
+	462_road_traffic_accidents_XXXX        [source]
+
+	712_tax_budget_XXXX                    [source]
 
 
-Updates:
+Outputs:
+     regional_data_prepared.csv            [final]
+
 
 """
 
 # packages
 import pandas as pd
 import numpy as np
-#import matplotlib.pyplot as plt
-#import seaborn as sns
-#import matplotlib.style as style
 import time
 start_time = time.time()
 
 
 
-# WORK directories
-#z_regional_source =      'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/regional_database/'
-#z_regional_output =      'F:/econ/soc_ext/analysis/data/intermediate/regional_database/'
+# work directories (LOCAL)
+z_regional_source =           'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/regional_database/'
+z_regional_output_final =     'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/final/'
+z_maps_input_intermediate =   'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/maps/'
+z_prefix =                    'soc_ext_'
+
 
 # HOME directories
-z_regional_source =       '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/regional_database/'
-z_regional_output =       '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/regional_database/'
+#z_regional_source =           '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/regional_database/'
+#z_regional_output_final =     '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/final/'
+#z_maps_input_intermediate =   '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/maps/'
 
-z_prefix =                          'soc_ext_'
+#z_prefix =                    'soc_ext_'
+
+
 
 # magic numbers
 z_first_year_wave = 2011
@@ -63,12 +95,16 @@ z_public_budgets =  '71_public_budgets/'
 
 
 
-
-
-
-# XXX adjust path! comes from z_map_stadiums_AGS; only taken here in a temporary manner
-active_regions =pd.read_csv(z_regional_source + 'temp_active_regions.csv', sep=';', encoding='UTF-8')
-
+###############################################################################
+#           DEFINE ACTIVE REGIONS
+###############################################################################
+# select only those which are active in the soccer project
+stadiums_regions = pd.read_csv(z_maps_input_intermediate + 'map_stadiums_AGS.csv', sep=';')
+active_regions = stadiums_regions.drop_duplicates(subset='AGS')
+active_regions = active_regions['AGS'].copy().to_frame()
+active_regions.sort_values('AGS', inplace=True)
+active_regions.reset_index(inplace=True, drop=True)
+active_regions['active'] = 1
 
 
 ###############################################################################
@@ -727,7 +763,7 @@ for gender in ['_t', '_m', '_f']:
 # employment rates for foreigners (approximated with share foreigners - coming from census 2011)
 for gender in ['_t', '_m', '_f']:
     regional_data['employment_rate_for'+gender] = (regional_data['employees_for'+gender]*100) / (regional_data['pop'+gender] * regional_data['pop_c11_share_foreigners'+gender])
-      
+
 # unemployment rates
 regional_data['pop_15_24'] = regional_data[['pop_15_17_t', 'pop_18_19_t', 'pop_20_24_t']].sum(axis='columns')
 
@@ -738,7 +774,7 @@ regional_data['ue_rate_15_24_'] = (regional_data['ue_15_24'] * 100) / regional_d
 
 
 ########## BUILDINGS ##########
-# number o flats per person 
+# number o flats per person
 regional_data['flats_per_person'] = regional_data['build_stock_flats'] / regional_data['pop_t']
 
 
@@ -778,7 +814,7 @@ regional_data = regional_data[z_new_columns]
 
 
 # read out
-regional_data.to_csv(z_regional_output + 'regional_data_prepared.csv', sep=';', encoding='UTF-8', index=False)
+regional_data.to_csv(z_regional_output_final + 'regional_data_prepared.csv', sep=';', encoding='UTF-8', index=False)
 
 
 
