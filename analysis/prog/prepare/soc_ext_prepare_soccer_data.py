@@ -922,7 +922,7 @@ soccer[col_float_to_int] = soccer[col_float_to_int].astype(int)
 
 
 # read out
-df.to_csv(z_soccer_output_final + 'soccer_prepared.csv', sep=';', encoding='UTF-8', index=False)
+soccer.to_csv(z_soccer_output_final + 'soccer_prepared.csv', sep=';', encoding='UTF-8', index=False)
 
 ###############################################################################
 #           END OF FILE
