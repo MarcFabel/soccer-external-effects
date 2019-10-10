@@ -2,27 +2,47 @@
 """
 Created on Thu Aug 29 10:59:13 2019
 
-This Program reads in the data for the matches, the table and team data.
-Each of the data sets is prepared (the prepared df are: matches, t, tm) and is
-connected together in the final df (df).
-
-
 @author: Fabel
+
+
+Descritpion:
+     This Program reads in the data for the matches, the table and team data.
+     Each of the data sets is prepared (the prepared df are: matches, t, tm) and is
+     connected together in the final df (df).
+
+
+Inputs:
+     - kicker_matchday_XL_XXXX.csv           source    cross-section of matches, obtained via kicker.de (webscraping)
+     - stadiums_coordinates_1011_1617.xlsx   source    geographic features (GPS coordinates, adress - set up manually)
+     - kicker_tablestandings_Xl.csv          source    contains the table standings for the 3 leagues
+     -transfermarkt_mv_age_foreigners_Xl.csv source    contains transfermarktdata for all leagues
+
+Outputs:
+     - stadiums_geographic_information.csv   intermed  contains geographic components for the stadiums in our sample, is used by QGIS
+     - soccer_prepared_table_based.csv       intermed  prepared df, on the level of each team, handy when there is a definition of active regions including away games
+     - soccer_prepared.csv                   final     final df, on the level of the match - useful when only home games activate a region
+
 """
 
 # packages
 import pandas as pd
 import numpy as np
+import time
+start_time = time.time()
+
 
 # paths
-soccer_webscraping_source = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/webscraping/output/'
-soccer_source = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/'
-soccer_output = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/soccer/'
+z_soccer_webscraping_source   = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/webscraping/output/'
+z_soccer_source               = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/'
+z_soccer_output_intermediate  = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/soccer/'
+z_soccer_output_final         = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/final/'
+
 
 # HOME directories
-#soccer_webscraping_source = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/webscraping/output/'
-#soccer_source = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/'
-#soccer_output = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/soccer/'
+#z_soccer_webscraping_source = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/webscraping/output/'
+#z_soccer_source  = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/'
+#z_soccer_output_intermediate = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/soccer/'
+
 
 # magic numbers
 first_year_wave = 2010
@@ -38,9 +58,9 @@ last_year_wave = 2014
 
 
 ########## league 1 ##########
-l1 = pd.read_csv(soccer_webscraping_source + 'cross-sections/' + 'kicker_matchday_bl_' + str(first_year_wave) + '.csv', sep=';', encoding='ISO-8859-1')
+l1 = pd.read_csv(z_soccer_webscraping_source + 'cross-sections/' + 'kicker_matchday_bl_' + str(first_year_wave) + '.csv', sep=';', encoding='ISO-8859-1')
 for item in range(first_year_wave+1, last_year_wave+1):
-    l1_temp = pd.read_csv(soccer_webscraping_source + 'cross-sections/' + 'kicker_matchday_bl_{}.csv'.format(item), sep=';', encoding='ISO-8859-1')
+    l1_temp = pd.read_csv(z_soccer_webscraping_source + 'cross-sections/' + 'kicker_matchday_bl_{}.csv'.format(item), sep=';', encoding='ISO-8859-1')
     l1 = l1.append(l1_temp)
 l1['league']= 1
 l1.reset_index(inplace=True, drop=True)
@@ -54,7 +74,7 @@ doubling = l1[ (l1['season'] == '2013-14') & (l1['gameday'] == 18) & (l1['home_t
 l1.drop(doubling, inplace=True)
 
 # merge delayed games
-l1_delayed = pd.read_csv(soccer_webscraping_source + 'kicker_matchdayresults_delayedgames_bl.csv', sep=';', encoding='ISO-8859-1')
+l1_delayed = pd.read_csv(z_soccer_webscraping_source + 'kicker_matchdayresults_delayedgames_bl.csv', sep=';', encoding='ISO-8859-1')
 l1_delayed['season_first_number'] = pd.to_numeric(l1_delayed['season'].str.slice(0,4))
 delete_entries = l1_delayed[  (l1_delayed['season_first_number']<first_year_wave) | ((l1_delayed['season_first_number']>last_year_wave))  ].index
 l1_delayed.drop(delete_entries, inplace=True)
@@ -67,15 +87,15 @@ l1['D_delayed'].fillna(value=0, inplace=True)
 
 
 ########## league 2 ##########
-l2 = pd.read_csv(soccer_webscraping_source + 'cross-sections/' + 'kicker_matchday_2l_' + str(first_year_wave) + '.csv', sep=';', encoding='ISO-8859-1')
+l2 = pd.read_csv(z_soccer_webscraping_source + 'cross-sections/' + 'kicker_matchday_2l_' + str(first_year_wave) + '.csv', sep=';', encoding='ISO-8859-1')
 for item in range(first_year_wave+1, last_year_wave+1):
-    l2_temp = pd.read_csv(soccer_webscraping_source + 'cross-sections/' + 'kicker_matchday_2l_{}.csv'.format(item), sep=';', encoding='ISO-8859-1')
+    l2_temp = pd.read_csv(z_soccer_webscraping_source + 'cross-sections/' + 'kicker_matchday_2l_{}.csv'.format(item), sep=';', encoding='ISO-8859-1')
     l2 = l2.append(l2_temp)
 l2['league']= 2
 l2.reset_index(inplace=True, drop=True)
 
 # merge delayed games
-l2_delayed = pd.read_csv(soccer_webscraping_source + 'kicker_matchdayresults_delayedgames_2l.csv', sep=';', encoding='ISO-8859-1')
+l2_delayed = pd.read_csv(z_soccer_webscraping_source + 'kicker_matchdayresults_delayedgames_2l.csv', sep=';', encoding='ISO-8859-1')
 l2_delayed['season_first_number'] = pd.to_numeric(l2_delayed['season'].str.slice(0,4))
 delete_entries = l2_delayed[  (l2_delayed['season_first_number']<first_year_wave) | ((l2_delayed['season_first_number']>last_year_wave))  ].index
 l2_delayed.drop(delete_entries, inplace=True)
@@ -91,7 +111,7 @@ l2.home_team = l2.home_team.replace({'öln':'Köln'})
 
 
 ########## league 3 ##########
-l3 = pd.read_csv(soccer_webscraping_source + 'kicker_matchday_3l.csv', sep=';', encoding='ISO-8859-1')
+l3 = pd.read_csv(z_soccer_webscraping_source + 'kicker_matchday_3l.csv', sep=';', encoding='ISO-8859-1')
 l3['league'] = 3
 l3['season_first_number'] = pd.to_numeric(l3['season'].str.slice(0,4))
 
@@ -113,7 +133,7 @@ l3.away_team = l3.away_team.replace({'SaarbrÃ¼cken': 'Saarbrücken',
                                       'F. KÃ¶ln': 'Fortuna Köln'})
 
 # merge delayed games
-l3_delayed = pd.read_csv(soccer_webscraping_source + 'kicker_matchdayresults_delayedgames_3l.csv', sep=';', encoding='ISO-8859-1')
+l3_delayed = pd.read_csv(z_soccer_webscraping_source + 'kicker_matchdayresults_delayedgames_3l.csv', sep=';', encoding='ISO-8859-1')
 l3_delayed['season_first_number'] = pd.to_numeric(l3_delayed['season'].str.slice(0,4))
 delete_entries = l3_delayed[  (l3_delayed['season_first_number']<first_year_wave) | ((l3_delayed['season_first_number']>last_year_wave))  ].index
 l3_delayed.drop(delete_entries, inplace=True)
@@ -304,7 +324,7 @@ len_stadiums = len(stadiums)
 
 
 # add Geographic components (intern Domink set up the data base)
-stadiums_geo = pd.read_excel(soccer_source + 'stadiums_coordinates_1011_1617.xlsx')
+stadiums_geo = pd.read_excel(z_soccer_source  + 'stadiums_coordinates_1011_1617.xlsx')
 stadiums = stadiums.merge(stadiums_geo, on=['stadium'], how='outer', indicator=True)
 stadiums.sort_values(['Ort'], inplace=True)
 drop_rows = stadiums[stadiums['_merge'] != 'both'].index
@@ -330,7 +350,7 @@ stadiums = stadiums.merge(number_matches_stadium, on='stadium', how='inner')
 # write out for QGIS:
 stadiums.sort_values(by='Ort', inplace=True)
 stadiums.reset_index(inplace=True, drop=True)
-stadiums.to_csv(soccer_output + 'stadiums_geographic_information.csv', sep=';')
+stadiums.to_csv(z_soccer_output_intermediate + 'stadiums_geographic_information.csv', sep=';')
 
 
 # delete 30 matches which are taking place in arenas where there are usually no games (see two blocks above)
@@ -344,7 +364,7 @@ stadiums.to_csv(soccer_output + 'stadiums_geographic_information.csv', sep=';')
 #              2)  TABLE
 ###############################################################################
 
-t1 = pd.read_csv(soccer_webscraping_source +  'kicker_tablestandings_bl.csv', sep=';', encoding='ISO-8859-1')
+t1 = pd.read_csv(z_soccer_webscraping_source +  'kicker_tablestandings_bl.csv', sep=';', encoding='ISO-8859-1')
 t1['season_first_number'] = pd.to_numeric(t1['season'].str.slice(0,4))
 delete_entries = t1[  (t1['season_first_number']<first_year_wave) | ((t1['season_first_number']>last_year_wave))  ].index
 t1.drop(delete_entries, inplace=True)
@@ -354,7 +374,7 @@ t1['D_champion'] = t1['team'].str.contains('\(.*?M.*?\)').astype(int)
 t1['D_winner_cup'] = t1['team'].str.contains('\(.*?P.*?\)').astype(int)
 t1['D_promoted'] = t1['team'].str.contains('\(.*?N.*?\)').astype(int)
 
-t2 = pd.read_csv(soccer_webscraping_source +  'kicker_tablestandings_2l.csv', sep=';', encoding='ISO-8859-1')
+t2 = pd.read_csv(z_soccer_webscraping_source +  'kicker_tablestandings_2l.csv', sep=';', encoding='ISO-8859-1')
 t2['season_first_number'] = pd.to_numeric(t2['season'].str.slice(0,4))
 delete_entries = t2[  (t2['season_first_number']<first_year_wave) | ((t2['season_first_number']>last_year_wave))  ].index
 t2.drop(delete_entries, inplace=True)
@@ -363,7 +383,7 @@ t2['league'] = 2
 t2['D_promoted'] = t2['team'].str.contains('\(.*?N.*?\)').astype(int)
 t2['D_relegated'] = t2['team'].str.contains('\(.*?A.*?\)').astype(int)
 
-t3 = pd.read_csv(soccer_webscraping_source +  'kicker_tablestandings_3l.csv', sep=';', encoding='ISO-8859-1')
+t3 = pd.read_csv(z_soccer_webscraping_source +  'kicker_tablestandings_3l.csv', sep=';', encoding='ISO-8859-1')
 t3['season_first_number'] = pd.to_numeric(t3['season'].str.slice(0,4))
 delete_entries = t3[  (t3['season_first_number']<first_year_wave) | ((t3['season_first_number']>last_year_wave))  ].index
 t3.drop(delete_entries, inplace=True)
@@ -475,19 +495,19 @@ t.team = t.team.replace({
 ###############################################################################
 #              3)  TRANSFERMARKTDATEN
 ###############################################################################
-l1_tm = pd.read_csv(soccer_webscraping_source + 'transfermarkt_mv_age_foreigners_bl.csv', sep=';', encoding='ISO-8859-1')
+l1_tm = pd.read_csv(z_soccer_webscraping_source + 'transfermarkt_mv_age_foreigners_bl.csv', sep=';', encoding='ISO-8859-1')
 l1_tm['season_first_number'] = pd.to_numeric(l1_tm['season'].str.slice(0,4))
 delete_entries = l1_tm[  (l1_tm['season_first_number']<first_year_wave) | ((l1_tm['season_first_number']>last_year_wave))  ].index
 l1_tm.drop(delete_entries, inplace=True)
 l1_tm['league'] = 1
 
-l2_tm = pd.read_csv(soccer_webscraping_source + 'transfermarkt_mv_age_foreigners_2l.csv', sep=';', encoding='ISO-8859-1')
+l2_tm = pd.read_csv(z_soccer_webscraping_source + 'transfermarkt_mv_age_foreigners_2l.csv', sep=';', encoding='ISO-8859-1')
 l2_tm['season_first_number'] = pd.to_numeric(l2_tm['season'].str.slice(0,4))
 delete_entries = l2_tm[  (l2_tm['season_first_number']<first_year_wave) | ((l2_tm['season_first_number']>last_year_wave))  ].index
 l2_tm.drop(delete_entries, inplace=True)
 l2_tm['league'] = 2
 
-l3_tm = pd.read_csv(soccer_webscraping_source + 'transfermarkt_mv_age_foreigners_3l.csv', sep=';', encoding='ISO-8859-1')
+l3_tm = pd.read_csv(z_soccer_webscraping_source + 'transfermarkt_mv_age_foreigners_3l.csv', sep=';', encoding='ISO-8859-1')
 l3_tm['season_first_number'] = pd.to_numeric(l3_tm['season'].str.slice(0,4))
 delete_entries = l3_tm[  (l3_tm['season_first_number']<first_year_wave) | ((l3_tm['season_first_number']>last_year_wave))  ].index
 l3_tm.drop(delete_entries, inplace=True)
@@ -581,7 +601,7 @@ tm.rename(columns={'size' : 'team_size',
 
 
 ###############################################################################
-#       4) COMBINE ALL PREPARED DATA & CREATE VARIABLES  -> FINAL DF
+#       4) COMBINE ALL PREPARED DATA & CREATE VARIABLES  -> FINAL DF BASED ON POSITION IN TABLE
 ###############################################################################
 
 #   merge matches to table, for home and away team seperately, remove games
@@ -745,11 +765,169 @@ df[col_float_to_int] = df[col_float_to_int].astype(int)
 
 
 # read out
-df.to_csv(soccer_output + 'soccer_prepared.csv', sep=';')
+df.to_csv(z_soccer_output_intermediate + 'soccer_prepared_table_based.csv', sep=';', encoding='UTF-8', index=False)
+
+
+
+
+###############################################################################
+#       5) FINAL DF MATCH BASED - FOCUC ON HOME TEAM (stadium->active AGS)
+###############################################################################
+
+
+########## merge the table standings to the matches ##########
+soccer = matches.copy()
+
+# home team
+t_ht = t.copy()
+t_ht.rename(columns={
+	'team'						: 'home_team',
+	'table_place'				: 'home_table_place',
+	'games'						: 'home_games',
+	'wins'						: 'home_wins',
+	'draw'						: 'home_draw',
+	'defeats'					: 'home_defeats',
+	'goals'						: 'home_goals',
+	'diff'						: 'home_diff',
+	'points'					: 'home_points',
+	'D_champion'				: 'home_D_champion',
+	'D_winner_cup'				: 'home_D_winner_cup',
+	'D_promoted'	            : 'home_D_promoted',
+    'D_relegated'               : 'home_D_relegated',
+	'D_point_deduction'			: 'home_D_point_deduction'}, inplace=True)
+
+#away team
+t_at = t.copy()
+t_at.rename(columns={
+	'team'						: 'away_team',
+	'table_place'				: 'away_table_place',
+	'games'						: 'away_games',
+	'wins'						: 'away_wins',
+	'draw'						: 'away_draw',
+	'defeats'					: 'away_defeats',
+	'goals'						: 'away_goals',
+	'diff'						: 'away_diff',
+	'points'					: 'away_points',
+	'D_champion'				: 'away_D_champion',
+	'D_winner_cup'				: 'away_D_winner_cup',
+	'D_promoted'            	: 'away_D_promoted',
+    'D_relegated'               : 'away_D_relegated',
+	'D_point_deduction'			: 'away_D_point_deduction'}, inplace=True)
+
+
+soccer = soccer.merge(t_ht, on=['league','season','gameday','home_team'])
+soccer = soccer.merge(t_at, on=['league','season','gameday','away_team'])
+
+
+
+########## merge Transfermarktdaten ##########
+tm_ht = tm.copy()
+tm_ht.rename(columns={
+	'team'				: 'home_team',
+	'team_size'			: 'home_team_size',
+	'team_average_age'	: 'home_team_average_age',
+	'team_foreigners'	: 'home_team_foreigners',
+	'team_market_value'	: 'home_team_market_value'}, inplace=True)
+tm_at = tm.copy()
+tm_at.rename(columns={
+	'team'				: 'away_team',
+	'team_size'			: 'away_team_size',
+	'team_average_age'	: 'away_team_average_age',
+	'team_foreigners'	: 'away_team_foreigners',
+	'team_market_value'	: 'away_team_market_value'}, inplace=True)
+
+soccer = soccer.merge(tm_ht, on=['league', 'season', 'home_team'])
+soccer = soccer.merge(tm_at, on=['league', 'season', 'away_team'])
+
+
+
+########## ENCODE variables ##########
+# generate floats
+for var in ['grade_ref', 'home_team_average_age', 'home_team_market_value', 'away_team_average_age', 'away_team_market_value']:
+     soccer[var] = soccer[var].str.replace(',', '.')
+     soccer[var] = pd.to_numeric(soccer[var])
+
+
+
+# date variable
+soccer['date'] = pd.to_datetime(soccer['date'], format='%d.%m.%Y')
+
+
+
+########## GENERATE variables ##########
+
+# pre-game point difference
+# subset of columns, set gameday number forward by one day
+pgpd = t[['league', 'season', 'gameday', 'points', 'team']].copy()
+pgpd['gameday'] += 1
+pgpd.rename(columns={'points':'points_last_gameday'}, inplace=True)
+# merge pts last game to home team
+pgpd.rename(columns={'team':'home_team'},inplace=True)
+soccer = soccer.merge(pgpd, on=['league','season','gameday', 'home_team'], how='left')
+soccer['points_last_gameday'].fillna(value=0, inplace=True)
+soccer.rename(columns={'points_last_gameday':'home_points_last_gameday'}, inplace=True)
+# merge pts last game to away team
+pgpd.rename(columns={'home_team':'away_team'},inplace=True)
+soccer = soccer.merge(pgpd, on=['league','season','gameday', 'away_team'], how='left')
+soccer['points_last_gameday'].fillna(value=0, inplace=True)
+soccer.rename(columns={'points_last_gameday':'away_points_last_gameday'}, inplace=True)
+# generate pregame point spread
+soccer['pregame_point_diff']= (soccer['home_points_last_gameday'] - soccer['away_points_last_gameday']).astype(int)
+soccer.drop(['home_points_last_gameday', 'away_points_last_gameday'], axis=1, inplace=True)
+
+
+
+########## SORT & ORDER ##########
+soccer = 	soccer[[
+    'league', 'season', 'gameday',
+	'home_team', 'away_team', 'pregame_point_diff',
+	'date', 'weekday', 'time',
+	'stadium', 'attendance', 'home_result_end', 'away_result_end',
+    'home_result_break', 'away_result_break', 'goal_order', 'goal_time',
+    'goal_penalty', 'penalties', 'away_red', 'away_yellow', 'home_red',
+    'home_yellow', 'grade_ref', 'ref_city', 'ref_name', 'ref_str',
+    'D_delayed', 'gameday_delayed',
+	'home_table_place','home_games','home_wins','home_draw','home_defeats','home_goals','home_diff','home_points','home_D_champion','home_D_winner_cup','home_D_promoted','home_D_relegated','home_D_point_deduction',
+	'away_table_place','away_games','away_wins','away_draw','away_defeats','away_goals','away_diff','away_points','away_D_champion','away_D_winner_cup','away_D_promoted','away_D_relegated','away_D_point_deduction',
+	'home_team_size','home_team_average_age','home_team_foreigners','home_team_market_value',
+	'away_team_size','away_team_average_age','away_team_foreigners','away_team_market_value'
+]]
+soccer.sort_values(['league','season','gameday','date', 'time', 'home_table_place'], inplace=True)
+soccer.reset_index(inplace=True, drop=True)
+
+
+# corret dtypes
+# correct dtypes
+col_float_to_int = [
+	'pregame_point_diff',
+	'attendance',
+	'home_result_end',
+	'away_result_end',
+	'home_result_break',
+	'away_result_break',
+	'penalties',
+	'D_delayed',
+	'away_red',
+	'away_yellow',
+	'home_red',
+	'home_yellow',
+	'home_D_champion',
+	'home_D_winner_cup',
+	'home_D_relegated',
+	'away_D_champion',
+	'away_D_winner_cup',
+	'away_D_relegated'
+] # gameday_delayed taken out, as nan cannot be converted to int
+soccer[col_float_to_int] = soccer[col_float_to_int].astype(int)
+
+
+# read out
+df.to_csv(z_soccer_output_final + 'soccer_prepared.csv', sep=';', encoding='UTF-8', index=False)
 
 ###############################################################################
 #           END OF FILE
 ###############################################################################
+print("--- %s seconds ---" % (time.time() - start_time))
 
 
 
