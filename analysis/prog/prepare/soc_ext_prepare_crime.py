@@ -5,11 +5,11 @@ Created on Tue Sep 17 12:18:55 2019
 @author: Marc Fabel
 
 
-Inputs: 
+Inputs:
     - opfer-hashed-20XX.csv     cross-sections containing crime micro data
     - map_stadiums_AGS.csv      map: relates the stadiums to active regions - generated w/ QGIS
     - Schulferien_1015.dta      time series for all BL to see whether a part date is a holiday
-    
+
 Outputs:
     -
 
@@ -25,13 +25,20 @@ from matplotlib.dates import DateFormatter
 import matplotlib.style as style
 #style.available
 style.use('seaborn-darkgrid')
+import time
+start_time = time.time()
 
-# paths
+
+# paths (SERVER)
 z_crime_source =        'F:/econ/soc_ext/analysis/data/source/BKA/opfer-hashed-'
 z_crime_figures_desc =  'F:/econ/soc_ext/analysis/output/graphs/descriptive/'
-z_maps_stadiums =       'F:/econ/soc_ext/analysis/data/intermediate/maps/'            
-z_crime_output =        'F:/econ/soc_ext/analysis/data/intermediate/crime/' 
+z_maps_stadiums =       'F:/econ/soc_ext/analysis/data/intermediate/maps/'
+z_crime_output =        'F:/econ/soc_ext/analysis/data/intermediate/crime/'
 z_prefix =              'soc_ext_'
+
+
+# paths (LOCAL) also irrelevant - cannot handle the data
+
 
 # home paths irrelevant (data only on server)
 
@@ -40,7 +47,7 @@ z_first_year_wave = 2011
 z_last_year_wave = 2015
 
 ###############################################################################
-#       1) Read in crime cross-sections, select assaults and append 
+#       1) Read in crime cross-sections, select assaults and append
 ###############################################################################
 
 
@@ -49,7 +56,7 @@ z_last_year_wave = 2015
 
 c = {}
 for year in range(11,16):
-    file = z_crime_source + '20' + str(year) + '/' + 'opfer-hashed-20' + str(year) + '.csv'       
+    file = z_crime_source + '20' + str(year) + '/' + 'opfer-hashed-20' + str(year) + '.csv'
     c[year] = pd.read_csv(file, sep=';')
     c[year].rename(columns={
             'FALL_ID'                : 'case_id',
@@ -72,7 +79,7 @@ for year in range(11,16):
             'GUELTIG_VON'            : 'date_validity'
      }, inplace =True)
 
-    
+
 
 # append CS and keep only relevant columns
 assaults = c[11].copy()
@@ -91,13 +98,13 @@ assaults['date_h'] = pd.to_datetime(assaults['date_offense'], format='%Y%m%d%H',
 assaults.drop( assaults[assaults.date_d.isnull()].index, inplace=True)
 
 
-# modify the date: assign offenses happening between midnight and 6 am to the preceding day    
+# modify the date: assign offenses happening between midnight and 6 am to the preceding day
 def modify_day(date_h):
     if pd.isnull(date_h) is False:  # date_h is not missing
         hour = date_h.strftime("%H")
-        if 0<= int(hour) <= 5:  # if incidence happened between 0:00 am and 5:59 am  
+        if 0<= int(hour) <= 5:  # if incidence happened between 0:00 am and 5:59 am
             S = date_h - timedelta(days=1)
-        else: 
+        else:
             S = date_h
     else:
         S = 'NaT'
@@ -105,7 +112,7 @@ def modify_day(date_h):
 
 assaults['temp'] = assaults.date_h.apply(lambda x: modify_day(x))
 assaults['temp'].fillna(assaults.date_d, inplace=True)
-assaults['date_off_mod_str'] = assaults.temp.apply(lambda x: x.strftime('%d%b%Y'))    
+assaults['date_off_mod_str'] = assaults.temp.apply(lambda x: x.strftime('%d%b%Y'))
 assaults.drop(['date_ymd', 'date_d', 'temp'], axis=1, inplace=True)
 assaults.drop('offense_key', axis=1, inplace=True)
 
@@ -135,8 +142,8 @@ assaults.drop(['gender', 'attempt', 'vs_relation_formal'], inplace=True, axis=1)
 assaults.location = assaults.location.replace({
         4011 : 4011000,
         4012 : 4012000})
-assaults.drop( assaults[assaults.location < 1000000].index, inplace=True)    
-   
+assaults.drop( assaults[assaults.location < 1000000].index, inplace=True)
+
 
 # select only those which are active in the soccer project
 stadiums_regions = pd.read_csv(z_maps_stadiums + 'map_stadiums_AGS.csv', sep=';')
@@ -200,7 +207,7 @@ ass_h.sort_values(['hour_num'], inplace=True, ascending=True)
 ass_h.reset_index(inplace=True, drop=True)
 #plot
 ax = sns.barplot(ass_h.hour_num, ass_h.freq, color = 'darkblue')
-ax.set(xlabel='', ylabel='Relative frequency') #xlabel='months', 
+ax.set(xlabel='', ylabel='Relative frequency') #xlabel='months',
 ax.set_xticklabels(ass_h.hour)
 plt.title("Panel A: Assaults across the course of a day", fontweight="bold", loc='left')
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
@@ -224,7 +231,7 @@ ass_dow['freq'] = ass_dow['counts']/float(ass_dow['counts'].sum())
 ass_dow.sort_values(['dow_num'], inplace=True, ascending=True)
 #plot
 ax = sns.barplot(ass_dow.dow, ass_dow.freq, color = 'darkblue')
-ax.set(xlabel='', ylabel='Relative frequency') #xlabel='months', 
+ax.set(xlabel='', ylabel='Relative frequency') #xlabel='months',
 plt.title("Panel B: Assaults across days of the week", fontweight="bold", loc='left')
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
 plt.savefig(z_crime_figures_desc + z_prefix + 'assaults_per_dow.pdf')
@@ -259,7 +266,7 @@ ass_month['freq_norm'] = ass_month['counts_norm']/float(ass_month['counts_norm']
 ass_month.sort_values(['month_num'], inplace=True, ascending=True)
 #plot
 ax = sns.barplot(ass_month.month, ass_month.freq_norm, color = 'darkblue')
-ax.set(xlabel='', ylabel='Relative frequency') #xlabel='months', 
+ax.set(xlabel='', ylabel='Relative frequency') #xlabel='months',
 plt.title("Panel C: Assaults across months of the year $^1$", fontweight="bold", loc='left')
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
 plt.savefig(z_crime_figures_desc + z_prefix + 'assaults_per_month_2014.pdf')
@@ -284,7 +291,7 @@ ass_day.sort_values(['date_d_mod'], inplace=True, ascending=True)
 ass_day.reset_index(inplace=True, drop=True)
 
 ax = sns.lineplot(ass_day.date_d_mod, ass_day.freq, color = 'darkblue')   #, kind='line'
-ax.set(xlabel='', ylabel='Relative frequency') #xlabel='months', 
+ax.set(xlabel='', ylabel='Relative frequency') #xlabel='months',
 plt.title("Panel D: Assaults across days of the year $^1$", fontweight="bold", loc='left')
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
 plt.savefig(z_crime_figures_desc + z_prefix + 'assaults_per_day_2014_single.pdf')
@@ -360,7 +367,7 @@ offenses['freq'] = offenses['counts']/float(offenses['counts'].sum())
 offenses = offenses[:19]
 offenses.sort_values(['counts'], inplace=True, ascending=False)
 
-  
+
 # 2011
 # the four most common offenses comprise 71 % of the cases. 10 most common correspond to 90% of all cases
 # there are in total 116 different keys in use
@@ -390,7 +397,7 @@ ax.set_xticklabels(offenses.offense_key)
 for item in ax.get_xticklabels():
      item.set_rotation(90)
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
-plt.savefig(z_crime_figures_desc + z_prefix + 'offense_key_distribution_2014.pdf')  
+plt.savefig(z_crime_figures_desc + z_prefix + 'offense_key_distribution_2014.pdf')
 
 
 
@@ -406,15 +413,19 @@ plt.savefig(z_crime_figures_desc + z_prefix + 'offense_key_distribution_2014.pdf
 ###############################################################################
 #       END OF FILE
 ###############################################################################
+print("--- %s seconds ---" % (time.time() - start_time))
 
-# To Do:
-#    - browse throug prepare programs and put figures in seperate analysis programs
+
+
+# XXX To Do:
+#   - browse throug prepare programs and put figures in seperate analysis programs
+#   - number of assaults per gender, potentially also other dimensions when easily inplementable
 
 
 # next steps:
-# hat mit den locations alles gepasst - number of assaults pro tag n bischen arg gering, oder? 
+# hat mit den locations alles gepasst - number of assaults pro tag n bischen arg gering, oder?
 # checken ob Karneval im holiday datensatz ist
-# time series of dates und co anf"ugen 
+# time series of dates und co anf"ugen
 # article about any and all() for cleaning
 # put in Figure of weather distance to stadiums in LaTeX document
 # sch"one rumspielerei: spatial dimension of assault rates in combination with QGIS
