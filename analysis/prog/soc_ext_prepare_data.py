@@ -19,6 +19,7 @@ Inputs:
 
 
 Outputs:
+     - data_prepared                         final          merged df
 
 
 """
@@ -34,6 +35,9 @@ start_time = time.time()
 # paths
 z_prepared_data =             'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/final/'
 z_maps_input_intermediate =   'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/maps/'
+z_data_output_Dx =            'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/final/'
+z_data_output =               'F:/econ/soc_ext/analysis/data/final/'
+
 z_prefix =                    'soc_ext_'
 
 
@@ -136,11 +140,7 @@ data = data.merge(regional_data, on=['AGS', 'year'])
 # merge soccer
 data = data.merge(soccer, on=['AGS', 'date'], how='outer')
 # result should be 96878 x 296
-
-
-
-
-
+data['D_gameday'].fillna(0, inplace=True)
 
 
 
@@ -157,9 +157,18 @@ data['assault_rate'] = (data['offences'] * 100000 * data['days_in_year'])/data['
 
 
 
+###############################################################################
+#       Restrict sample
+###############################################################################
 
 
 
+###############################################################################
+#       Read out
+###############################################################################
+
+data.to_csv(z_data_output_Dx + 'data_prepared.csv', sep=';', encoding='UTF-8', index=False)
+data.to_csv(z_data_output + 'data_prepared.csv', sep=';', encoding='UTF-8', index=False)
 
 
 ###############################################################################
