@@ -134,7 +134,7 @@ data['days_in_year'] = np.where(data.year == 2012, 366, 365)
 # merge other data frames to it
 data = data.merge(holidays, on=['bula', 'date'], how='outer')
 data = data.merge(assaults, on=['date', 'AGS'], how='outer')
-data.offences.fillna(0, inplace=True)
+data.assaults.fillna(0, inplace=True)
 data = data.merge(regional_data, on=['AGS', 'year'])
 
 # merge soccer
@@ -153,7 +153,7 @@ data['D_gameday'].fillna(0, inplace=True)
 ###############################################################################
 
 # generate assault rates
-data['assault_rate'] = (data['offences'] * 100000 * data['days_in_year'])/data['pop_t']
+data['assault_rate'] = (data['assaults'] * 100000 * data['days_in_year'])/data['pop_t']
 
 
 
