@@ -165,7 +165,7 @@ assaults_micro['bula'] = assaults_micro.location.apply(lambda x: x/1000000).asty
 
 ########## AGGREGATION ##########
 # add up numbers of assaults per region
-assaults['offences'] = 1
+assaults['assaults'] = 1
 assaults = assaults.groupby(['date_d_mod','location']).sum()
 assaults.reset_index(inplace=True, drop=False)
 assaults.drop(['age', 'female', 'vs_strangers'], inplace=True, axis=1)
