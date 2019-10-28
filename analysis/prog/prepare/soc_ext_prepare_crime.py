@@ -11,8 +11,11 @@ Inputs:
     - Schulferien_1015.dta      time series for all BL to see whether a part date is a holiday
 
 Outputs:
-    -
+    - crime_prepared.csv [intermed]
 
+Updates: 
+    20.10.2019: include subcategroeis of assaults (gender,age,relationship,attempt)
+    
 """
 
 # packages
@@ -88,7 +91,7 @@ for year in range(12,16):
 assaults = assaults[['offense_key', 'date_offense', 'location', 'attempt', 'age', 'gender', 'vs_relation_formal']]
 
 
-# keep only assaults & only when offense date is in 2014
+# keep only assaults
 assaults = assaults.loc[assaults['offense_key'] == 224000]
 assaults['date_ymd'] = assaults['date_offense'].str.slice(0,8)
 assaults['date_d'] = pd.to_datetime(assaults['date_ymd'], format='%Y%m%d', errors='coerce')
@@ -128,10 +131,10 @@ assaults.drop(invalid_dates, inplace=True)
 # make dummy variables
 assaults['female'] = np.where(assaults.gender == 'W', 1, 0)
 assaults['D_attempt'] = np.where(assaults.attempt == 'J', 1, 0)
-assaults.rename(columns={'D_attempt' : 'attempt'}, inplace=True)
 assaults['vs_strangers'] = np.where((assaults.vs_relation_formal==500)
                                    | (assaults.vs_relation_formal==800), 1, 0)
 assaults.drop(['gender', 'attempt', 'vs_relation_formal'], inplace=True, axis=1)
+assaults.rename(columns={'D_attempt' : 'attempt'}, inplace=True)
 
 
 
@@ -157,23 +160,46 @@ assaults = assaults.merge(active_regions, left_on=['location'], right_on=['AGS']
 assaults.drop(['AGS', 'active'], inplace=True, axis=1)
 
 
-
 assaults_micro = assaults.copy()
 assaults_micro['bula'] = assaults_micro.location.apply(lambda x: x/1000000).astype(int)
 
 
 
+########## DEFINE SUBGROUPS ##########
+assaults['ass_f'] = np.where(assaults.female == 1,1,0)
+assaults['ass_m'] = np.where(assaults.female == 0,1,0)
+assaults['ass_0_17']  = np.where(assaults.age < 18,1,0)
+assaults['ass_18_29'] = np.where((assaults.age >= 18) & (assaults.age <=29),1,0)
+assaults['ass_30_39'] = np.where((assaults.age >= 30) & (assaults.age <=39),1,0)
+assaults['ass_40_49'] = np.where((assaults.age >= 40) & (assaults.age <=49),1,0)
+assaults['ass_50_59'] = np.where((assaults.age >= 50) & (assaults.age <=59),1,0)
+assaults['ass_60+']   = np.where(assaults.age >= 60,1,0)
+assaults['ass_vs_strangers'] = np.where(assaults.vs_strangers == 1,1,0)
+assaults['ass_vs_rel'] = np.where(assaults.vs_strangers == 0,1,0)
+assaults['ass_attempt'] = np.where(assaults.attempt == 1,1,0)
+assaults['ass_success'] = np.where(assaults.attempt == 0,1,0)
+
+
+
 ########## AGGREGATION ##########
 # add up numbers of assaults per region
-assaults['assaults'] = 1
+assaults['ass'] = 1
 assaults = assaults.groupby(['date_d_mod','location']).sum()
 assaults.reset_index(inplace=True, drop=False)
-assaults.drop(['age', 'female', 'vs_strangers'], inplace=True, axis=1)
+assaults.drop(['age', 'female', 'vs_strangers', 'attempt'], inplace=True, axis=1)
 assaults['bula'] = assaults.location.apply(lambda x: x/1000000).astype(int)
 
 
 
 ########## READING OUT ##########
+assaults = assaults[[
+    'date_d_mod', 'location', 'bula',
+    'ass', 'ass_f', 'ass_m', 
+    'ass_0_17', 'ass_18_29', 'ass_30_39', 'ass_40_49', 'ass_50_59', 'ass_60+',
+    'ass_vs_strangers', 'ass_vs_rel',
+    'ass_attempt', 'ass_success'
+    ]]
+
 assaults.to_csv(z_crime_output + 'crime_prepared.csv', sep=';', encoding='UTF-8', index=False)
 
 
@@ -419,15 +445,10 @@ print("--- %s seconds ---" % (time.time() - start_time))
 
 # XXX To Do:
 #   - browse throug prepare programs and put figures in seperate analysis programs
-#   - number of assaults per gender, potentially also other dimensions when easily inplementable
 
 
 # next steps:
-# hat mit den locations alles gepasst - number of assaults pro tag n bischen arg gering, oder?
-# checken ob Karneval im holiday datensatz ist
-# time series of dates und co anf"ugen
 # article about any and all() for cleaning
-# put in Figure of weather distance to stadiums in LaTeX document
 # sch"one rumspielerei: spatial dimension of assault rates in combination with QGIS
 
 
