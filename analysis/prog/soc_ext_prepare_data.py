@@ -33,19 +33,19 @@ start_time = time.time()
 
 
 # paths (work LOCAL)
-#z_prepared_data =             'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/final/'
-#z_maps_input_intermediate =   'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/maps/'
-#z_data_output_Dx =            'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/final/'
-#z_data_output =               'F:/econ/soc_ext/analysis/data/final/'
-#z_prefix =                    'soc_ext_'
+z_prepared_data =             'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/final/'
+z_maps_input_intermediate =   'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/maps/'
+z_data_output_Dx =            'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/final/'
+z_data_output =               'F:/econ/soc_ext/analysis/data/final/'
+z_prefix =                    'soc_ext_'
 
 
 # paths HOME
-z_prepared_data =             '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/final/'
-z_maps_input_intermediate =   '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/maps/'
-z_data_output_Dx =            '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/final/'
-z_prefix =                    'soc_ext_'
-#z_data_output =              not applicable
+#z_prepared_data =             '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/final/'
+#z_maps_input_intermediate =   '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/maps/'
+#z_data_output_Dx =            '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/final/'
+#z_prefix =                    'soc_ext_'
+##z_data_output =              not applicable
 
 
 # magic numbers
@@ -135,15 +135,21 @@ data['woy'] 	= data.date.apply(lambda x: x.strftime('%W')).astype(int)
 data['days_in_year'] = np.where(data.year == 2012, 366, 365)
 
 
-
-
-# merge other data frames to it
+# merge Holidays
 data = data.merge(holidays, on=['bula', 'date'], how='outer')
+
+
+# merge Crime Data
 data = data.merge(assaults, on=['date', 'AGS'], how='outer')
-data.ass.fillna(0, inplace=True)
+assaults_cols = assaults.columns.drop(['date', 'AGS']).tolist() # to fill nr assaults with zeros for NaNs
+assert(len(assaults_cols)==13)
+data[assaults_cols] = data[assaults_cols].fillna(value=0)
+
+
+# merge Regional Data Base
 data = data.merge(regional_data, on=['AGS', 'year'])
 
-# merge soccer
+# merge Soccer data
 data = data.merge(soccer, on=['AGS', 'date'], how='outer')
 data['d_gameday'].fillna(0, inplace=True)
 
@@ -203,7 +209,7 @@ assert(data.shape == (96878, 321))
 ###############################################################################
 
 data.to_csv(z_data_output_Dx + 'data_prepared.csv', sep=';', encoding='UTF-8', index=False)
-#data.to_csv(z_data_output + 'data_prepared.csv', sep=';', encoding='UTF-8', index=False)
+data.to_csv(z_data_output + 'data_prepared.csv', sep=';', encoding='UTF-8', index=False)
 
 
 ###############################################################################
