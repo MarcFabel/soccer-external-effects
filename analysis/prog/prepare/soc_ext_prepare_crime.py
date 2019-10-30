@@ -13,9 +13,9 @@ Inputs:
 Outputs:
     - crime_prepared.csv [intermed]
 
-Updates: 
+Updates:
     20.10.2019: include subcategroeis of assaults (gender,age,relationship,attempt)
-    
+
 """
 
 # packages
@@ -194,7 +194,7 @@ assaults['bula'] = assaults.location.apply(lambda x: x/1000000).astype(int)
 ########## READING OUT ##########
 assaults = assaults[[
     'date_d_mod', 'location', 'bula',
-    'ass', 'ass_f', 'ass_m', 
+    'ass', 'ass_f', 'ass_m',
     'ass_0_17', 'ass_18_29', 'ass_30_39', 'ass_40_49', 'ass_50_59', 'ass_60+',
     'ass_vs_strangers', 'ass_vs_rel',
     'ass_attempt', 'ass_success'
@@ -445,6 +445,7 @@ print("--- %s seconds ---" % (time.time() - start_time))
 
 # XXX To Do:
 #   - browse throug prepare programs and put figures in seperate analysis programs
+#   - add more subcategories: domestic (as subcategory of prior relationship), and stranger_gender & relationship_gender
 
 
 # next steps:
