@@ -88,7 +88,7 @@ for year in range(11,16):
 assaults = c[11].copy()
 for year in range(12,16):
     assaults = assaults.append(c[year])
-assaults = assaults[['offense_key', 'date_offense', 'location', 'attempt', 'age', 'gender', 'vs_relation_formal']]
+assaults = assaults[['offense_key', 'date_offense', 'location', 'attempt', 'age', 'gender', 'vs_relation_formal', 'vs_relation_spatial_social']]
 
 
 # keep only assaults
@@ -133,7 +133,9 @@ assaults['female'] = np.where(assaults.gender == 'W', 1, 0)
 assaults['D_attempt'] = np.where(assaults.attempt == 'J', 1, 0)
 assaults['vs_strangers'] = np.where((assaults.vs_relation_formal==500)
                                    | (assaults.vs_relation_formal==800), 1, 0)
-assaults.drop(['gender', 'attempt', 'vs_relation_formal'], inplace=True, axis=1)
+assaults['domestic'] = np.where((assaults.vs_relation_spatial_social==110)
+                                    | (assaults.vs_relation_spatial_social==190), 1, 0) #110erziehungsverhaeltnis 190 sonstiges verh. (ehepartner)
+assaults.drop(['gender', 'attempt', 'vs_relation_formal', 'vs_relation_spatial_social'], inplace=True, axis=1)
 assaults.rename(columns={'D_attempt' : 'attempt'}, inplace=True)
 
 
@@ -178,7 +180,27 @@ assaults['ass_vs_strangers'] = np.where(assaults.vs_strangers == 1,1,0)
 assaults['ass_vs_rel'] = np.where(assaults.vs_strangers == 0,1,0)
 assaults['ass_attempt'] = np.where(assaults.attempt == 1,1,0)
 assaults['ass_success'] = np.where(assaults.attempt == 0,1,0)
+assaults['ass_domestic'] = np.where(assaults.domestic == 1,1,0)
 
+assaults['ass_0_17_f']  = np.where((assaults.age < 18) & (assaults.female == 1),1,0)
+assaults['ass_18_29_f'] = np.where((assaults.age >= 18) & (assaults.age <=29) & (assaults.female == 1),1,0)
+assaults['ass_30_39_f'] = np.where((assaults.age >= 30) & (assaults.age <=39) & (assaults.female == 1),1,0)
+assaults['ass_40_49_f'] = np.where((assaults.age >= 40) & (assaults.age <=49) & (assaults.female == 1),1,0)
+assaults['ass_50_59_f'] = np.where((assaults.age >= 50) & (assaults.age <=59) & (assaults.female == 1),1,0)
+assaults['ass_60+_f']   = np.where((assaults.age >= 60) & (assaults.female == 1),1,0)
+assaults['ass_0_17_m']  = np.where((assaults.age < 18) & (assaults.female == 0),1,0)
+assaults['ass_18_29_m'] = np.where((assaults.age >= 18) & (assaults.age <=29) & (assaults.female == 0),1,0)
+assaults['ass_30_39_m'] = np.where((assaults.age >= 30) & (assaults.age <=39) & (assaults.female == 0),1,0)
+assaults['ass_40_49_m'] = np.where((assaults.age >= 40) & (assaults.age <=49) & (assaults.female == 0),1,0)
+assaults['ass_50_59_m'] = np.where((assaults.age >= 50) & (assaults.age <=59) & (assaults.female == 0),1,0)
+assaults['ass_60+_m']   = np.where((assaults.age >= 60) & (assaults.female == 0),1,0)
+
+assaults['ass_vs_strangers_f'] = np.where((assaults.vs_strangers == 1) & (assaults.female == 1),1,0)
+assaults['ass_vs_rel_f'] = np.where((assaults.vs_strangers == 0) & (assaults.female == 1),1,0)
+assaults['ass_domestic_f'] = np.where((assaults.domestic == 1) & (assaults.female == 1),1,0)
+assaults['ass_vs_strangers_m'] = np.where((assaults.vs_strangers == 1) & (assaults.female == 0),1,0)
+assaults['ass_vs_rel_m'] = np.where((assaults.vs_strangers == 0) & (assaults.female == 0),1,0)
+assaults['ass_domestic_m'] = np.where((assaults.domestic == 1) & (assaults.female == 0),1,0)
 
 
 ########## AGGREGATION ##########
@@ -186,19 +208,16 @@ assaults['ass_success'] = np.where(assaults.attempt == 0,1,0)
 assaults['ass'] = 1
 assaults = assaults.groupby(['date_d_mod','location']).sum()
 assaults.reset_index(inplace=True, drop=False)
-assaults.drop(['age', 'female', 'vs_strangers', 'attempt'], inplace=True, axis=1)
+assaults.drop(['age', 'female', 'vs_strangers', 'attempt', 'domestic'], inplace=True, axis=1)
 assaults['bula'] = assaults.location.apply(lambda x: x/1000000).astype(int)
 
 
 
 ########## READING OUT ##########
-assaults = assaults[[
-    'date_d_mod', 'location', 'bula',
-    'ass', 'ass_f', 'ass_m',
-    'ass_0_17', 'ass_18_29', 'ass_30_39', 'ass_40_49', 'ass_50_59', 'ass_60+',
-    'ass_vs_strangers', 'ass_vs_rel',
-    'ass_attempt', 'ass_success'
-    ]]
+# reorder columns
+z_cols_front = ['date_d_mod', 'location', 'bula', 'ass', 'ass_f', 'ass_m']
+z_new_column_order = z_cols_front + (assaults.columns.drop(z_cols_front).tolist())
+assaults = assaults[z_new_column_order]
 
 assaults.to_csv(z_crime_output + 'crime_prepared.csv', sep=';', encoding='UTF-8', index=False)
 

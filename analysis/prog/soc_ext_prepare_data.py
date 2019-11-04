@@ -142,7 +142,7 @@ data = data.merge(holidays, on=['bula', 'date'], how='outer')
 # merge Crime Data
 data = data.merge(assaults, on=['date', 'AGS'], how='outer')
 assaults_cols = assaults.columns.drop(['date', 'AGS']).tolist() # to fill nr assaults with zeros for NaNs
-assert(len(assaults_cols)==13)
+assert(len(assaults_cols)==32)
 data[assaults_cols] = data[assaults_cols].fillna(value=0)
 
 
@@ -164,45 +164,50 @@ data['d_gameday'].fillna(0, inplace=True)
 ###############################################################################
 
 # generate assault rate
-data['assrate'] = (data['ass'] * 100000 * data['days_in_year'])/data['pop_t']
+data['assrate']                 = (data['ass']                   * 100000 * data['days_in_year'])/data['pop_t']
 
-# assault rates per gender and age-group (denominator CASE specific)
-data['assrate_f'] = (data['ass_f'] * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_m'] = (data['ass_m'] * 100000 * data['days_in_year'])/data['pop_t']
+# assault rates per gender and age-group
+data['assrate_f']               = (data['ass_f']                 * 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_m']               = (data['ass_m']                 * 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_0_17']            = (data['ass_0_17']              * 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_18_29']           = (data['ass_18_29']             * 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_30_39']           = (data['ass_30_39']             * 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_40_49']           = (data['ass_40_49']             * 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_50_59']           = (data['ass_50_59']             * 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_60+']             = (data['ass_60+']               * 100000 * data['days_in_year'])/data['pop_t']
 
-#data['pop_0_17_t']  = data[['pop_0_2_t', 'pop_3_5_t', 'pop_6_9_t', 'pop_10_14_t', 'pop_15_17_t']].sum(axis='columns')
-#data['pop_18_29_t'] = data[['pop_18_19_t','pop_20_24_t', 'pop_25_29_t']].sum(axis='columns')
-#data['pop_30_39_t'] = data[['pop_30_34_t', 'pop_35_39_t']].sum(axis='columns')
-#data['pop_40_49_t'] = data[['pop_40_44_t', 'pop_45_49_t']].sum(axis='columns')
-#data['pop_50_59_t'] = data[['pop_50_54_t', 'pop_55_59_t']].sum(axis='columns')
-#data['pop_60+_t']   = data[['pop_60_64_t', 'pop_65_74_t', 'pop_74+_t']].sum(axis='columns')
+# assault_rate: relationship and attempt/success
+data['assrate_vs_strangers']    = (data['ass_vs_strangers']     * 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_vs_rel']          = (data['ass_vs_rel']           * 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_attempt']         = (data['ass_attempt']          * 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_success']         = (data['ass_success']          * 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_domestic']		= (data['ass_domestic'] 		* 100000 * data['days_in_year'])/data['pop_t']
 
-#data['assrate_0_17']  = (data['ass_0_17']  * 100000 * data['days_in_year'])/data['pop_0_17_t']
-#data['assrate_18_29'] = (data['ass_18_29'] * 100000 * data['days_in_year'])/data['pop_18_29_t']
-#data['assrate_30_39'] = (data['ass_30_39'] * 100000 * data['days_in_year'])/data['pop_30_39_t']
-#data['assrate_40_49'] = (data['ass_40_49'] * 100000 * data['days_in_year'])/data['pop_40_49_t']
-#data['assrate_50_59'] = (data['ass_50_59'] * 100000 * data['days_in_year'])/data['pop_50_59_t']
-#data['assrate_60+']   = (data['ass_60+']   * 100000 * data['days_in_year'])/data['pop_60+_t']
-#data.drop(['pop_0_17_t', 'pop_18_29_t', 'pop_30_39_t', 'pop_40_49_t', 'pop_50_59_t', 'pop_60+_t'],inplace=True, axis=1)
+# age x gender
+data['assrate_0_17_f']			= (data['ass_0_17_f'] 			* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_18_29_f']			= (data['ass_18_29_f'] 			* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_30_39_f']			= (data['ass_30_39_f'] 			* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_40_49_f']			= (data['ass_40_49_f'] 			* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_50_59_f']			= (data['ass_50_59_f'] 			* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_60+_f']			= (data['ass_60+_f'] 			* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_0_17_m']			= (data['ass_0_17_m'] 			* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_18_29_m']			= (data['ass_18_29_m'] 			* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_30_39_m']			= (data['ass_30_39_m'] 			* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_40_49_m']			= (data['ass_40_49_m'] 			* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_50_59_m']			= (data['ass_50_59_m'] 			* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_60+_m']			= (data['ass_60+_m'] 			* 100000 * data['days_in_year'])/data['pop_t']
 
-data['assrate_0_17']  = (data['ass_0_17']  * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_18_29'] = (data['ass_18_29'] * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_30_39'] = (data['ass_30_39'] * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_40_49'] = (data['ass_40_49'] * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_50_59'] = (data['ass_50_59'] * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_60+']   = (data['ass_60+']   * 100000 * data['days_in_year'])/data['pop_t']
-
-# assault_rate: relationship and attempt/success (normal denominator)
-data['assrate_vs_strangers'] = (data['ass_vs_strangers'] * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_vs_rel'] = (data['ass_vs_rel'] * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_attempt'] = (data['ass_attempt'] * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_success'] = (data['ass_success'] * 100000 * data['days_in_year'])/data['pop_t']
-
-
+# relationship x gender
+data['assrate_vs_strangers_f']	= (data['ass_vs_strangers_f'] 	* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_vs_rel_f']		= (data['ass_vs_rel_f'] 		* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_domestic_f']		= (data['ass_domestic_f'] 		* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_vs_strangers_m']	= (data['ass_vs_strangers_m'] 	* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_vs_rel_m']		= (data['ass_vs_rel_m'] 		* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_domestic_m']		= (data['ass_domestic_m'] 		* 100000 * data['days_in_year'])/data['pop_t']
 
 
 # result should be 96878 x 321
-assert(data.shape == (96878, 321))
+assert(data.shape == (96878, 359))
 
 ###############################################################################
 #       Restrict sample
@@ -230,4 +235,25 @@ print("--- %s seconds ---" % (time.time() - start_time))
 # ACTIVE REGIONS ARE NOT ACTIVE ALL THE TIME, IN SOME YEARS SOME TEAMS ARE NOT EVEN PART OF THE THIRD LEAGUE
 
 
+
+
+
+
+
+
+# AGE-SPECIFIC DENOMINATOR
+#data['pop_0_17_t']  = data[['pop_0_2_t', 'pop_3_5_t', 'pop_6_9_t', 'pop_10_14_t', 'pop_15_17_t']].sum(axis='columns')
+#data['pop_18_29_t'] = data[['pop_18_19_t','pop_20_24_t', 'pop_25_29_t']].sum(axis='columns')
+#data['pop_30_39_t'] = data[['pop_30_34_t', 'pop_35_39_t']].sum(axis='columns')
+#data['pop_40_49_t'] = data[['pop_40_44_t', 'pop_45_49_t']].sum(axis='columns')
+#data['pop_50_59_t'] = data[['pop_50_54_t', 'pop_55_59_t']].sum(axis='columns')
+#data['pop_60+_t']   = data[['pop_60_64_t', 'pop_65_74_t', 'pop_74+_t']].sum(axis='columns')
+
+#data['assrate_0_17']  = (data['ass_0_17']  * 100000 * data['days_in_year'])/data['pop_0_17_t']
+#data['assrate_18_29'] = (data['ass_18_29'] * 100000 * data['days_in_year'])/data['pop_18_29_t']
+#data['assrate_30_39'] = (data['ass_30_39'] * 100000 * data['days_in_year'])/data['pop_30_39_t']
+#data['assrate_40_49'] = (data['ass_40_49'] * 100000 * data['days_in_year'])/data['pop_40_49_t']
+#data['assrate_50_59'] = (data['ass_50_59'] * 100000 * data['days_in_year'])/data['pop_50_59_t']
+#data['assrate_60+']   = (data['ass_60+']   * 100000 * data['days_in_year'])/data['pop_60+_t']
+#data.drop(['pop_0_17_t', 'pop_18_29_t', 'pop_30_39_t', 'pop_40_49_t', 'pop_50_59_t', 'pop_60+_t'],inplace=True, axis=1)
 
