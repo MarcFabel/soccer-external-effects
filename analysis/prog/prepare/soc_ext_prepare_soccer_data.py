@@ -875,6 +875,12 @@ soccer.rename(columns={'points_last_gameday':'away_points_last_gameday'}, inplac
 soccer['pregame_point_diff']= (soccer['home_points_last_gameday'] - soccer['away_points_last_gameday']).astype(int)
 soccer.drop(['home_points_last_gameday', 'away_points_last_gameday'], axis=1, inplace=True)
 
+# dummies for game-feature heterogeneity analysis (first negative casse then positive)
+soccer['d_gd_ht_loses'] = np.where( (soccer['home_result_end']<soccer['away_result_end']), 1, 0)
+soccer['d_gd_ht_wins'] = np.where( (soccer['home_result_end']>soccer['away_result_end']), 1, 0)
+soccer['d_gd_ht_loses_2nd_half'] = np.where( (soccer['home_result_break'] >= soccer['away_result_break']) &
+                               (soccer['home_result_end'] < soccer['away_result_end']), 1, 0)
+
 
 
 ########## SORT & ORDER ##########
@@ -883,14 +889,16 @@ soccer = 	soccer[[
 	'home_team', 'away_team', 'pregame_point_diff',
 	'date', 'weekday', 'time',
 	'stadium', 'attendance', 'home_result_end', 'away_result_end',
-    'home_result_break', 'away_result_break', 'goal_order', 'goal_time',
+    'home_result_break', 'away_result_break',
+    'goal_order', 'goal_time',
     'goal_penalty', 'penalties', 'away_red', 'away_yellow', 'home_red',
     'home_yellow', 'grade_ref', 'ref_city', 'ref_name', 'ref_str',
     'D_delayed', 'gameday_delayed',
 	'home_table_place','home_games','home_wins','home_draw','home_defeats','home_goals','home_diff','home_points','home_D_champion','home_D_winner_cup','home_D_promoted','home_D_relegated','home_D_point_deduction',
 	'away_table_place','away_games','away_wins','away_draw','away_defeats','away_goals','away_diff','away_points','away_D_champion','away_D_winner_cup','away_D_promoted','away_D_relegated','away_D_point_deduction',
 	'home_team_size','home_team_average_age','home_team_foreigners','home_team_market_value',
-	'away_team_size','away_team_average_age','away_team_foreigners','away_team_market_value'
+	'away_team_size','away_team_average_age','away_team_foreigners','away_team_market_value',
+    'd_gd_ht_loses', 'd_gd_ht_wins', 'd_gd_ht_loses_2nd_half'
 ]]
 soccer.sort_values(['league','season','gameday','date', 'time', 'home_table_place'], inplace=True)
 soccer.reset_index(inplace=True, drop=True)

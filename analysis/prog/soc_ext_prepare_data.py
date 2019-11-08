@@ -93,6 +93,7 @@ soccer.drop( soccer[ (soccer['d_multi_games'] == 1) & (soccer['league'] == 3)].i
 soccer['d_gameday'] = 1
 
 
+
 ########## WEATHER ##########
 weather = pd.read_csv(z_prepared_data + 'weather_prepared.csv', sep=';', encoding='UTF-8')
 # cut weather to the right time window
@@ -151,7 +152,8 @@ data = data.merge(regional_data, on=['AGS', 'year'])
 
 # merge Soccer data
 data = data.merge(soccer, on=['AGS', 'date'], how='outer')
-data['d_gameday'].fillna(0, inplace=True)
+z_gameday_columns = ['d_gameday', 'd_gd_ht_loses', 'd_gd_ht_wins', 'd_gd_ht_loses_2nd_half'] # gameday columns and interactions with gd
+data[z_gameday_columns] = data[z_gameday_columns].fillna(0)
 
 
 # up till here: dimension should be 96878 x 308
@@ -206,22 +208,47 @@ data['assrate_vs_rel_m']		= (data['ass_vs_rel_m'] 		* 100000 * data['days_in_yea
 data['assrate_domestic_m']		= (data['ass_domestic_m'] 		* 100000 * data['days_in_year'])/data['pop_t']
 
 
+
+
+########## FILL IN SEASON FOR NON GAME DAYS ###################################
+# july - may is season
+data['season2'] = np.nan
+
+for year in range(z_first_year_wave-1, z_last_year_wave):
+     start_season = datetime(year,7,1)
+     end_season = datetime(year+1,5,31)
+
+     year_identifier = (data.date >= start_season) & (data.date <= end_season)
+     data.loc[year_identifier, 'season2'] = str(year) + '-' + str(year+1)[-2:]
+data.drop('season', inplace=True, axis=1)
+data.rename(columns={'season2':'season'}, inplace=True)
+
+
+# drop junes
+z_number_obs_june = data.month[data.month == 6].count()
+data.drop(data[data.month==6].index, inplace=True)
+
 # result should be 96878 x 321
-assert(data.shape == (96878, 359))
+assert(data.shape == (96878-z_number_obs_june, 362))
 
 ###############################################################################
 #       Restrict sample
 ###############################################################################
 
+# drop regions when they are not active in that season
 
+# what is with regions where there was no full season?
+
+
+# read Lindo paper of what to drop
 
 
 ###############################################################################
 #       Read out
 ###############################################################################
-
-data.to_csv(z_data_output_Dx + 'data_prepared.csv', sep=';', encoding='UTF-8', index=False)
 data.to_csv(z_data_output + 'data_prepared.csv', sep=';', encoding='UTF-8', index=False)
+data.to_csv(z_data_output_Dx + 'data_prepared.csv', sep=';', encoding='UTF-8', index=False)
+
 
 
 ###############################################################################
