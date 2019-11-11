@@ -228,21 +228,31 @@ Bundesliga is an independent body , sperated from the German Football Associatio
 
 
 \begin{align}
-	Crime_{rcdwmy} = \alpha + \beta Gameday_{rcdwmy} + \underbrace{\gamma_d + \delta_w +  \eta_m + \theta_y}_{date_{dwmy}} + \vartheta_r + X_{rdwmy} \lambda + \varepsilon_{rcdwmy}
+	Crime_{rdmy} = \alpha + \beta Gameday_{rdmy} + \underbrace{\gamma_d +  \eta_m + \theta_y}_{date_{dmy}} + \vartheta_r + X_{rdmy} \lambda + \varepsilon_{rdmy}
 	\label{eq_soc_ext:model}
 \end{align}
-with Crime is crime rate in region $r$, associated with club $c$, on day-of-the-week $d$, in week-of-year $w$, in month $m$ and year $y$. Number of assaults per 100,000 individuals times 365. $X_{rdwmy}$ contains school and public holidays and weather controls.\newline
+with Crime is crime rate in region $r$, on day-of-the-week $d$, in month $m$ and year $y$. Number of assaults per 100,000 individuals times 365. $X_{rdmy}$ contains school and public holidays and weather controls.\newline
 
-\underline{Possible interactions:} 
+\underline{What I did in the analysis:} 
 \begin{itemize}
-	\item $(\gamma_d \times \delta_m)$: month-specific DOW fixed effects
-	\item $r \times time$: e.g. $r \times m$, $r \times w$, $r \times y \times m$,  $r \times y \times w$
+	\item regressions weighted by population weights
+	\item interactions of region and time fixed effects
+	\item standard errors: twoway cluster (i) district-year and (ii) year-month
 \end{itemize}
 
-\underline{Standard errors:}
+
+
+\subsection{Idea collection}
+\underline{Further Possible interactions:} 
+\begin{itemize}
+	\item $(\gamma_d \times \delta_m)$: month-specific DOW fixed effects
+	\item $r \times time$: e.g. $r \times w$, $r \times y \times m$,  $r \times y \times w$
+\end{itemize}
+
+\underline{Other approaches to compute standard errors:}
 \begin{itemize}
 	\item clustered at club level $c$ (allow for correlation over time within region and across regions corresponding to the same club)
-	\item twoway cluster (i) district-year and (ii) year-month
+
 	\item adjust for serial correlation: 
 	\begin{itemize}
 		\item BDM (2004) clustered at club level
@@ -252,11 +262,8 @@ with Crime is crime rate in region $r$, associated with club $c$, on day-of-the-
 
 \underline{drop observations:}
 \begin{itemize}
-	\item are there games on all DOW, probably yes with league 3
-	\item drop never affected regions, i.e. regions that are never in a certain radius to a stadium where a game is taking place
-	\item focus on only season (i.e. exclude June and winter break)
+	\item focus on only season (i.e. exclude winter break)
 	\item how many games are played on holidays? drop these? 
-	\item focus on particular age group and gender of victims
 	\item drop when information of crime is not available on the hour
 \end{itemize}
 
@@ -264,9 +271,6 @@ with Crime is crime rate in region $r$, associated with club $c$, on day-of-the-
 
 \underline{other remarks:}
 \begin{itemize}
-	\item different definition of a day: 6:00 AM - 5:59 AM the next day, see Lindo paper
-	\item lags and leads in Gameday see Lindo paper
-	\item estimation sample only until June 2015 see Timo's paper?
 	\item Spieltag fixed effects?
 \end{itemize}
 
@@ -278,54 +282,52 @@ with Crime is crime rate in region $r$, associated with club $c$, on day-of-the-
 \newpage
 \section{Data}\label{sec_soc_ext:data} 
 % Description data
+The data set used for the analysis covers the time window 2011-2015 and contains the regions in which soccer games of the first three leagues of the German football league system take place. I combine five data sources in order to examine the impact of public mass events on criminal behavior.
 
-sample spans the period 2011-2015
 
-\subsection{Soccer data}
-self-collected, obtained via web-scraping from kicker.de and transfermarkt.de, geographic encoding of the stadiums plus marking of affected districts
-65 stadiums, stadiums in which not at least a full season is played are exlcuded from the analysis.\footnote{This affects the stadiums in Lübeck (1), Reutlingen (12), Elversberg (14), and the Air-Berlin stadium in Dusseldorf (3). The number in parenthesis indicates the number of games that were held in that venue. This excludes 0.6\% of all macthes.}
 
 \subsection{Crime data}
-German uniform crime reporting program (Polizeiliche Kriminalstatistik) by the Federal Criminal Police Office (Bundeskriminalamt)
+The crime data is coming from the German uniform crime reporting program (Polizeiliche Kriminalstatistik) by the Federal Criminal Police Office (Bundeskriminalamt).\footnote{Many aspects of the data preparation is inspired from \cite{hener2019noise} who is using the same data in order to examine the causal effect of noise pollution on criminal behavior.} It covers the universe of individuals that fall victim to a crime against their legally protected personal rights between 2011 and 2015. Yet, as the data is only reported after the end of police procedures, the data is truncated to the period from January 2011 to May 2015 to avoid any problems with lags between the occurrence of the crime and when it is reported. The data includes next to the time (up to the hour) and place (municipality level) of the crime, the crime type code, the victim's age and gender, characteristics of the assault execution (attempt/successful, usage of firearm, lone operator/crime was committed by a group) and information on the relationship between victim and suspect.\footnote{The relationship between victim and suspect is retrieved in two ways. On the one hand, this covers formal relationships (such as types of kin or acquaintances). On the other hand, this examines relationships in a spatial-social manner (for instance living in the same household, or being in an education or care context).} Roughly 40\% of the victims are female, their average age is 32 years, and 40\% of the victims haven't had any prior relationship with the suspect.\newline
 
-There are roughly 120 types of criminal offenses in use (recorded in 6 digit codes), though the vast majority of the cases concentrate on only a handful codes.\footnote{The top 10 of the most prevalent crime keys comprise more than 90\% of the cases.} Figure \ref{fig_soc_ext:offense_types_distribution_2015} shows the distribution of cases per crime key for the twenty most common offense types. The intentional simple bodily injury is by far the most prevalent offense and it contributes to about 45\% of all cases. 
+The micro-data is aggregated to the municipality-day level and the main outcome, the assault rate, is defined as the number of assaults per 100,000 inhabitants, and multiplied by 365 in order to mirror annual crime rates. Assaults are defined as actions involving physical violence. For that purpose, I use the crime type code of 'intentional simple bodily injury'. There are roughly 120 types of criminal offenses in use (recorded in 6 digit codes), though the vast majority of the cases concentrate on only a handful codes.\footnote{The top 10 of the most prevalent crime keys comprise more than 90\% of the cases.} Figure \ref{fig_soc_ext:offense_types_distribution_2014} shows the distribution of cases per crime key for the twenty most common offense types in 2014. The intentional simple bodily injury is by far the most prevalent offense and it contributes to about 45\% of all cases. The prevalence of the offense type and its association with aggression motivates the decision to have assaults in this definition as the main outcome variable.\newline
 
+Figure \ref{fig_soc_ext:assault_time_distribution_2014} shows the distribution of assaults over time. Panel A displays the variation of assaults per hour of the day.\footnote{Roughly 15\% of the observations do not contain information on the hour. This does not entail any consequences for the main analysis, as I examine daily variation in the assault rate.} The number of assaults is increasing over the course of a day and peaks around midnight. In order to assign the cases that occur during the early hours to the day, in which they are rooted in, I define a day as running from 6:00 AM until 5:59 AM. Panel B shows the distribution of assaults across days of the week. You can see higher values on Friday and Saturday, whereas the other days have assault rates belonging to the same ballpark. Panel C shows that the number of assaults have a strong seasonal pattern with the highest value recorded in May, and the smallest figure in August.\footnote{Panel C shows the number of assaults across months of the year while adjusting for the number of days per month.} Panel D confirms this impression by plotting the daily number of assaults. New year's eve is a particular impressive outlier in this context. \footnote{Panels C and D are showing data for the year 214 only. Appendix Figure  \ref{fig_soc_ext:assault_year_distribution} shows the distribution per day for different years.}
 
-cut the data: temporally Jan 2011 - June 2015, and spatially: only the affected regions
-
-Focus only on assaults.
-
-assaults, 
-variation see figure \ref{fig_soc_ext:assault_time_distribution_2014}
-per hour: drop cases (roughly 15 \% where there is no information on the hour), the number of assaults increases over the course of the day and peaks around midnight. In order to assign the cases that occur during the early hours to the day, in which they are rooted in, I define a day as 6:00 AM until 5:59 AM. 
-Per DOW: considerably higher values on Friday and Saturday night, i.e. the night from Fri to Sat (DO MOST OF THE GAMES HAPPEN THEN?) and SAT to SUN.
-Per Month: we see strong seasonality, highest values in May (due to Labor Day), decreases over summer and picks up again towards the colder months. 
-per day roughly around 320 per day, peak on new year's eve, high on holidays (carneval) 
-\footnote{Per month and per day is only for the year 2014. Appendix Figure  \ref{fig_soc_ext:assault_year_distribution} shows the distribution per day for different years. Not so much difference over the years.}
-
-
-other characteristics: 40\% of victims are female, average age just above 32 years, and 40\% haven't had any prior relationship with the suspect
+% XXX per day roughly around 320 per day, peak on new year's eve, high on holidays (carneval) 
+\textbf{XXX delete June, as there are no games played in that month}
 
 
 
+\subsection{Soccer data}
+The data on soccer matches is self-collected and is obtained via web-scraping from kicker.de and transfermarkt.de. It captures all matches that are carried out in the context of the German football league system over the period January 2011 until May 2015. The data contains detailed match and table standing parameters, e.g. time and place of the match, attendance, pregame point difference, goals, penalties, cards, referee characteristics, among others. Furthermore, there is comprehensive data on the single teams; such as size of the team, average age, market value, and number of foreign players. The stadiums where the matches take place are geographically encoded and will "activate" the treatment in that region in which the stadium is located and a home game is played. Figure \ref{fig_soc_ext:map_gem_stadiums} depicts a map with all 69 stadiums in the data set. 
+
+% XXX  stadiums in which not at least a full season is played are excluded from the analysis.\footnote{This affects the stadiums in Lübeck (1), Reutlingen (12), Elversberg (14), and the Air-Berlin stadium in Dusseldorf (3). The number in parenthesis indicates the number of games that were held in that venue. This excludes 0.6\% of all matches.}
+
+Figure \ref{fig_soc_ext:descriptives_matches_time_attendance} illustrates some insights into key variables. Panel A shows the number of matches per day of the week and league. The vast majority of the matches is taking place between Friday and Sunday. This is particularly true for the highest league, whereas lower leagues play occasionally on weekdays, too. Matches happening on weekdays are exclusively held in the evenings. In contrast, matches on weekends occur usually in the afternoon. The three different divisions can attract spectators differently, as depicted in Panel C. The Bundesliga as the highest tier can intrigue the most people to show up with an average audience of 44,000 people per game, followed by the second league with on average 17,000 fans per match, and the lowest league can attract on average a bit less than 6,000 fans per game to show up in the stadium.
 
 
 
 \subsection{Weather data}
-Deutscher Wetterdienst
-reduce sample of weather monitors to the subset of stations that measure all relevent weather variables at the same time. From this set choose the weather monitor with the closest proximity to the stadium. The associated weather monitor to each stadium can be found in figure \ref{fig_soc_ext:map_gem_stadiums_nearest_monitor}. 
+The weather data comes from Germany's National Meteorological Service (Deutscher Wetterdienst). In order to construct the weather control variables, I use the sample of weather monitors, which measure relevant weather variables all at the same time.\footnote{I use the following weather variables as daily averages: the daily average, minimum and maximum air temperature,  minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth, and wind velocity.} From this set of monitors I choose the weather monitor with the closest proximity to a stadium. The assigned monitor-stadium pairs can be found in Figure \ref{fig_soc_ext:map_gem_stadiums_nearest_monitor}. The quality of the matches between weather monitors and stadiums is high, as the average distance between stadiums and monitors is 15 kilometers. The distribution of the distance of monitor-stadium pairs can be found in Figure \ref{fig_soc_ext:hist_distance_stadium_monitors}. Few of the  weather variables have missing data, which are filled in the following way: propagate the last valid observation forward to the next valid observation (i.e. forward fill).\footnote{The weather variables with missing data are (with the share of missing data in parenthesis): Cloud cover (<1.2\%), snow depth (<0.6\%).}
 
 
 
-
-The quality of the match between the weather monitors and the stadiums is high, the average distance between stadium and monitor is 15 km. The distribution of the  distance between stadium and monitor can be found in figure 
-
-
+\subsection{Holidays}
+In order to capture any variation of the crime rate between ordinary and special days, I add controls for public and school holidays, which may differ on the state level.\footnote{The data for the school holiday comes from The Standing Conference of the Ministers of Education and Cultural Affairs of the Länder in the Federal Republic of Germany (Kultusminister Konferenz).} Furthermore, I also add a dummy variable for peculiar days (New Year's Eve and the days surrounding Carnival), which are not holidays, but certainly shift the crime rate anyways.
 
 
 
 \subsection{Regional Database}
-GENESIS
+The Federal Statistical Office and the statistical offices of the Länder provide a data base of detailed statistics by various subject areas on a very granular spatial level. Thus, I am able to build a panel on the municipality-year level containing comprehensive information on topics such as territory, population, labor market, election results, housing, economic sectors, and public budgets. The information is used to construct weights for the regression analysis or to build assault rates. Furthermore, the plan for the future is to leverage the high dimensionality of the data in order to investigate treatment effect heterogeneity with the help of machine learning algorithms (e.g. by making use of causal forests). 
+
+
+
+
+
+
+
+
+
 
 
 
@@ -386,8 +388,8 @@ GENESIS
 \newpage
 
 
-%\bibliographystyle{ecca_edited}%previous style-chicago
-%\bibliography{mlch_bibliography}
+\bibliographystyle{ecca_edited}%previous style-chicago
+\bibliography{soc_ext_bibliography}
 
 %\printbibliography
 
@@ -447,7 +449,20 @@ GENESIS
 	\end{minipage}
 \end{figure}
 \vspace*{\fill}\clearpage
+
 %--------------------------------------------
+
+
+% MAP: STADIUMS
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{The stadiums}\label{fig_soc_ext:map_gem_stadiums}
+	\includegraphics[width=0.9\linewidth]{maps/soc_ext_2010_2015_Gemeinde_stadiums_75.png}
+	\begin{minipage}{0.95\linewidth}
+		\scriptsize{\emph{Notes:} This map shows the stadiums used in the analysis over the seasons 2010/11 until 2014/15. The black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
 
 
 
@@ -456,7 +471,7 @@ GENESIS
 % Descriptives about soccer matches
 \vspace*{\fill}
 \begin{figure}[H]\centering
-	\caption{Soccer matches}\label{fig_soc_ext:descriptives_mataches_attendance}
+	\caption{Soccer matches}\label{fig_soc_ext:descriptives_matches_time_attendance}
 	\includegraphics[width=0.9 \linewidth]{descriptive/soc_ect_desc_soccer_macthes_attendance}	
 	\begin{minipage}{\linewidth}
 		\scriptsize{\emph{Notes:} The figures show key aspects of soccer games in the data set. Panel A shows how the number of matches vary over the course of a week, Panel B plots the distribution of matches over the course of a day, and Panel C shows kernel densities for the number of spectators (in thousand) across the three leagues.\newline \emph{Source:} Own representation with data obtained from kicker.de.}
@@ -467,11 +482,18 @@ GENESIS
 
 
 
+%--------------------------------------------
 
-
-
-
-
+% MAP: Stadium and Weather monitors
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{The stadiums and their closest weather monitors}\label{fig_soc_ext:map_gem_stadiums_nearest_monitor}
+	\includegraphics[width=0.9 \linewidth]{maps/soc_ext_2010_2015_Gemeinde_stadiums_nearest_monitor_75.png}
+	\begin{minipage}{0.95\linewidth}
+		\scriptsize{\emph{Notes:} This map shows the stadiums used in the analysis over the seasons 2010/11 until 2014/15 (red dots) and the closest weather monitors (blue dots). The orange lines indicate how the weather monitors are assigned to the stadiums. The black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
 %--------------------------------------------
 
 
@@ -488,38 +510,54 @@ GENESIS
 \end{figure}
 \vspace*{\fill}\clearpage
 %--------------------------------------------
-
-
-%WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
-% MAPS
-%WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
-\vspace*{\fill}
-\begin{figure}[H]\centering
-	\caption{The stadiums}\label{fig_soc_ext:map_gem_stadiums}
-	\includegraphics[width=0.9\linewidth]{maps/soc_ext_2010_2015_Gemeinde_stadiums_75.png}
-	\begin{minipage}{0.95\linewidth}
-		\scriptsize{\emph{Notes:} This map shows the stadiums used in the analysis over the seasons 2010/11 until 2014/15. The black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
-	\end{minipage}
-\end{figure}
-\vspace*{\fill}\clearpage
-
-
-
-\vspace*{\fill}
-\begin{figure}[H]\centering
-	\caption{The stadiums and their closest weather monitors}\label{fig_soc_ext:map_gem_stadiums_nearest_monitor}
-	\includegraphics[width=0.9 \linewidth]{maps/soc_ext_2010_2015_Gemeinde_stadiums_nearest_monitor_75.png}
-	\begin{minipage}{0.95\linewidth}
-		\scriptsize{\emph{Notes:} This map shows the stadiums used in the analysis over the seasons 2010/11 until 2014/15 (red dots) and the closest weather monitors (blue dots). The orange lines indicate how the weather monitors are assigned to the stadiums. The black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
-	\end{minipage}
-\end{figure}
-\vspace*{\fill}\clearpage
-
-
-
 % To be put in: 
 %	- histogram: distance weather monitors to stadiums
 %	- barplot: number of offences, by key
+
+
+%--------------------------------------------
+
+%WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
+% RESULTS
+%WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
+
+
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{The average assault rate on gamedays and days where no game takes place}\label{fig_soc_ext:}
+	\includegraphics[width=0.9 \linewidth]{descriptive/soc_ext_descr_assaultrate_gd_nongd_hor.pdf}
+	\begin{minipage}{0.95\linewidth}
+		\scriptsize{\emph{Notes:} }
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
+
+
+
+
+
+
+\begin{landscape}
+	\vspace*{\fill}
+	\begin{figure}[H]\centering
+		\caption{The age profile of the effect}\label{fig_soc_ext:fe_age_profile}
+		\begin{subfigure}[h]{0.31\linewidth}\centering\caption{Total}
+			\includegraphics[width=\linewidth]{regression/fe_agebrackets_t.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.31\linewidth}\centering\caption{Women}
+			\includegraphics[width=\linewidth]{regression/fe_agebrackets_f.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.31\linewidth}\centering\caption{Men}
+			\includegraphics[width=\linewidth]{regression/fe_agebrackets_m.pdf}
+		\end{subfigure}
+		\scriptsize
+		\begin{minipage}{\linewidth}
+			\emph{Notes:} The figures show FE estimates with the richest specification along with 95\% confidence intervals for all assaults, and for both genders separately. 
+		\end{minipage}
+	\end{figure}
+	\vspace*{\fill}\clearpage
+\end{landscape}
+
 
 
 %--------------------------------------------------------------------
@@ -532,6 +570,103 @@ GENESIS
 \vspace*{\fill}\clearpage
 
 
+%--------------------------------------------
+\vspace*{\fill}
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Effects on \textbf{Assault rate}}\label{tab_soc_ext:reg_fe_assrate}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{6}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+				\midrule
+				\input{reg_fe/assrate_fixed_effects} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
+			weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size
+			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+\vspace*{\fill}\clearpage 
+
+%--------------------------------------------
+
+\vspace*{\fill}
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Effects on \textbf{Assault rate with leads/lags}}\label{tab_soc_ext:reg_fe_assrate_leads_lags}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{6}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+				\midrule
+				\input{reg_fe/assrate_fixed_effects_leads_lags} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
+			weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size
+			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+\vspace*{\fill}\clearpage 
+
+%--------------------------------------------
+% subcategories: VICTIM characteristics
+\begin{landscape}
+	\vspace*{\fill}
+	\begin{table}[H] \centering 
+		\begin{threeparttable} \centering \caption{Effects on Assault rate, by victim characteristics}
+			\label{tab_soc_ext:reg_fe_assrate_victim_chars}
+			{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+				\begin{tabular}{l*{6}{c}}
+					\toprule 
+					&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
+					& & \multicolumn{2}{c}{Gender} & \multicolumn{3}{c}{Victim-suspect-relationship} \\
+					\cmidrule(lr){3-4} \cmidrule(lr){5-7}
+					& baseline & women & men & strangers & \clb{c}{prior\\relationship}  & domestic \\
+					\midrule
+					\input{reg_fe/assrate_fixed_effects_subcat_victim_chars} 
+					\bottomrule 
+			\end{tabular}}
+			\begin{tablenotes} 
+				\item \scriptsize \emph{Notes:} The table shows estimates ..... 
+				weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size, strangers and prior relationship are defined in formal way (e.g. what type of family, acquaintance - if any), whereas the domestic sphere is defined in a spatial-social manner (e.g. living in the same household, education or care contexts). 
+				Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
+			\end{tablenotes} 
+		\end{threeparttable} 
+	\end{table}
+	\vspace*{\fill}\clearpage 
+\end{landscape}
+%--------------------------------------------
+% subcategories: CRIME characteristics
+\begin{landscape}
+	\vspace*{\fill}
+	\begin{table}[H] \centering 
+		\begin{threeparttable} \centering \caption{Effects on Assault rate, by crime characteristics}
+			\label{tab_soc_ext:reg_fe_assrate_crime_chars}
+			{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+				\begin{tabular}{l*{7}{c}}
+					\toprule 
+					&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)} &\multicolumn{1}{c}{(7)}\\
+					& & \multicolumn{4}{c}{\textbf{Timing}} & \multicolumn{2}{c}{\textbf{assault execution}} \\
+					\cmidrule(lr){3-6} \cmidrule(lr){7-8}
+					& baseline & spring & summer & fall & winter & attempt & success \\
+					\midrule
+					\input{reg_fe/assrate_fixed_effects_subcat_crime_chars} 
+					\bottomrule 
+			\end{tabular}}
+			\begin{tablenotes} 
+				\item \scriptsize \emph{Notes:} The table shows estimates ..... 
+				weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size
+				Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
+			\end{tablenotes} 
+		\end{threeparttable} 
+	\end{table}
+	\vspace*{\fill}\clearpage 
+\end{landscape}
 
 
 
