@@ -147,29 +147,20 @@
 %--------------------------------------------------------------------
 \section{Data}
 	\subsection{Crime}
-	\begin{frame}{Data}
+	\begin{frame}{Data}\label{CRIME_DATA}
 		\begin{block}{Crime data}
 			\begin{itemize}
 				\item German uniform crime reporting program (Polizeiliche Kriminalstatistik), provided by the BKA
 				\item universe of individuals that fall victim to a crime against their legally protected personal rights, 2011-mid 2015
 				\item aggregated to municipality-day level
 				\item assaults: actions involving physical violence $\rightarrow$ \textit{intentional simple bodily injury}, $\sim$ 45\% of all cases
+				\newline\hyperlink{CRIMINAL_OFFENSE_CODES}{\beamerbutton{Offense codes}}
 			\end{itemize}
 		\end{block}	
 	\end{frame}
 
 
 
-
-
-% graph offense keys-------------------------------------------------
-	\begin{frame}{Types of criminal offenses}
-		\begin{figure}
-			\begin{figure}
-				\includegraphics[width=\linewidth]{../../analysis/output/graphs/descriptive/soc_ext_offense_key_distribution_2014}
-			\end{figure}
-		\end{figure}
-	\end{frame}
 
 % graphs of assaults ------------------------------------------------
 	\begin{frame}{Assaults}
@@ -220,11 +211,11 @@
 
 % slide: weather, holidays and regional DB---------------------------
 	\subsection{Weather and Holidays}
-	\begin{frame}{Data}
+	\begin{frame}{Data}\label{link_weather_data}
 		\begin{block}{Weather}
 			\begin{itemize}
 				\item German National Meteorological Service
-				\item use weather monitors with closest proximity to the stadium 
+				\item use weather monitors with closest proximity to the stadium \newline \hyperlink{link_map_stadiums}{\beamerbutton{map weather monitors}} \hyperlink{link_hist_dist_monitor_stadiums}{\beamerbutton{Quality of the match}}
 			\end{itemize}
 		\end{block}
 		\begin{block}{Holidays}
@@ -240,20 +231,6 @@
 		\end{block}
 	\end{frame}
 
-% map: location of weather monitors----------------------------------
-	\begin{frame}{Weather monitors}
-		\begin{figure}
-			\includegraphics[width=0.65\linewidth]{../../analysis/output/graphs/maps/soc_ext_2010_2015_Gemeinde_stadiums_nearest_monitor_75.png}
-		\end{figure}
-	\end{frame}
-
-
-% histrogram: distance stadium-monitor ------------------------------
-	\begin{frame}{Distance between stadiums and weather monitors}
-		\begin{figure}
-			\includegraphics[width=0.9\linewidth]{../../analysis/output/graphs/descriptive/soc_ext_distance_monitors_stadiums}
-		\end{figure}
-	\end{frame}
 
 
 	
@@ -261,7 +238,7 @@
 % Results
 %--------------------------------------------------------------------
 \section{Results}
-
+\subsection{Intuition}
 % graph: assaults on gd and non-gd-----------------------------------
 	\begin{frame}{Intuitive Preview of Results}
 		\begin{figure}
@@ -270,19 +247,30 @@
 	\end{frame}
 
 %--------------------------------------------------------------------
+	\subsection{Regression}
 	\begin{frame}{Regression Results}
-		
+		\begin{figure}
+			\includegraphics[width = 0.9\linewidth]{../../analysis/output/presentation/effects_assault_rate.jpg}
+		\end{figure}
 	\end{frame}
 
 
-%--------------------------------------------------------------------
-	\begin{frame}{Age profile of the victims}
+% table: victim chars -----------------------------------------------
+	\subsection{Victim Characteristics}
+	\begin{frame}{Victim Characteristics}
+		\begin{figure}
+			\includegraphics[width=0.95\linewidth]{../../analysis/output/presentation/effects_assault_rate_victim_characteristics.png}
+		\end{figure}
+	\end{frame}
+
+% figure: age-profile of effect -------------------------------------
+	\begin{frame}{Age Profile of the Victims}
 		\begin{figure}[H]\centering
 			\includegraphics[width=\linewidth]{../../analysis/output/graphs/regression/fe_agebrackets_t.pdf}
 		\end{figure}
 	\end{frame}
 
-
+% figures: age-profile of effect, per gender ------------------------
 	\begin{frame}{Age-profile, per gender}
 		\begin{figure}
 				\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Women}
@@ -293,6 +281,90 @@
 			\end{subfigure}
 		\end{figure}
 	\end{frame}
+
+% table: heterogeneity by crime chars -------------------------------
+	\subsection{Crime Characteristics}
+	\begin{frame}{Crime Characteristics}
+		\begin{figure}
+			\includegraphics[width=0.95\linewidth]{../../analysis/output/presentation/effects_assault_rate_crime_characteristics.png}
+		\end{figure}
+	\end{frame}
+
+
+%--------------------------------------------------------------------
+% CONCLUSION
+%--------------------------------------------------------------------
+\section{Conclusion}
+
+\begin{frame}{Concluding Remarks}
+	\begin{itemize}
+		\item Future work: ML approach to identify effect heterogeneity
+	\end{itemize}
+\end{frame}
+
+
+%--------------------------------------------------------------------
+% THANK YOU
+%--------------------------------------------------------------------
+\begin{frame}
+	\begin{center}
+		Thank you very much for your attention!
+	\end{center}
+\end{frame}
+
+
+%--------------------------------------------------------------------
+% APPENDIX
+%--------------------------------------------------------------------
+\section*{Appendix}
+\subsection*{Data}
+
+%--------------------------------------------------------------------
+% APPENDIX - DATA
+%--------------------------------------------------------------------
+
+% graph offense keys-------------------------------------------------
+\label{CRIMINAL_OFFENSE_CODES}
+\begin{frame}{Types of criminal offenses}
+\hyperlink{CRIME_DATA}{\beamerbutton{Back to crime data}}
+\begin{figure}
+	\begin{figure}
+		\includegraphics[width=\linewidth]{../../analysis/output/graphs/descriptive/soc_ext_offense_key_distribution_2014}
+	\end{figure}
+\end{figure}
+\end{frame}
+
+% map: location of weather monitors----------------------------------
+\begin{frame}{Weather monitors}\label{link_map_stadiums}
+\hyperlink{link_weather_data}{\beamerbutton{Back to weather data}}
+\begin{figure}
+	\includegraphics[width=0.6\linewidth]{../../analysis/output/graphs/maps/soc_ext_2010_2015_Gemeinde_stadiums_nearest_monitor_75.png}
+\end{figure}
+\end{frame}
+
+% histrogram: distance stadium-monitor ------------------------------
+\begin{frame}{Distance between stadiums and weather monitors}\label{link_hist_dist_monitor_stadiums}
+\hyperlink{link_weather_data}{\beamerbutton{Back to weather data}}
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{../../analysis/output/graphs/descriptive/soc_ext_distance_monitors_stadiums}
+\end{figure}
+\end{frame}
+
+
+%--------------------------------------------------------------------
+% APPENDIX - RESULTS
+%--------------------------------------------------------------------
+
+% table: lead and lags ----------------------------------------------
+\begin{frame}{Temporal Displacement}
+\begin{figure}
+	\includegraphics[width=0.9\linewidth]{../../analysis/output/presentation/effects_assault_rate_lead_lag.png}
+\end{figure}
+\end{frame}
+
+
+
+
 
 
 \end{document}
