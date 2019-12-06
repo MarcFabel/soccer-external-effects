@@ -8,6 +8,7 @@
 	global graphs		"$path\output\graphs\descriptive"
 	global graphs_temp	"$path\output\graphs\temp"
 	global prefix 		"soc_ext_"
+	global prog			"$path\prog"
 
 
 	
@@ -137,7 +138,7 @@ keep if d_gameday == 1
 	reshape wide ass assrate assrate_f assrate_m, i(dow_num) j(d_gameday)
 
 	graph bar assrate0 assrate1, over(dow_num) horizontal ///
-		legend(label(1 "Nongame weeks") label(2 "Game weeks") order(2 1) ///
+		legend(label(1 "w/o game") label(2 "with game") order(2 1) ///
 		pos(2) ring(0) col(1) ) ///
 		bar(1, color(gs4)) bar(2, color(forest_green)) ///
 		ytitle("Average assault rate") ///
