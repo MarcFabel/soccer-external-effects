@@ -59,7 +59,7 @@
 %\renewcommand{\thefootnote}{\fnsymbol{footnote}}
 
 
-\title[Soccer and Crime]{  \textbf{Crime externalities from soccer games in Germany }\newline Work in progress}
+\title[Soccer and Crime]{  \textbf{Crime Externalities from Soccer Games in Germany }\newline Work in progress}
 \author[Marc Fabel]{Marc Fabel \newline University of Munich \& ifo Institute}
 %\institute[VfS Meeting 2017]{}
 \vspace{-2 em}
@@ -111,35 +111,34 @@
 % INTRODUCTION
 %--------------------------------------------------------------------
 \section{Introduction}
-\begin{frame}{Motivation}
-\end{frame}
-%--------------------------------------------------------------------
-\begin{frame}{Channels}
-	aggressive behavior
-\end{frame}
-%--------------------------------------------------------------------
-
-
-
-%--------------------------------------------------------------------
-% IDENTIFICATION
-%--------------------------------------------------------------------
-\section{Identification}
-
-	\begin{frame}{Empirical Strategy}
-		\begin{align}
-			Crime_{rdmy} =\ &\alpha + \beta Gameday_{rdmy} + \underbrace{\gamma_d +  \eta_m + \theta_y}_{date_{dmy}} + \nonumber\\ & \vartheta_r + X_{rdmy} \lambda + \varepsilon_{rdmy}
-			\label{eq_soc_ext:model}
-		\end{align}
-	
+	\begin{frame}{Motivation}
+		High popularity of soccer (2017/18):
 		\begin{itemize}
-			\item $Crime_{rdmy}$: is the crime rate in region $r$, on day-of-the-week $d$, in month $m$, and year $y$: number of assaults per 100,000 individuals, scaled to reflect yearly crime rates
-			\item $ X_{rdmy}$: school and public holidays FE and local weather controls
-			\item using population weights
-			\item interactions of region and time FE: $date_{dmy}\times\vartheta_r$
-			\item standard errors: twoway cluster (i) district-year and (ii) year-month
+			\item Bundesliga highest average attendance per match: 42,700, first three leagues: 21.5 Mio. annually
+			\item Bundesliga: 3.17 billion (373 Mio) Euros in revenues (profits)
+			\item External effects in many dimensions
+			\begin{itemize}
+				\item Police operations, health outcomes, road safety, penal system, ...
+			\end{itemize}						
 		\end{itemize}
+
+
+		\begin{block}{Research question}
+			\textbf{$\Rightarrow$ What are the causal effects of soccer matches on violent behavior (assault rates)?}
+		\end{block}
 	\end{frame}
+%--------------------------------------------------------------------
+%\begin{frame}{Channels}
+%Aggressive behavior due to 
+%	
+%	\begin{itemize}
+%		\item Alcohol consumption: 
+%	\end{itemize}		
+%	
+%\end{frame}
+%--------------------------------------------------------------------
+
+
 
 
 %--------------------------------------------------------------------
@@ -148,13 +147,18 @@
 \section{Data}
 	\subsection{Crime}
 	\begin{frame}{Data}\label{CRIME_DATA}
-		\begin{block}{Crime data}
+		\begin{block}{Crime Data}
 			\begin{itemize}
-				\item German uniform crime reporting program (Polizeiliche Kriminalstatistik), provided by the BKA
-				\item universe of individuals that fall victim to a crime against their legally protected personal rights, 2011-mid 2015
-				\item aggregated to municipality-day level
-				\item assaults: actions involving physical violence $\rightarrow$ \textit{intentional simple bodily injury}, $\sim$ 45\% of all cases
-				\newline\hyperlink{CRIMINAL_OFFENSE_CODES}{\beamerbutton{Offense codes}}
+				\item German Police Crime Statistics, provided by the Federal Criminal Police Office (Bundeskriminalamt)
+				\item Universe of individuals that fall victim to a crime against their legally protected personal rights, 2011-mid 2015
+				\item Aggregated to municipality-day level
+				\item Assaults: 
+				\begin{itemize}
+					\item Actions involving physical violence
+					\item \textit{'Intentional simple bodily injury'} (Vorsätzliche einfache
+					Körperverletzung § 223 StGB)
+					\item High prevalence: $\sim$ 45\% of all offenses\newline \hyperlink{CRIMINAL_OFFENSE_CODES}{\beamerbutton{Distribution of offense codes}}
+				\end{itemize}
 			\end{itemize}
 		\end{block}	
 	\end{frame}
@@ -182,40 +186,46 @@
 
 
 % slide: Soccer Data-------------------------------------------------
-	\subsection{Soccer}
+	\subsection{Soccer}\label{link_soccer_data}
 	\begin{frame}{Data}
 		\begin{block}{Soccer Data}
 			\begin{itemize}
-				\item obtained via webscraping from kicker.de and transfermarkt.de
-				\item all matches within context of German Football League System (first three leagues)
-				\item detailed match and table standing parameters
-				\item geocoding of the stadiums $\rightarrow$ 69 stadiums in the data set
+				\item Obtained via webscraping from kicker.de and transfermarkt.de
+				\item All matches within context of German Football League System (first three leagues) \hyperlink{link_soccer_matches}{\beamerbutton{Soccer matches}}
+				\item Detailed match and table standing parameters
+				\begin{itemize}
+				{\scriptsize
+					\item Time and place of match
+					\item Attendance
+					\item Pregame point spread
+					\item Goals
+					\item Penalties
+					\item Cards
+					\item Referee characteristics
+					\item ...
+				}
+				\end{itemize}
+				\item Geocoding of the stadiums $\rightarrow$ 69 stadiums in the data set
 			\end{itemize}
 		\end{block}
 	\end{frame}
 
 % map stadiums-------------------------------------------------------
-	\begin{frame}{The stadiums}
+	\begin{frame}{The Stadiums}
 		\begin{figure}
 			\includegraphics[width=0.65\linewidth]{../../analysis/output/graphs/maps/soc_ext_2010_2015_Gemeinde_stadiums_75.png}
 		\end{figure}
 	\end{frame}
 
 
-% figures: descr soccer matches--------------------------------------
-	\begin{frame}{Soccer matches}
-		\begin{figure}
-			\includegraphics[width=\linewidth]{../../analysis/output/graphs/descriptive/soc_ect_desc_soccer_macthes_attendance}
-		\end{figure}
-	\end{frame}
 
 % slide: weather, holidays and regional DB---------------------------
-	\subsection{Weather and Holidays}
-	\begin{frame}{Data}\label{link_weather_data}
+	\subsection{Controls}
+	\begin{frame}{Control Variables}\label{link_weather_data}
 		\begin{block}{Weather}
 			\begin{itemize}
 				\item German National Meteorological Service
-				\item use weather monitors with closest proximity to the stadium \newline \hyperlink{link_map_stadiums}{\beamerbutton{map weather monitors}} \hyperlink{link_hist_dist_monitor_stadiums}{\beamerbutton{Quality of the match}}
+				\item use weather monitors with closest proximity to the stadium \newline \hyperlink{link_map_stadiums}{\beamerbutton{Map of weather monitors}} \hyperlink{link_hist_dist_monitor_stadiums}{\beamerbutton{Quality of the match}}
 			\end{itemize}
 		\end{block}
 		\begin{block}{Holidays}
@@ -226,11 +236,30 @@
 		\begin{block}{Regional Database}
 			\begin{itemize}
 				\item territory, population, labor market, election results, housing, economic sectors, public budgets, ... 
-				\item for future: use machine learning algorithms to detect effect heterogeneity
 			\end{itemize}
 		\end{block}
 	\end{frame}
 
+
+%--------------------------------------------------------------------
+% IDENTIFICATION
+%--------------------------------------------------------------------
+\section{Identification}
+
+	\begin{frame}{Empirical Strategy}
+		\begin{align}
+			\text{Assaults}_{rdmy} =\ &\alpha + \beta\ \text{Gameday}_{rdmy} + \underbrace{\gamma_d +  \eta_m + \theta_y}_{\text{date}_{dmy}} + \nonumber\\ & \vartheta_r + X_{rdmy} \lambda + \varepsilon_{rdmy}
+			\label{eq_soc_ext:model}
+		\end{align}
+	
+		\begin{itemize}
+			\item Assaults$_{rdmy}$: number of assaults per 100,000 individuals, scaled to reflect yearly crime rates
+			\item $ X_{rdmy}$: school and public holidays FE and local weather controls
+			\item Using population weights
+			\item Interactions of region and time FE: $\text{date}_{dmy}\times\vartheta_r$
+			\item Standard errors: twoway cluster (i) district-year and (ii) year-month
+		\end{itemize}
+	\end{frame}
 
 
 	
@@ -246,49 +275,26 @@
 		\end{figure}
 	\end{frame}
 
-%--------------------------------------------------------------------
-	\subsection{Regression}
-	\begin{frame}{Regression Results}
-		\begin{figure}
-			\includegraphics[width = 0.9\linewidth]{../../analysis/output/presentation/effects_assault_rate.jpg}
-		\end{figure}
-	\end{frame}
 
 
 % table: victim chars -----------------------------------------------
-	\subsection{Victim Characteristics}
-	\begin{frame}{Victim Characteristics}
+	\subsection{Regression Results}
+	\begin{frame}{Regression Results}\label{link_regression_victim_characteristic}
 		\begin{figure}
 			\includegraphics[width=0.95\linewidth]{../../analysis/output/presentation/effects_assault_rate_victim_characteristics.png}
 		\end{figure}
+		\hyperlink{link_regression_baseline}{\beamerbutton{Model w/o interactions}} \hyperlink{link_regression_lead_lags}{\beamerbutton{Temporal displacement effects}} \hyperlink{link_regression_crime_characteristics}{\beamerbutton{Heterogeneity, by crime characteristics}}
 	\end{frame}
 
 % figure: age-profile of effect -------------------------------------
-	\begin{frame}{Age Profile of the Victims}
+	\begin{frame}{Age Profile of the Victims}\label{link_regression_age_profile}
 		\begin{figure}[H]\centering
-			\includegraphics[width=\linewidth]{../../analysis/output/graphs/regression/fe_agebrackets_t.pdf}
+			\includegraphics[width=0.9\linewidth]{../../analysis/output/graphs/regression/fe_agebrackets_t.pdf}
 		\end{figure}
+		\hyperlink{link_regression_age_profile_per_gender}{\beamerbutton{Age profile, per gender}}
 	\end{frame}
 
-% figures: age-profile of effect, per gender ------------------------
-	\begin{frame}{Age-profile, per gender}
-		\begin{figure}
-				\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Women}
-				\includegraphics[width=\linewidth]{../../analysis/output/graphs/regression/fe_agebrackets_f.pdf}
-			\end{subfigure}
-			\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Men}
-				\includegraphics[width=\linewidth]{../../analysis/output/graphs/regression/fe_agebrackets_m.pdf}
-			\end{subfigure}
-		\end{figure}
-	\end{frame}
 
-% table: heterogeneity by crime chars -------------------------------
-	\subsection{Crime Characteristics}
-	\begin{frame}{Crime Characteristics}
-		\begin{figure}
-			\includegraphics[width=0.95\linewidth]{../../analysis/output/presentation/effects_assault_rate_crime_characteristics.png}
-		\end{figure}
-	\end{frame}
 
 
 %--------------------------------------------------------------------
@@ -298,7 +304,17 @@
 
 \begin{frame}{Concluding Remarks}
 	\begin{itemize}
-		\item Future work: ML approach to identify effect heterogeneity
+		\item Findings
+		\begin{itemize}
+			\item A home game leads to a 21 \% increase in the rate of physical assaults
+			\item The effects are driven my male victims with no prior relationship to the suspect
+			\item Effects are decreasing with age (for adults)
+		\end{itemize}				
+		\item What I am working on currently: 
+		\begin{itemize}
+			\item Geographic displacement effects
+			\item Machine Learning algorithms to identify effect heterogeneity: exploit game and region characteristics
+		\end{itemize}
 	\end{itemize}
 \end{frame}
 
@@ -317,7 +333,7 @@
 % APPENDIX
 %--------------------------------------------------------------------
 \section*{Appendix}
-\subsection*{Data}
+
 
 %--------------------------------------------------------------------
 % APPENDIX - DATA
@@ -325,45 +341,80 @@
 
 % graph offense keys-------------------------------------------------
 \label{CRIMINAL_OFFENSE_CODES}
-\begin{frame}{Types of criminal offenses}
-\hyperlink{CRIME_DATA}{\beamerbutton{Back to crime data}}
-\begin{figure}
-	\begin{figure}
-		\includegraphics[width=\linewidth]{../../analysis/output/graphs/descriptive/soc_ext_offense_key_distribution_2014}
-	\end{figure}
-\end{figure}
-\end{frame}
+	\begin{frame}{Types of Criminal Offenses}
+	\hyperlink{CRIME_DATA}{\beamerbutton{Back to crime data}}
+		\begin{figure}
+			\begin{figure}
+				\includegraphics[width=\linewidth]{../../analysis/output/graphs/descriptive/soc_ext_offense_key_distribution_2014}
+			\end{figure}
+		\end{figure}
+	\end{frame}
+
+% figures: descr soccer matches--------------------------------------
+	\begin{frame}{Soccer Matches}\label{link_soccer_matches}
+		\begin{figure}
+			\includegraphics[width=\linewidth]{../../analysis/output/graphs/descriptive/soc_ect_desc_soccer_macthes_attendance}
+		\end{figure}
+		\hyperlink{link_soccer_data}{\beamerbutton{Back to soccer data}}
+	\end{frame}
 
 % map: location of weather monitors----------------------------------
-\begin{frame}{Weather monitors}\label{link_map_stadiums}
-\hyperlink{link_weather_data}{\beamerbutton{Back to weather data}}
-\begin{figure}
-	\includegraphics[width=0.6\linewidth]{../../analysis/output/graphs/maps/soc_ext_2010_2015_Gemeinde_stadiums_nearest_monitor_75.png}
-\end{figure}
-\end{frame}
+	\begin{frame}{Weather Monitors}\label{link_map_stadiums}
+		\hyperlink{link_weather_data}{\beamerbutton{Back to weather data}}
+		\begin{figure}
+			\includegraphics[width=0.6\linewidth]{../../analysis/output/graphs/maps/soc_ext_2010_2015_Gemeinde_stadiums_nearest_monitor_75.png}
+		\end{figure}
+	\end{frame}
 
 % histrogram: distance stadium-monitor ------------------------------
-\begin{frame}{Distance between stadiums and weather monitors}\label{link_hist_dist_monitor_stadiums}
-\hyperlink{link_weather_data}{\beamerbutton{Back to weather data}}
-\begin{figure}
-\includegraphics[width=0.9\linewidth]{../../analysis/output/graphs/descriptive/soc_ext_distance_monitors_stadiums}
-\end{figure}
-\end{frame}
+	\begin{frame}{Distance between Stadiums and Weather Monitors}\label{link_hist_dist_monitor_stadiums}
+		\hyperlink{link_weather_data}{\beamerbutton{Back to weather data}}
+		\begin{figure}
+			\includegraphics[width=0.9\linewidth]{../../analysis/output/graphs/descriptive/soc_ext_distance_monitors_stadiums}
+		\end{figure}
+	\end{frame}
 
 
 %--------------------------------------------------------------------
 % APPENDIX - RESULTS
 %--------------------------------------------------------------------
 
+%--------------------------------------------------------------------
+	\begin{frame}{Regression Results}\label{link_regression_baseline}
+		\begin{figure}
+			\includegraphics[width = 0.9\linewidth]{../../analysis/output/presentation/effects_assault_rate.jpg}
+		\end{figure}
+		\hyperlink{link_regression_victim_characteristic}{\beamerbutton{Back to victim characteristics}}
+	\end{frame}
+
 % table: lead and lags ----------------------------------------------
-\begin{frame}{Temporal Displacement}
+	\begin{frame}{Temporal Displacement}\label{link_regression_lead_lags}
+		\begin{figure}
+			\includegraphics[width=0.9\linewidth]{../../analysis/output/presentation/effects_assault_rate_lead_lag.png}
+		\end{figure}
+		\hyperlink{link_regression_victim_characteristic}{\beamerbutton{Back to victim characteristics}}
+	\end{frame}
+
+% table: heterogeneity by crime chars -------------------------------
+	\begin{frame}{Crime Characteristics}\label{link_regression_crime_characteristics}
+		\begin{figure}
+			\includegraphics[width=0.95\linewidth]{../../analysis/output/presentation/effects_assault_rate_crime_characteristics.png}
+		\end{figure}
+		\hyperlink{link_regression_victim_characteristic}{\beamerbutton{Back to victim characteristics}}
+	\end{frame}
+
+% figures: age-profile of effect, per gender ------------------------
+\begin{frame}{Age Profile, per Gender}\label{link_regression_age_profile_per_gender}
 \begin{figure}
-	\includegraphics[width=0.9\linewidth]{../../analysis/output/presentation/effects_assault_rate_lead_lag.png}
+	\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Women}
+		\includegraphics[width=\linewidth]{../../analysis/output/graphs/regression/fe_agebrackets_f.pdf}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Men}
+		\includegraphics[width=\linewidth]{../../analysis/output/graphs/regression/fe_agebrackets_m.pdf}
+	\end{subfigure}
 \end{figure}
+\hyperlink{link_regression_age_profile}{\beamerbutton{Back to the age profile}}
 \end{frame}
-
-
-
 
 
 
