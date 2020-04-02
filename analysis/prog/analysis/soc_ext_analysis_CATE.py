@@ -24,10 +24,16 @@ import sklearn
 
 
 
-# paths (SERVER)
-z_final_data =          'F:/econ/soc_ext/analysis/data/final/'
+# work directories (LOCAL)
+z_final_data  =             '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/final/'
+z_prefix =                  'soc_ext_'
 
-z_prefix =              'soc_ext_'
+
+# paths (SERVER)
+#z_final_data =              'F:/econ/soc_ext/analysis/data/final/'
+#z_prefix =                  'soc_ext_'
+
+
 
 
 
@@ -36,14 +42,15 @@ dta = pd.read_stata(z_final_data + 'data_prepared.dta')
 
 
 
-
-
+from econml.sklearn_extensions.linear_model import WeightedLasso
+import matplotlib.pyplot as plt
+from econml.ortho_forest import ContinuousTreatmentOrthoForest, DiscreteTreatmentOrthoForest
+np.random.seed(123)
 
 ###############################################################################
 #       1) Example with contin forest
 ###############################################################################
-from econml.ortho_forest import ContinuousTreatmentOrthoForest, DiscreteTreatmentOrthoForest
-np.random.seed(123)
+
 
 # simple example
 T = np.array([0, 1]*60)
@@ -58,8 +65,7 @@ print(est.effect(W[:2]))
 
 
 # advanced example with many confounders
-from econml.sklearn_extensions.linear_model import WeightedLasso
-import matplotlib.pyplot as plt
+
 
 X = np.random.uniform(-1, 1, size=(4000, 1))
 W = np.random.normal(size=(4000, 50))
@@ -108,11 +114,11 @@ X = dta['pop_density'].to_numpy().reshape(-1,1)
 est = DiscreteTreatmentOrthoForest(n_trees=100,
                                     max_depth=10,
                                     model_Y=WeightedLasso(alpha=0.01),
-                                    propensity_model=sklearn.linear_model.LogisticRegression(max_iter=1000,
+                                    propensity_model=sklearn.linear_model.LogisticRegression(max_iter=5000,
                                                                                              solver='lbfgs'))
 est.fit(Y, T, X, W)
 
-X_test = np.linspace(0, 5000, 30).reshape(-1, 1)
+X_test = np.linspace(222, 4670, 30).reshape(-1, 1)
 treatment_effects = est.effect(X_test)
 plt.plot(X_test[:, 0], treatment_effects, label='ORF estimate')
 plt.legend()
