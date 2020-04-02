@@ -1,0 +1,452 @@
+\documentclass[usenames,dvipsnames,ngerman]{beamer} %dvipsnames for xcolor &tikz at same time		
+ 
+\usepackage{babel}
+\usepackage{dsfont} %Double stroke, e.g. for indicator function
+
+%%%BASICS
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage{amssymb}
+
+%%%START THEME SETTINGS
+
+% IFO BLAU!!!
+\setbeamercolor{structure}{fg=beamer@ifoblue}
+\definecolor{beamer@ifoblue}{RGB}{12,50,82}
+%\definecolor{ifoblue}{RGB}{12,50,82}
+
+\usetheme{Hannover}
+\usecolortheme{dolphin}
+\usefonttheme{professionalfonts}
+
+
+
+
+%%%END THEME SETTINGS
+
+\usepackage[compatibility=false]{caption}
+\usepackage{subcaption}
+\usepackage{graphicx} 
+%PATH MAC
+%\graphicspath{{/Users/marcfabel/Dropbox/Uni/Tinbergen/MPhil/STATA/GRAPHS/}}
+
+%F:\_MPhil\STATA\graphs
+%PATH Windows
+%\graphicspath{{F:/_MPhil/STATA/graphs/}}
+%\graphicspath{{C:/Users/fabel/Dropbox/Uni/Tinbergen/MPhil/STATA/GRAPHS/}}
+
+\usepackage{afterpage}
+ \usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage[labelfont=bf,labelsep = period, singlelinecheck=off,justification=raggedright]{caption}%both together help to have subfigures, other specifications which are nice: labelformat = parens -> number in paranthesis
+\usepackage[singlelinecheck=on]{subcaption}
+
+
+\setbeamertemplate{items}[circle]
+\usepackage{tikz}
+\newcommand\mynum[1]{%
+  \usebeamercolor{enumerate item}%
+  \tikzset{beameritem/.style={circle,inner sep=0,minimum size=2ex,text=enumerate item.bg,fill=enumerate item.fg,font=\footnotesize}}%
+  \tikz[baseline=(n.base)]\node(n)[beameritem]{#1};%
+}	% the three packages are used to have enumerate points in text
+
+\usepackage{tcolorbox}
+
+
+
+%\usepackage{footmisc}
+
+%\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+
+\title[Fußball und Gewalt]{  \textbf{Der Einfluss von Fußballspielen auf die Kriminalitätsrate}}
+\author[Marc Fabel]{}
+%\institute[VfS Meeting 2017]{}
+\vspace{-5 em}
+\date{}
+
+\titlegraphic{\vspace{-6em}
+
+\includegraphics[width=\textwidth]{../../analysis/output/presentation/fan_pics/aggressive_fan.jpg}
+
+
+\vspace*{\fill} ~%
+\includegraphics[height=0.8cm]{mgse_logo.jpg}
+\hspace*{\fill}
+   \includegraphics[height=0.8cm]{logo_ifo.eps}
+
+}
+
+ \setbeamercovered{dynamic}				% macht die Pausen transparent
+
+\captionsetup[figure]{labelformat=empty}
+\captionsetup[table]{labelformat=empty}
+
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+%	NOTES:
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+%\AtBeginSection[]
+%  {
+%     \begin{frame}<beamer>
+%     \frametitle{Agenda}
+%     \tableofcontents[currentsection]
+%     \end{frame}
+%  }
+% COMMAND UM ÜBERALL DIE ÜBERSICHT ZU HABEN
+
+
+
+
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+
+
+
+%--------------------------------------------------------------------
+% INTRODUCTION
+%--------------------------------------------------------------------
+\section{Einleitung}
+%	\begin{frame}{Motivation}
+%		Fußball genießt hohe Popularität (2017/18):
+%		\begin{itemize}
+%			\item Bundesliga hat im Schnitt die meisten Zuschauerzahlen pro Spiel: 42,700, die ersten drei Ligen zusammen: 21.5 Mio. im Jahr
+%			\item Bundesliga: 3.17 Milliarden Umsatz
+%			\item Externe Effekte in verschiedenen Dimensionen
+%			\begin{itemize}
+%				\item Polizeieinsätze, Gesundheit, Strassensicherheit, Justitzsystem, ...
+%			\end{itemize}						
+%		\end{itemize}
+%
+%
+%		\begin{block}{Forschungsfrage}
+%			\textbf{$\Rightarrow$ Was/wie groß sind die Effekte von Fußballspielen auf Gewaltdelikte?}
+%		\end{block}
+%	\end{frame}
+%
+
+
+
+%--------------------------------------------------------------------
+\begin{frame}{Wie funktioniert das?}
+Aggressives Verhalten durch: 
+	
+	\begin{itemize}
+		\item Viele Menschen auf einen Haufen: Bundesliga hat im Schnitt die meisten Zuschauerzahlen pro Spiel: 42,700, die ersten drei Ligen zusammen: 21.5 Mio. im Jahr
+		\item Ideen aus der Psychologie:
+		\begin{itemize}
+			\item Theorie des sozialen Lernens 
+			\item Frustrations-Aggressions Hypothese
+		\end{itemize}
+		\item Konsum von Alkohol
+		\begin{itemize}
+			\item Wahrnehmungsbeeinträchtigung \& grössere Bereitschaft zu aggressiven Verhalten (Verstärkt durch frustrierende Erlebnisse)
+		\end{itemize} 
+	\end{itemize}
+
+	\begin{block}{Forschungsfrage}
+		\textbf{$\Rightarrow$ Gibt es nach Fußballspielen mehr Gewaltdelikte?}
+	\end{block}		
+	
+\end{frame}
+%--------------------------------------------------------------------
+
+
+
+
+%--------------------------------------------------------------------
+% DATA
+%--------------------------------------------------------------------
+\section{Daten}
+	\subsection{Kriminalität}
+	\begin{frame}{Daten}\label{CRIME_DATA}
+		\begin{block}{Kriminalitätsdaten}
+			\begin{itemize}
+				\item Polizeiliche Kriminalitätsstatistik, herausgegeben vom Bundeskriminalamt
+				\item alle Personen, die Opfer von Straftaten wurden, 2011-Mitte 2015
+				\item Gewaltdelikte: 
+				\begin{itemize}
+					\item Straftaten mit körperlicher Gewalt
+					\item Vorsätzliche einfache
+					Körperverletzung § 223 StGB
+					\item Kommt sehr häufig vor: $\sim$ fast die Hälfte aller Vergehen entfallen auf diese Kategorie\newline \hyperlink{CRIMINAL_OFFENSE_CODES}{\beamerbutton{Verteilung der verschiedenen Straftaten}}
+				\end{itemize}
+			\end{itemize}
+		\end{block}	
+	\end{frame}
+
+
+
+
+% graphs of assaults ------------------------------------------------
+	\begin{frame}{Körperverletzungen}
+		\begin{figure}
+			\begin{subfigure}[h]{0.48\linewidth}\centering
+				\includegraphics[width=\linewidth]{../../analysis/output/graphs/descriptive/soc_ext_assaults_per_hour}
+			\end{subfigure}
+			\begin{subfigure}[h]{0.48\linewidth}\centering
+				\includegraphics[width=\linewidth]{../../analysis/output/graphs/descriptive/soc_ext_assaults_per_dow}
+			\end{subfigure}
+			\begin{subfigure}[h]{0.48\linewidth}\centering
+				\includegraphics[width=\linewidth]{../../analysis/output/graphs/descriptive/soc_ext_assaults_per_month_2014}
+			\end{subfigure}
+			\begin{subfigure}[h]{0.48\linewidth}\centering
+				\includegraphics[width=\linewidth]{../../analysis/output/graphs/descriptive/soc_ext_assaults_per_day_2014_single}
+			\end{subfigure}
+		\end{figure}
+	\end{frame}
+
+
+% slide: Soccer Data-------------------------------------------------
+	\subsection{Fußball}\label{link_soccer_data}
+	\begin{frame}{Daten}
+		\begin{block}{Fußballdaten}
+			\begin{itemize}
+				\item nicht so direkt verfügbar $\rightarrow$ Programm geschrieben das auf kicker.de und transfermarkt.de zugreifen kann
+				\item Alle Spiele der ersten drei Ligen \hyperlink{link_soccer_matches}{\beamerbutton{Fußballspiele}}
+				\item Detaillierte Informationen über Spielstatistiken und Tabelle
+				\begin{itemize}
+				{\scriptsize
+					\item Zeit und Ort eines Spiels
+					\item Zuschauerzahl
+					\item wie ungleich sind die beiden Teams
+					\item Tore
+					\item Strafstöße
+					\item Karten
+					\item Schiedsrichtercharakteristika
+					\item ...
+				}
+				\end{itemize}
+				\item Die Stadien müssen geographisch kodiert werden $\rightarrow$ 69 Stadien im Datensatz
+			\end{itemize}
+		\end{block}
+	\end{frame}
+
+
+
+\begin{frame}
+	\begin{figure}
+		\includegraphics[width=0.99\linewidth]{../../analysis/output/presentation/kicker_spieltag.png}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\begin{figure}
+		\includegraphics[width=\linewidth]{../../analysis/output/presentation/kicker_spielinfo.png}
+	\end{figure}
+	\begin{figure}
+		\includegraphics[width=\linewidth]{../../analysis/output/presentation/kicker_tabelle.png}
+	\end{figure}
+\end{frame}
+
+
+% map stadiums-------------------------------------------------------
+	\begin{frame}{Stadien}
+		\begin{figure}
+			\includegraphics[width=0.65\linewidth]{../../analysis/output/graphs/maps/soc_ext_2010_2015_Gemeinde_stadiums_75.png}
+		\end{figure}
+	\end{frame}
+
+% graph: assaults on gd and non-gd-----------------------------------
+\begin{frame}{Intuitive Vorschau auf die Ergebnisse}
+\begin{figure}
+	\includegraphics[width=\linewidth]{../../analysis/output/graphs/descriptive/soc_ext_descr_assaultrate_gd_nongd_hor.pdf}
+\end{figure}
+\end{frame}
+
+
+% slide: weather, holidays and regional DB---------------------------
+	\subsection{Kontrollvariablen}
+	\begin{frame}{Kontrollvariablen}\label{link_weather_data}
+		\begin{block}{Wetter}
+			\begin{itemize}
+				\item Deutscher Wetterdienst
+				\item Wettermonitor, die am nähesten zu den Stadien gebaut sind \newline \hyperlink{link_map_stadiums}{\beamerbutton{Map of weather monitors}} \hyperlink{link_hist_dist_monitor_stadiums}{\beamerbutton{Quality of the match}}
+			\end{itemize}
+		\end{block}
+		\begin{block}{Feiertage}
+			\begin{itemize}
+				\item Gesetzliche Feiertage und Schulferien, spezielle Tage (Silvester, Fasching)
+			\end{itemize}	
+		\end{block}
+		\begin{block}{Regionaldatenbank}
+			\begin{itemize}
+				\item Gebiet, Bevölkerung, Arbeitsmarkt, Wahlverhalten, Gebäudestruktur, Wirtschaftssektoren, Öffentlicher Haushalt, ... 
+			\end{itemize}
+		\end{block}
+	\end{frame}
+
+
+%--------------------------------------------------------------------
+% IDENTIFICATION
+%--------------------------------------------------------------------
+%\section{Identification}
+%
+%	\begin{frame}{Empirical Strategy}
+%		\begin{align}
+%			\text{Assaults}_{rdmy} =\ &\alpha + \beta\ \text{Gameday}_{rdmy} + \underbrace{\gamma_d +  \eta_m + \theta_y}_{\text{date}_{dmy}} + \nonumber\\ & \vartheta_r + X_{rdmy} \lambda + \varepsilon_{rdmy}
+%			\label{eq_soc_ext:model}
+%		\end{align}
+%	
+%		\begin{itemize}
+%			\item Assaults$_{rdmy}$: number of assaults per 100,000 individuals, scaled to reflect yearly crime rates
+%			\item Interactions of region and time FE: $\text{date}_{dmy}\times\vartheta_r$
+%			\item $ X_{rdmy}$: school and public holidays FE and local weather controls
+%			\item Using population weights
+%			\item Standard errors: twoway cluster (i) district-year and (ii) year-month
+%		\end{itemize}
+%	\end{frame}
+
+
+	
+%--------------------------------------------------------------------
+% Results
+%--------------------------------------------------------------------
+\section{Ergebnisse}
+\subsection{Intuition}
+
+
+% figure: age-profile of effect -------------------------------------
+	\begin{frame}{Altersprofil der Opfer}\label{link_regression_age_profile}
+		\begin{figure}[H]\centering
+			\includegraphics[width=0.9\linewidth]{../../analysis/output/graphs/regression/fe_agebrackets_t.pdf}
+		\end{figure}
+		\hyperlink{link_regression_age_profile_per_gender}{\beamerbutton{Age profile, per gender}}
+	\end{frame}
+
+% figures: age-profile of effect, per gender ------------------------
+\begin{frame}{Altersprofil, nach Geschlecht}\label{link_regression_age_profile_per_gender}
+\begin{figure}
+	\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Frauen}
+		\includegraphics[width=\linewidth]{../../analysis/output/graphs/regression/fe_agebrackets_f.pdf}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Männer}
+		\includegraphics[width=\linewidth]{../../analysis/output/graphs/regression/fe_agebrackets_m.pdf}
+	\end{subfigure}
+\end{figure}
+\hyperlink{link_regression_age_profile}{\beamerbutton{Zurück zum Altersprofil}}
+\end{frame}
+
+% table: victim chars -----------------------------------------------
+\subsection{Regression Results}
+\begin{frame}{Regression Results}\label{link_regression_victim_characteristic}
+\begin{figure}
+	\includegraphics[width=0.95\linewidth]{../../analysis/output/presentation/effects_assault_rate_victim_characteristics.png}
+\end{figure}
+\hyperlink{link_regression_baseline}{\beamerbutton{Model w/o interactions}} \hyperlink{link_regression_lead_lags}{\beamerbutton{Temporal displacement effects}} \hyperlink{link_regression_crime_characteristics}{\beamerbutton{Heterogeneity, by crime characteristics}}
+\end{frame}
+
+%--------------------------------------------------------------------
+% CONCLUSION
+%--------------------------------------------------------------------
+\section{Abschluss}
+
+\begin{frame}{Zusammenfassung}
+	\begin{itemize}
+		\item Ergebnisse
+		\begin{itemize}
+			\item Ein Heimspiel erhöht die Kriminalitätsrate um 21 \% 
+			\item Die allermeisten Opfer sind männlich und sie kannten die Täter vorher nicht 
+			\item  Die Effektgröße fällt mit zunehmendem Alter des Opfers (nur für Erwachsene)
+		\end{itemize}				
+	\end{itemize}
+\end{frame}
+
+
+%--------------------------------------------------------------------
+% THANK YOU
+%--------------------------------------------------------------------
+\begin{frame}
+	\begin{center}
+		Danke für Eure Aufmerksamkeit! Habt Ihr Fragen?
+	\end{center}
+	\begin{figure}
+		\includegraphics[width=\linewidth]{../../analysis/output/presentation/fan_pics/fans_traurig.jpg}
+	\end{figure}
+
+\end{frame}
+
+
+%--------------------------------------------------------------------
+% APPENDIX
+%--------------------------------------------------------------------
+\section*{Appendix}
+
+
+%--------------------------------------------------------------------
+% APPENDIX - DATA
+%--------------------------------------------------------------------
+
+% graph offense keys-------------------------------------------------
+\label{CRIMINAL_OFFENSE_CODES}
+	\begin{frame}{Die verschiedenen Typen von Straftaten}
+	\hyperlink{CRIME_DATA}{\beamerbutton{Zurück zu den Kriminalitätsdaten}}
+		\begin{figure}
+			\begin{figure}
+				\includegraphics[width=\linewidth]{../../analysis/output/graphs/descriptive/soc_ext_offense_key_distribution_2014}
+			\end{figure}
+		\end{figure}
+	\end{frame}
+
+% figures: descr soccer matches--------------------------------------
+	\begin{frame}{Fußballspiele}\label{link_soccer_matches}
+		\begin{figure}
+			\includegraphics[width=\linewidth]{../../analysis/output/graphs/descriptive/soc_ect_desc_soccer_macthes_attendance}
+		\end{figure}
+		\hyperlink{link_soccer_data}{\beamerbutton{Zurück zu den Fußballdaten}}
+	\end{frame}
+
+% map: location of weather monitors----------------------------------
+	\begin{frame}{Wettermonitore}\label{link_map_stadiums}
+		\hyperlink{link_weather_data}{\beamerbutton{Zurück zu den Wetterdaten}}
+		\begin{figure}
+			\includegraphics[width=0.6\linewidth]{../../analysis/output/graphs/maps/soc_ext_2010_2015_Gemeinde_stadiums_nearest_monitor_75.png}
+		\end{figure}
+	\end{frame}
+
+% histrogram: distance stadium-monitor ------------------------------
+	\begin{frame}{Entfernung zwischen den Stadien und Wettermonitoren}\label{link_hist_dist_monitor_stadiums}
+		\hyperlink{link_weather_data}{\beamerbutton{Zurück zu den Wetterdaten}}
+		\begin{figure}
+			\includegraphics[width=0.9\linewidth]{../../analysis/output/graphs/descriptive/soc_ext_distance_monitors_stadiums}
+		\end{figure}
+	\end{frame}
+
+
+%--------------------------------------------------------------------
+% APPENDIX - RESULTS
+%--------------------------------------------------------------------
+
+%--------------------------------------------------------------------
+	\begin{frame}{Regression Results}\label{link_regression_baseline}
+		\begin{figure}
+			\includegraphics[width = 0.9\linewidth]{../../analysis/output/presentation/effects_assault_rate.jpg}
+		\end{figure}
+		\hyperlink{link_regression_victim_characteristic}{\beamerbutton{Back to victim characteristics}}
+	\end{frame}
+
+% table: lead and lags ----------------------------------------------
+	\begin{frame}{Temporal Displacement}\label{link_regression_lead_lags}
+		\begin{figure}
+			\includegraphics[width=0.9\linewidth]{../../analysis/output/presentation/effects_assault_rate_lead_lag.png}
+		\end{figure}
+		\hyperlink{link_regression_victim_characteristic}{\beamerbutton{Back to victim characteristics}}
+	\end{frame}
+
+% table: heterogeneity by crime chars -------------------------------
+	\begin{frame}{Crime Characteristics}\label{link_regression_crime_characteristics}
+		\begin{figure}
+			\includegraphics[width=0.95\linewidth]{../../analysis/output/presentation/effects_assault_rate_crime_characteristics.png}
+		\end{figure}
+		\hyperlink{link_regression_victim_characteristic}{\beamerbutton{Back to victim characteristics}}
+	\end{frame}
+
+
+
+
+\end{document}
