@@ -15,7 +15,7 @@
 \usepackage{xcolor} 		% advanced color package
 \usepackage{url, hyperref} 	% include (clickable) URLs
 \usepackage{pdfpages}		% insert pages of external pdf documents
-\setlength{\parskip}{0em}	% vertical spacing for paragraphs
+\setlength{\parskip}{0.75em}	% vertical spacing for paragraphs
 \setlength{\parindent}{0em}	% horizonzal spacing for paragraphs
 \usepackage{tikz}
 \usepackage{tikzscale}		% helps to adjust tikz pictures to textwidth/linewidth
@@ -228,10 +228,10 @@ Bundesliga is an independent body , sperated from the German Football Associatio
 
 
 \begin{align}
-	\text{Assaults}_{rdmy} = \alpha + \beta\ \text{Gameday}_{rdmy} + \underbrace{\gamma_d +  \eta_m + \theta_y}_{\text{date}_{dmy}} + \vartheta_r + X_{rdmy} \lambda + \varepsilon_{rdmy}
+	\text{Assaults}_{rdmy} = \alpha + \beta\ \text{Gameday}_{rdmy} + \underbrace{\gamma_d +  \eta_m + \theta_y}_{\text{date}_{dmy}} + \vartheta_r + \mathbf{X}_{rdmy} \lambda + \varepsilon_{rdmy}
 	\label{eq_soc_ext:model}
 \end{align}
-with Assaults$_{rdmy}$ is the assault rate in region $r$, on day-of-the-week $d$, in month $m$ and year $y$. Number of assaults per 100,000 individuals times 365. $X_{rdmy}$ contains school and public holidays and weather controls.\newline
+with Assaults$_{rdmy}$ is the assault rate in region $r$, on day-of-the-week $d$, in month $m$ and year $y$. Number of assaults per 100,000 individuals times 365. $\mathbf{X}_{rdmy}$ contains school and public holidays and weather controls.\newline
 
 \underline{What I did in the analysis:} 
 \begin{itemize}
@@ -287,9 +287,9 @@ The data set used for the analysis covers the time window 2011-2015 and contains
 
 
 \subsection{Crime data}
-The crime data is coming from the German Police Crime Statistics (Polizeiliche Kriminalstatistik), which is provided by the Federal Criminal Police Office (Bundeskriminalamt).\footnote{Many aspects of the data preparation is inspired from \cite{hener2019noise} who is using the same data in order to examine the causal effect of noise pollution on criminal behavior.} It covers the universe of individuals that fall victim to a crime against their legally protected personal rights between 2011 and 2015. Yet, as the data is only reported after the end of police procedures, the data is truncated to the period from January 2011 to May 2015 to avoid any problems with lags between the occurrence of the crime and when it is reported. The data includes next to the time (up to the hour) and place (municipality level) of the crime, the crime type code, the victim's age and gender, characteristics of the assault execution (attempt/successful, usage of firearm, lone operator/crime was committed by a group) and information on the relationship between victim and suspect.\footnote{The relationship between victim and suspect is retrieved in two ways. On the one hand, this covers formal relationships (such as types of kin or acquaintances). On the other hand, this examines relationships in a spatial-social manner (for instance living in the same household, or being in an education or care context).} Roughly 40\% of the victims are female, their average age is 32 years, and 40\% of the victims haven't had any prior relationship with the suspect.\newline
+The crime data is coming from the German Police Crime Statistics (Polizeiliche Kriminalstatistik), which is provided by the Federal Criminal Police Office (Bundeskriminalamt).\footnote{Many aspects of the data preparation is inspired from \cite{hener2019noise} who is using the same data in order to examine the causal effect of noise pollution on criminal behavior.} It covers the universe of individuals that fall victim to a crime against their legally protected personal rights between 2011 and 2015. Yet, as the data is only reported after the end of police procedures, the data is truncated to the period from January 2011 to May 2015 to avoid any problems with lags between the occurrence of the crime and when it is reported. The data includes next to the time (up to the hour) and place (municipality level) of the crime, the crime type code, the victim's age and gender, characteristics of the assault execution (attempt/successful, usage of firearm, lone operator/crime was committed by a group) and information on the relationship between victim and suspect.\footnote{The relationship between victim and suspect is retrieved in two ways. On the one hand, this covers formal relationships (such as types of kin or acquaintances). On the other hand, this examines relationships in a spatial-social manner (for instance living in the same household, or being in an education or care context).} Roughly 40\% of the victims are female, their average age is 32 years, and 40\% of the victims haven't had any prior relationship with the suspect.
 
-The micro-data is aggregated to the municipality-day level and the main outcome, the assault rate, is defined as the number of assaults per 100,000 inhabitants, and multiplied by 365 in order to mirror annual crime rates. Assaults are defined as actions involving physical violence. For that purpose, I use the crime type code of 'intentional simple bodily injury' (Vorsätzliche einfache Körperverletzung § 223 StGB). There are roughly 120 types of criminal offenses in use (recorded in 6 digit codes), though the vast majority of the cases concentrate on only a handful of codes.\footnote{The top 10 of the most prevalent crime keys comprise more than 90\% of the cases.} Figure \ref{fig_soc_ext:offense_types_distribution_2014} shows the distribution of cases per crime key for the twenty most common offense types in 2014. The intentional simple bodily injury is by far the most prevalent offense and it contributes to about 45\% of all cases. The prevalence of the offense type and its association with aggression motivates the decision to have assaults in this definition as the main outcome variable.\newline
+The micro-data is aggregated to the municipality-day level and the main outcome, the assault rate, is defined as the number of assaults per 100,000 inhabitants, and multiplied by 365 in order to mirror annual crime rates. Assaults are defined as actions involving physical violence. For that purpose, I use the crime type code of 'intentional simple bodily injury' (Vorsätzliche einfache Körperverletzung § 223 StGB). There are roughly 120 types of criminal offenses in use (recorded in 6 digit codes), though the vast majority of the cases concentrate on only a handful of codes.\footnote{The top 10 of the most prevalent crime keys comprise more than 90\% of the cases.} Figure \ref{fig_soc_ext:offense_types_distribution_2014} shows the distribution of cases per crime key for the twenty most common offense types in 2014. The intentional simple bodily injury is by far the most prevalent offense and it contributes to about 45\% of all cases. The prevalence of the offense type and its association with aggression motivates the decision to have assaults in this definition as the main outcome variable.
 
 Figure \ref{fig_soc_ext:assault_time_distribution_2014} shows the distribution of assaults over time. Panel A displays the variation of assaults per hour of the day.\footnote{Roughly 15\% of the observations do not contain information on the hour. This does not entail any consequences for the main analysis, as I examine daily variation in the assault rate.} The number of assaults is increasing over the course of a day and peaks around midnight. In order to assign the cases that occur during the early hours to the day, in which they are rooted in, I define a day as running from 6:00 AM until 5:59 AM. Panel B shows the distribution of assaults across days of the week. You can see higher values on Friday and Saturday, whereas the other days have assault rates belonging to the same ballpark. Panel C shows that the number of assaults have a strong seasonal pattern with the highest value recorded in May, and the smallest figure in August.\footnote{Panel C shows the number of assaults across months of the year while adjusting for the number of days per month.} Panel D confirms this impression by plotting the daily number of assaults. New year's eve is a particular impressive outlier in this context. \footnote{Panels C and D are showing data for the year 214 only. Appendix Figure  \ref{fig_soc_ext:assault_year_distribution} shows the distribution per day for different years.}
 
@@ -354,7 +354,7 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 	\item \textbf{robustness:}
 	\begin{itemize}
 		\item different specification of what are the affected regions, vary radius around stadium which region is affected: at first use only region (gemeinde/Kreis) in which the stadium is located, then play around with radius.
-		\item estimation with Poisson? (many zeros and discrete nature of reports - use number of assaults)
+
 		\item placebo games?
 		\item control for mass events (see BHR paper)
 		\item drop Nachholspiele
@@ -367,8 +367,15 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 
 
 
+\newpage
+\subsection{Robustness}
+\textbf{Poisson model of the number of physical assaults.--}First, I test whether my results are sensitive to an alternative measure of the dependent variable. In the following I use the raw number of assaults as the outcome variable. Because of the discrete nature of the dependent variable, and given there are many cells with zero reports, a Poisson model is the model of choice \citep{lindo2018college}. The corresponding regression specification reads as follows:
+\begin{align}
+E\left[ \text{Assaults}_{rdmy}\right.&|\left.\text{Gameday}_{rdmy},\text{date}_{dmy},\vartheta_r, \mathbf{X}_{rdmy}  \right] \nonumber \\ &=  exp\left( \beta\ \text{Gameday}_{rdmy} + \text{date}_{dmy} + \vartheta_r + \lambda\mathbf{X}_{rdmy} \right) 
+\label{eq_soc_ext:poisson_model}
+\end{align}
 
-
+Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fixed_effects} shows average marginal effects of the effect of a home game on the number of physical assaults.\footnote{In nonlinear models, coefficients cannot be interpreted as marginal effects. The partial effect for a Poisson model is given by $\frac{\partial E\left[ \text{Assaults}| \mathbf{X}\right]}{\partial x_j} = \beta_j\ exp(\mathbf{x'}\beta)$.} By expanding the model by progressively adding weather controls, holiday fixed effects, and interacted fixed effects, I find stable and robust evidence that a home game leads to an increase in the number of assaults. In column 4, the richest specification, a home game leads to, on average, an increase in the number of assaults by 28.55 percent. This effect is not statistically higher than the baseline results. 
 
 
 
@@ -667,9 +674,27 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 	\end{table}
 	\vspace*{\fill}\clearpage 
 \end{landscape}
-
-
-
+%--------------------------------------------
+% robustensss: ASSAULTS and POISSON
+\vspace*{\fill}
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Effects on \textbf{the number of Assaults}}\label{tab_soc_ext:assaults_poisson_fixed_effects}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{6}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+				\midrule
+				\input{reg_fe/assaults_poisson_fixed_effects} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The table shows average marginal effects of the effect of gd of the number of physical assaults xxx 
+			weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size
+			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+\vspace*{\fill}\clearpage 
 
 
 
