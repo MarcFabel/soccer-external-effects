@@ -15,3 +15,13 @@ capture program drop reg_fe
 		qui summ `2' if e(sample) & d_gameday == 0
 		qui estadd scalar mean = abs(round(_b[`3']/`r(mean)'*100,.01))
 	end
+	
+	
+capture program drop preg_fe
+	program define preg_fe
+		ppmlhdfe `2' `3' `4' [pw=p_wght], absorb(`5') vce(cluster ags#year year#month)  d
+		eststo `1': margins, dydx(*) post
+		qui estadd scalar Nn = e(N)
+		summ `2' if e(sample) & d_gameday == 0
+		qui estadd scalar mean = abs(round(_b[`3']/`r(mean)'*100,.01))
+	end
