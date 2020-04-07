@@ -1,21 +1,23 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Sep 17 12:18:55 2019
+Created on Tue Apr 7 2020
 
 @author: Marc Fabel
 
 
 Inputs:
     - opfer-hashed-20XX.csv              cross-sections containing crime micro data
-    - neighbor_regions_prepared.csv      map: relates the stadiums to active regions - generated w/ QGIS
+    - neighbor_regions_prepared.csv      map: relates the stadiums to active neighbor regions - generated w/ QGIS
     - Schulferien_1015.dta               time series for all BL to see whether a part date is a holiday
 
 Outputs:
     - crime_neighbor_regions_prepared.csv [intermed]
 
-Updates:
-    20.10.2019: include subcategroeis of assaults (gender,age,relationship,attempt)
+comments:
+    - this is a slim version of the normal prepare_crime file, in particular I 
+    leave out the subcategories of assaults (age, relationship,...)
 
+    
 """
 
 # packages
