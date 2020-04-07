@@ -6,13 +6,13 @@ Created on Wed Apr  1 17:38:33 2020
 
 
 Inputs:
-    - 
-   
+    -
+
 Outputs:
-    - 
+    -
 
 Updates:
-    
+
 
 """
 
@@ -24,12 +24,16 @@ import sklearn
 
 
 
+# home directories
+#z_final_data  =             '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/final/'
+#z_prefix =                  'soc_ext_'
+
+
 # work directories (LOCAL)
-z_final_data  =             '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/final/'
+z_final_data  =             'F:/econ/soc_ext/analysis/data/final/'
 z_prefix =                  'soc_ext_'
 
-
-# paths (SERVER)
+# work directories (SERVER)
 #z_final_data =              'F:/econ/soc_ext/analysis/data/final/'
 #z_prefix =                  'soc_ext_'
 
@@ -114,7 +118,7 @@ X = dta['pop_density'].to_numpy().reshape(-1,1)
 est = DiscreteTreatmentOrthoForest(n_trees=100,
                                     max_depth=10,
                                     model_Y=WeightedLasso(alpha=0.01),
-                                    propensity_model=sklearn.linear_model.LogisticRegression(max_iter=5000,
+                                    propensity_model=sklearn.linear_model.LogisticRegression(max_iter=2500,
                                                                                              solver='lbfgs'))
 est.fit(Y, T, X, W)
 
