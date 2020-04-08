@@ -32,16 +32,17 @@ start_time = time.time()
 
 
 # paths
-z_soccer_webscraping_source   = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/webscraping/output/'
-z_soccer_source               = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/'
-z_soccer_output_intermediate  = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/soccer/'
-z_soccer_output_final         = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/final/'
+#z_soccer_webscraping_source   = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/webscraping/output/'
+#z_soccer_source               = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/'
+#z_soccer_output_intermediate  = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/soccer/'
+#z_soccer_output_final         = 'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/final/'
 
 
 # HOME directories
-#z_soccer_webscraping_source = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/webscraping/output/'
-#z_soccer_source  = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/'
-#z_soccer_output_intermediate = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/soccer/'
+z_soccer_webscraping_source    = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/webscraping/output/'
+z_soccer_source                = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/source/soccer/'
+z_soccer_output_intermediate   = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/soccer/'
+z_soccer_output_final          = '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/final/'
 
 
 # magic numbers
