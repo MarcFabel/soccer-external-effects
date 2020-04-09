@@ -367,6 +367,73 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 
 
 
+
+
+
+
+
+
+\newpage
+\subsection{Displacement Effects}
+
+Previously I showed evidence that soccer games (home games) increase the assault rate. However, it could very well be that I merely measure a displacement of the offense. It is possible that the increase in violent behavior is offset by a reduction in assaults in other areas or at different times \citep{lindo2018college}. In other words, the assault would have been committed anyway, but just at a different time or at another location. One explanation for that are different population flows around days on which games take place. In the following, I want to investigate the two above mentioned concerns.
+
+
+% spatial displacement
+\textbf{Spatial displacement.--} In order to estimate spatial displacement effects, I investigate the impact of  soccer matches on nearby regions. I define neighboring regions to constitute nearby regions. A neighbor region is a municipality that shares a common boundary with a region that contains a stadium.\footnote{If there are two municipalities that share a common border and each of the regions contains a stadium, both regions will not serve as neighbor regions and they are dismissed from the set of spatial spillover candidates.} Figure \ref{fig_soc_ext:map_neighboring_regions} shows a map of the selected regions. The sample of neighboring regions exhibits a considerably higher number of observations. This is owed to the fact that a region with a stadium has, on average, a bit more than 11 neighbor municipalities. Table \ref{tab_soc_ext:reg_fe_assrate_neighbor_regions} shows the estimates of the impact of a home game on these neighboring regions. In comparison to the baseline effects, the coefficients for spillover effects across space are small and not significantly different from zero. 
+
+
+% temporal displacement
+\textbf{Temporal displacement.--} write stuff here
+
+
+Interpretation of no displacement effect? 
+
+
+% table spatial displacement - neighboring regions
+%--------------------------------------------
+\vspace*{\fill}
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Spatial displacement effect: Impact on \textbf{Assault rate}}\label{tab_soc_ext:reg_fe_assrate_neighbor_regions}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{6}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+				\midrule
+				\input{reg_fe/assrate_neighbor_regions_fixed_effects} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
+			weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size
+			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+\vspace*{\fill}\clearpage 
+
+%--------------------------------------------
+
+% map spatial displacement - neighboring regions
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{Spatial displacement - neighboring regions}\label{fig_soc_ext:map_neighboring_regions}
+	\includegraphics[width=0.9\linewidth]{maps/soc_ext_2010_2015_map_stadiums_neighbor_regions_zoom_100.png}
+	\begin{minipage}{0.95\linewidth}
+		\scriptsize{\emph{Notes:} This map shows the regions that are used in the analysis for spatial displacement effects over the seasons 2010/11 until 2014/15. The neighboring municipalities are chosen to be in the sample for estimating spatial displacement effects if they have a common border with a region that contains a stadium. The red dots are the stadiums, the black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
+
+
+
+
+
+
+
+
+
+
 \newpage
 \subsection{Robustness}
 \textbf{Poisson model of the number of physical assaults.--}First, I test whether my results are sensitive to an alternative measure of the dependent variable. In the following I use the raw number of assaults as the outcome variable. Because of the discrete nature of the dependent variable, and given there are many cells with zero reports, a Poisson model is the model of choice \citep{lindo2018college}. The corresponding regression specification reads as follows:
