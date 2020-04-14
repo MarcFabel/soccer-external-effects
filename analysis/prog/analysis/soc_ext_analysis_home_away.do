@@ -90,7 +90,7 @@
 *	Analysis
 ********************************************************************************
 
-	// Total Assault rate ******************************************************
+	// Analysis in the new sample **********************************************
 	reg_fe a4 assrate d_home_game d_away_game  "$weather" "$region_fe $time_fe $holiday $interaction"
 	qui estadd local region 	"yes"
 	qui estadd local time 		"yes" 
@@ -109,17 +109,36 @@
 		
 		
 	// generate sample in normal data set that is comparable with the home/away sample
+	preserve
+		keep ags
+		duplicates drop
+		qui save "$temp/list_ags_used_for_home_away.dta", replace
+	restore
 
-	keep ags
-	duplicates drop
-	qui save "$temp/list_ags_used_for_home_away.dta", replace
-
+	// generate list of used home games that can be merged to normal sample
+	keep team opp_team d_home_game date2 ags
+	keep if team != ""
+	keep if d_home_game == 1
+	drop d_home_game
+	rename team home_team
+	rename opp_team away_team
+	qui save "$temp/list_matches_used_for_home_away.dta", replace
+	
+	
 	* open normal file & delete unused regions
 	use "$data/data_prepared.dta", clear
 	do "$prog/aux_files/soc_ext_aux_program.do" 
 	
 	qui merge m:1 ags using  "$temp/list_ags_used_for_home_away.dta"
 	keep if _merge == 3
+	
+	* adjust for the games that are not used in H/A data set
+	drop _merge
+	qui merge 1:1 ags date2 home_team away_team using  "$temp/list_matches_used_for_home_away.dta" 
+	drop if _merge == 2 		// drop lohmühle game of St.Pauli vs Ingolstadt 2011
+	qui replace d_gameday = 0 if d_gameday == 1 & _merge == 1 // deal with games that are still in master data set
+	
+	
 	
 	reg_fe b4 assrate $gd "$weather" "$region_fe $time_fe $holiday $interaction"
 	qui estadd local region 	"yes"
