@@ -369,6 +369,48 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 
 
 
+\newpage
+\subsection{Home and away games}
+so far only analysis of home games, is that fair? 
+away games completetly different: the most devoted fans travel out of the municipality - could this affect the assault rate as well? Is it eventually lower when there is an away game?
+
+In order to answer that I build up my data a bit differently. Whereas in the normal version, the soccer data was merged to the other data on the match level (with the home team's region ID as identifier), in this case I use the soccer data on the table standings level (so both I match both, the home and away team to a region). One consequence of this approach is that it makes the treatment status of single regions less clear. What do you do with regions (that have more than one team) when there is a home and an away game at the same day. In order to alleviate this concern, I drop the third league from the sample and focus only on the first two leagues.\footnote{There remain still a few ambiguities but they are solved the following: in 12\% of the matches there is still a doubling of two teams of one region play on the same day, either home and away game, or two away games. The status of the region on that day in the latter case is set to away. In the former case, I put it to home game.} This approach helps to clarify the treatment status of a region considerably.
+
+Table \ref{tab_soc_ext:reg_fe_assrate_home_away}
+
+
+to make it fair and square column 1 shows the baseline model (considers only home games) when dropping league three from the original sample and adjust the games as it is done in the distinction of home/away. 
+
+Column 2 presents the estimates when allowing home and game effects to have an impact on the assault rate. The effect of 
+
+
+% \clb{c}{prior\\relationship} 
+% table home & away games
+%--------------------------------------------
+\vspace*{\fill}
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Effect of soccer games on the assault rate, distinction of home and away game}\label{tab_soc_ext:reg_fe_assrate_home_away}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{2}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+				&\clb{c}{baseline\\w/o L3} & \clb{c}{distinction\\home/away$^1$}\\
+				\midrule
+				\input{reg_fe/assrate_fixed_effects_home_away} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
+			weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size
+			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.\newline
+			\hspace*{15 pt}$^1$: Effect size [\%] corresponds to the coefficient of Home game day.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+\vspace*{\fill}\clearpage 
+
+%--------------------------------------------
+
 
 
 
