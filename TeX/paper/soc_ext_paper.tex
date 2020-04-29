@@ -180,17 +180,16 @@ labelfont={bf}
 \setcounter{page}{1}    
 \maketitle
 
-%\textbf{\color{red} Preliminary and incomplete draft\newline Please do not cite or circulate without the author's permission}
-%\renewcommand{\abstractname}{\vspace{-\baselineskip}} % GET RID OF ABSTRACT TITLE
 
-%  \begin{abstract}\noindent 
-%   \footnotesize{\begin{center}\textbf{Abstract}\end{center} Place abstract here}
-%    \end{abstract}
+\renewcommand{\abstractname}{\vspace{-\baselineskip}} % GET RID OF ABSTRACT TITLE
+\begin{abstract}\noindent 
+  \footnotesize{\begin{center}\textbf{Abstract}\end{center} Place abstract here\\\newline \textbf{Keywords:} soccer games, violent crime, assaults. \newline \textbf{JEL codes:} J19, K42, Z13, Z29.}
 
-\bigskip
-\tableofcontents
+\end{abstract}
+
 
 \newpage
+\tableofcontents
 
 
 %--------------------------------------------------------------------
@@ -237,53 +236,24 @@ The identification strategy is based on a generalized difference-in-differences 
 $\text{Gameday}_{rdmy}$ is a binary variable equal to unity when a home games takes place and zero otherwise. Region fixed effects $\vartheta_r$ capture time-invariant differences between regions and ensure that the identification is driven by within instead of between region variation over time. The vector $\text{date}_{dmy}$ contains fixed effects for day-of-the-week ($\gamma_d$), month ($\eta_m$), and year ($\theta_y$). This way, the model flexibly controls for day-of-week specific heterogeneity, seasonal effects and long-run time trends. I expand on the baseline model by adding interactions of region fixed effects with all elements of $\text{date}_{dmy}$, i.e. region-by-day-of-week fixed effects, region-by-month fixed effects, and region-by-year fixed effects. The interactions account for systemic changes in the degree of violent behavior over the year for each region. The vector $\mathbf{X}_{rdmy}$ includes school and public holidays and weather controls.\footnote{Holiday controls include binary variables (on the level of the Federal States) for All Saints, Ascension Day, Assumption Day, Christmas, Corpus Christi, Epiphany, Easter, German Unity Day, Good Friday, Labor Day, New Year, Penance Day, Pentecost, and Reformation Day. Moreover, it contains dummy variables for carnival season and New Year's Eve.\newline Weather controls (on the regional level) include average air temperature, maximum air temperature, minimum air temperature, minimum ground temperature, steam pressure, cloud cover, air pressure, humidity, average precipitation, sunshine duration, snow depth, and wind speed-.} I compute two-way cluster-robust standard errors to capture arbitrary correlation at the region-year and year-month levels. Observations are weighted using population figures from the Federal Statistical Office.
 
 
-The implicit assumption to interpret the parameter of interest $\beta$ as the causal effect of a home game on violent behavior, is that the location and the time of a soccer match is orthogonal to the number of assaults, conditional on the covariates. However, displacement effects may pose a threat to identification. On the one hand, this refers to spatial displacement effects, which may occur when (violence-prone) populations come from distant regions to the game. On the other hand, this includes temporal displacement effects, which happen when assaults from neighbouring days are shifted to the game day. In both cases, the parameter would overestimate the impact of a soccer match on violent behavior as the offense would would have been committed anyway, but just another time or at another place.
+% displacement effects - temporal & spatial
+The implicit assumption to interpret the parameter of interest $\beta$ as the causal effect of a home game on violent behavior, is that the location and the time of a soccer match is orthogonal to the number of assaults, conditional on the covariates. However, displacement effects may pose a threat to identification. On the one hand, this refers to spatial displacement effects, which may occur when (violence-prone) populations come from distant regions to the game. On the other hand, this includes temporal displacement effects, which happen when assaults from neighbouring days are shifted to the game day. In both cases, the parameter would overestimate the impact of a soccer match on violent behavior as the offense would would have been committed anyway, but just another time or at another place. To rule out the possibility that displacement effects pose a threat to the validity of the identification strategy, I investigate the effect of soccer games on neighboring regions and on days surrounding game days. I find that the main results, an increase in violent behavior due to soccer games, are not neutralized by decreases in adjacent regions or on days surrounding game days.
 
 
-Adress the challenges by X and X. 
-I find bla
-
-
-XXX only specification of home game: when there is an away game this could mean particularly aggresive fans are out of town, which might decrease the assault rate. check for that (see Helmut's comments on that)
-I find bla
+% control group problem - away games
+Given the setup of the empirical approach, there could be another threat to the validity of the identification strategy. By focusing on home games in the main analysis, the counterfactuals could potentially be biased downwards as days with away games are part of the control group. This control group problem might stem from the fact that violent fan groups travel with their team on away games and the assault rate in the home region might consequently decline. In order to alleviate this concern, I redo the analysis and differentiate between home and away games. When allowing for distinct effects for home and away games, I find that the effect of away games do not significantly affect the assault rate. 
 
 
 
 
 
-
-\newpage
-\subsection{Idea collection}
-\underline{Further Possible interactions:} 
-\begin{itemize}
-	\item $(\gamma_d \times \delta_m)$: month-specific DOW fixed effects
-	\item $r \times time$: e.g. $r \times w$, $r \times y \times m$,  $r \times y \times w$
-\end{itemize}
-
-\underline{Other approaches to compute standard errors:}
-\begin{itemize}
-	\item clustered at club level $c$ (allow for correlation over time within region and across regions corresponding to the same club)
-
-	\item adjust for serial correlation: 
-	\begin{itemize}
-		\item BDM (2004) clustered at club level
-		\item CGM (2008) wild cluster bootstrap t-procedures
-	\end{itemize}
-\end{itemize}
-
-\underline{drop observations:}
-\begin{itemize}
-	\item focus on only season (i.e. exclude winter break)
-	\item how many games are played on holidays? drop these? 
-	\item drop when information of crime is not available on the hour
-\end{itemize}
 
 
 
 %--------------------------------------------------------------------
 % DATA & VARIABLES
 %--------------------------------------------------------------------
-\newpage
+\bigskip
 \section{Data}\label{sec_soc_ext:data} 
 % Description data
 The data set used for the analysis covers the time window 2011-2015 and contains the regions in which soccer games of the first three leagues of the German football league system take place. I combine five data sources in order to examine the impact of public mass events on criminal behavior.
@@ -348,6 +318,7 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 	\item separately by home/away game
 	\item break it down to hour windows: before, during, and after the game
 	\item spillover/displacement effects (temporal \& spatial), important for validity of the identification scheme
+	\item channels: unexpected losses; work with pregame point spread and see what other papers did
 	\item \textbf{heterogeneity of the effects:}
 	\begin{itemize}
 		\item \underline{victim characteristics:} demographics (age, gender), relationship between offender and victim (known/unknown)
@@ -431,6 +402,8 @@ Previously I showed evidence that soccer games (home games) increase the assault
 
 % temporal displacement
 \textbf{Temporal displacement.--} write stuff here
+in last column of Table I find a positive effect - indicating that there is no offsetting gooing on, but if there are any displacement effects across time, then they are positive
+
 
 
 Interpretation of no displacement effect? 
@@ -484,7 +457,7 @@ Interpretation of no displacement effect?
 \subsection{Robustness}
 \textbf{Poisson model of the number of physical assaults.--}First, I test whether my results are sensitive to an alternative measure of the dependent variable. In the following I use the raw number of assaults as the outcome variable. Because of the discrete nature of the dependent variable, and given there are many cells with zero reports, a Poisson model is the model of choice \citep{lindo2018college}. The corresponding regression specification reads as follows:
 \begin{align}
-E\left[ \text{Assaults}_{rdmy}\right.&|\left.\text{Gameday}_{rdmy},\text{date}_{dmy},\vartheta_r, \mathbf{X}_{rdmy}  \right] \nonumber \\ &=  exp\left( \beta\ \text{Gameday}_{rdmy} + \text{date}_{dmy} + \vartheta_r + \lambda\mathbf{X}_{rdmy} \right) 
+E\left[ \text{Assaults}_{rdmy}\right.&|\left.\text{Gameday}_{rdmy},\vartheta_r,\text{date}_{dmy}, \mathbf{X}_{rdmy}  \right] \nonumber \\ &=  exp\left( \beta\ (\text{Gameday}_{rdmy}) + \vartheta_r + \text{date}_{dmy} + \lambda\mathbf{X}_{rdmy} \right). 
 \label{eq_soc_ext:poisson_model}
 \end{align}
 
@@ -855,6 +828,45 @@ Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fi
 %--------------------------------------------
 
 
+
+
+
+
+
+
+
+
+
+
+%--------------------------------------------------------------------
+% IDEA COLLECTION FOR ANALYSIS
+%--------------------------------------------------------------------
+
+\newpage
+\section*{Idea collection}
+\underline{Further Possible interactions:} 
+\begin{itemize}
+	\item $(\gamma_d \times \delta_m)$: month-specific DOW fixed effects
+	\item $r \times time$: e.g. $r \times w$, $r \times y \times m$,  $r \times y \times w$
+\end{itemize}
+
+\underline{Other approaches to compute standard errors:}
+\begin{itemize}
+	\item clustered at club level $c$ (allow for correlation over time within region and across regions corresponding to the same club)
+
+	\item adjust for serial correlation: 
+	\begin{itemize}
+		\item BDM (2004) clustered at club level
+		\item CGM (2008) wild cluster bootstrap t-procedures
+	\end{itemize}
+\end{itemize}
+
+\underline{drop observations:}
+\begin{itemize}
+	\item focus on only season (i.e. exclude winter break)
+	\item how many games are played on holidays? drop these? 
+	\item drop when information of crime is not available on the hour
+\end{itemize}
 
 
 \end{document}
