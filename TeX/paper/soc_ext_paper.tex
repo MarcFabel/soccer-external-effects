@@ -180,17 +180,16 @@ labelfont={bf}
 \setcounter{page}{1}    
 \maketitle
 
-%\textbf{\color{red} Preliminary and incomplete draft\newline Please do not cite or circulate without the author's permission}
-%\renewcommand{\abstractname}{\vspace{-\baselineskip}} % GET RID OF ABSTRACT TITLE
 
-%  \begin{abstract}\noindent 
-%   \footnotesize{\begin{center}\textbf{Abstract}\end{center} Place abstract here}
-%    \end{abstract}
+\renewcommand{\abstractname}{\vspace{-\baselineskip}} % GET RID OF ABSTRACT TITLE
+\begin{abstract}\noindent 
+  \footnotesize{\begin{center}\textbf{Abstract}\end{center} Place abstract here\\\newline \textbf{Keywords:} soccer games, violent crime, assaults. \newline \textbf{JEL codes:} J19, K42, Z13, Z29.}
 
-\bigskip
-\tableofcontents
+\end{abstract}
+
 
 \newpage
+\tableofcontents
 
 
 %--------------------------------------------------------------------
@@ -224,62 +223,37 @@ Bundesliga is an independent body , sperated from the German Football Associatio
 \newpage
 \section{Empirical strategy}\label{sec_soc_ext:empirical_strategy}
 
+In order to identify the causal effect of soccer matches on criminal behavior, I exploit time series and cross-sectional variation. To be precise, I compare the regional assault rate on the game day to the expected assault level conditional on the day of the week, month, and year while additionally accounting for other possible confounding variation stemming from weather and holidays. In other words, the counterfactual assault rate (what would be expected on a game day in absence of the game), e.g. a Saturday in April 2012, is obtained by using the assault rate on other Saturdays in April 2012, where no games take place. %In other words, the regional assault rate on a given date without a game (say a Saturday in April 2012) serves as counterfactual for what would be expected on a game day (on a Saturday in April 2012) in absence of the game. 
 
 
+The identification strategy is based on a generalized difference-in-differences approach to study the impact of a soccer match on violent behavior. Let Assaults$_{rdmy}$ denote the assault rate in region $r$, on day-of-the-week $d$, in month $m$ and year $y$, which in the simple baseline model is given by:\footnote{For ease of comparison, the assault rate is defined as the number of assaults per 100,000 individuals multiplied with the number of days per year. For details, refer to \cite{hener2019noise}.}
 
 \begin{align}
-	\text{Assaults}_{rdmy} = \alpha + \beta\ \text{Gameday}_{rdmy} + \underbrace{\gamma_d +  \eta_m + \theta_y}_{\text{date}_{dmy}} + \vartheta_r + \mathbf{X}_{rdmy} \lambda + \varepsilon_{rdmy}
-	\label{eq_soc_ext:model}
+	\text{Assaults}_{rdmy} = \alpha + \beta\ (\text{Gameday}_{rdmy}) + \vartheta_r + \underbrace{\gamma_d +  \eta_m + \theta_y}_{\text{date}_{dmy}} + \lambda \mathbf{X}_{rdmy} + \varepsilon_{rdmy}
+	\label{eq_soc_ext:model}.
 \end{align}
-with Assaults$_{rdmy}$ is the assault rate in region $r$, on day-of-the-week $d$, in month $m$ and year $y$. Number of assaults per 100,000 individuals times 365. $\mathbf{X}_{rdmy}$ contains school and public holidays and weather controls.\newline
 
-\underline{What I did in the analysis:} 
-\begin{itemize}
-	\item regressions weighted by population weights
-	\item interactions of region and time fixed effects
-	\item standard errors: twoway cluster (i) district-year and (ii) year-month
-\end{itemize}
+$\text{Gameday}_{rdmy}$ is a binary variable equal to unity when a home games takes place and zero otherwise. Region fixed effects $\vartheta_r$ capture time-invariant differences between regions and ensure that the identification is driven by within instead of between region variation over time. The vector $\text{date}_{dmy}$ contains fixed effects for day-of-the-week ($\gamma_d$), month ($\eta_m$), and year ($\theta_y$). This way, the model flexibly controls for day-of-week specific heterogeneity, seasonal effects and long-run time trends. I expand on the baseline model by adding interactions of region fixed effects with all elements of $\text{date}_{dmy}$, i.e. region-by-day-of-week fixed effects, region-by-month fixed effects, and region-by-year fixed effects. The interactions account for systemic changes in the degree of violent behavior over the year for each region. The vector $\mathbf{X}_{rdmy}$ includes school and public holidays and weather controls.\footnote{Holiday controls include binary variables (on the level of the Federal States) for All Saints, Ascension Day, Assumption Day, Christmas, Corpus Christi, Epiphany, Easter, German Unity Day, Good Friday, Labor Day, New Year, Penance Day, Pentecost, and Reformation Day. Moreover, it contains dummy variables for carnival season and New Year's Eve.\newline Weather controls (on the regional level) include average air temperature, maximum air temperature, minimum air temperature, minimum ground temperature, steam pressure, cloud cover, air pressure, humidity, average precipitation, sunshine duration, snow depth, and wind speed-.} I compute two-way cluster-robust standard errors to capture arbitrary correlation at the region-year and year-month levels. Observations are weighted using population figures from the Federal Statistical Office.
 
 
+% displacement effects - temporal & spatial
+The implicit assumption to interpret the parameter of interest $\beta$ as the causal effect of a home game on violent behavior, is that the location and the time of a soccer match is orthogonal to the number of assaults, conditional on the covariates. However, displacement effects may pose a threat to identification. On the one hand, this refers to spatial displacement effects, which may occur when (violence-prone) populations come from distant regions to the game. On the other hand, this includes temporal displacement effects, which happen when assaults from neighbouring days are shifted to the game day. In both cases, the parameter would overestimate the impact of a soccer match on violent behavior as the offense would would have been committed anyway, but just another time or at another place. To rule out the possibility that displacement effects pose a threat to the validity of the identification strategy, I investigate the effect of soccer games on neighboring regions and on days surrounding game days. I find that the main results, an increase in violent behavior due to soccer games, are not neutralized by decreases in adjacent regions or on days surrounding game days.
 
-\subsection{Idea collection}
-\underline{Further Possible interactions:} 
-\begin{itemize}
-	\item $(\gamma_d \times \delta_m)$: month-specific DOW fixed effects
-	\item $r \times time$: e.g. $r \times w$, $r \times y \times m$,  $r \times y \times w$
-\end{itemize}
 
-\underline{Other approaches to compute standard errors:}
-\begin{itemize}
-	\item clustered at club level $c$ (allow for correlation over time within region and across regions corresponding to the same club)
-
-	\item adjust for serial correlation: 
-	\begin{itemize}
-		\item BDM (2004) clustered at club level
-		\item CGM (2008) wild cluster bootstrap t-procedures
-	\end{itemize}
-\end{itemize}
-
-\underline{drop observations:}
-\begin{itemize}
-	\item focus on only season (i.e. exclude winter break)
-	\item how many games are played on holidays? drop these? 
-	\item drop when information of crime is not available on the hour
-\end{itemize}
+% control group problem - away games
+Given the setup of the empirical approach, there could be another threat to the validity of the identification strategy. By focusing on home games in the main analysis, the counterfactuals could potentially be biased downwards as days with away games are part of the control group. This control group problem might stem from the fact that violent fan groups travel with their team on away games and the assault rate in the home region might consequently decline. In order to alleviate this concern, I redo the analysis and differentiate between home and away games. When allowing for distinct effects for home and away games, I find that the effect of away games do not significantly affect the assault rate. 
 
 
 
-\underline{other remarks:}
-\begin{itemize}
-	\item Spieltag fixed effects?
-\end{itemize}
+
+
 
 
 
 %--------------------------------------------------------------------
 % DATA & VARIABLES
 %--------------------------------------------------------------------
-\newpage
+\bigskip
 \section{Data}\label{sec_soc_ext:data} 
 % Description data
 The data set used for the analysis covers the time window 2011-2015 and contains the regions in which soccer games of the first three leagues of the German football league system take place. I combine five data sources in order to examine the impact of public mass events on criminal behavior.
@@ -303,7 +277,7 @@ The data on soccer matches is self-collected and is obtained via web-scraping fr
 
 % XXX  stadiums in which not at least a full season is played are excluded from the analysis.\footnote{This affects the stadiums in Lübeck (1), Reutlingen (12), Elversberg (14), and the Air-Berlin stadium in Dusseldorf (3). The number in parenthesis indicates the number of games that were held in that venue. This excludes 0.6\% of all matches.}
 
-Figure \ref{fig_soc_ext:descriptives_matches_time_attendance} illustrates some insights into key variables. Panel A shows the number of matches per day of the week and league. The vast majority of the matches is taking place between Friday and Sunday. This is particularly true for the highest league, whereas lower leagues play occasionally on weekdays, too. Matches happening on weekdays are exclusively held in the evenings. In contrast, matches on weekends occur usually in the afternoon. The three different divisions can attract spectators differently, as depicted in Panel C. The Bundesliga as the highest tier can intrigue the most people to show up with an average audience of 44,000 people per game, followed by the second league with on average 17,000 fans per match, and the lowest league can attract on average a bit less than 6,000 fans per game to show up in the stadium.
+Figure \ref{fig_soc_ext:descriptives_matches_time_attendance} illustrates some insights into key variables. Panel A shows the number of matches per day of the week and league. The vast majority of the matches is taking place between Friday and Sunday.\footnote{The inclusion of day-of-week fixed effects in the baseline specification help to account for the higher share of games played on weekends, which are associated with higher levels of criminal behavior.} This is particularly true for the highest league, whereas lower leagues play occasionally on weekdays, too. Matches happening on weekdays are exclusively held in the evenings. In contrast, matches on weekends occur usually in the afternoon. The three different divisions can attract spectators differently, as depicted in Panel C. The Bundesliga as the highest tier can intrigue the most people to show up with an average audience of 44,000 people per game, followed by the second league with on average 17,000 fans per match, and the lowest league can attract on average a bit less than 6,000 fans per game to show up in the stadium.
 
 
 
@@ -344,6 +318,7 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 	\item separately by home/away game
 	\item break it down to hour windows: before, during, and after the game
 	\item spillover/displacement effects (temporal \& spatial), important for validity of the identification scheme
+	\item channels: unexpected losses; work with pregame point spread and see what other papers did
 	\item \textbf{heterogeneity of the effects:}
 	\begin{itemize}
 		\item \underline{victim characteristics:} demographics (age, gender), relationship between offender and victim (known/unknown)
@@ -355,7 +330,7 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 	\begin{itemize}
 		\item different specification of what are the affected regions, vary radius around stadium which region is affected: at first use only region (gemeinde/Kreis) in which the stadium is located, then play around with radius.
 
-		\item placebo games?
+		\item placebo games and placebo outcomes (any type that is not affected)?
 		\item control for mass events (see BHR paper)
 		\item drop Nachholspiele
 	\end{itemize}
@@ -364,6 +339,48 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 
 
 
+
+\newpage
+\subsection{Home and away games}
+so far only analysis of home games, is that fair? 
+away games completetly different: the most devoted fans travel out of the municipality - could this affect the assault rate as well? Is it eventually lower when there is an away game?
+
+In order to answer that I build up my data a bit differently. Whereas in the normal version, the soccer data was merged to the other data on the match level (with the home team's region ID as identifier), in this case I use the soccer data on the table standings level (so both I match both, the home and away team to a region). One consequence of this approach is that it makes the treatment status of single regions less clear. What do you do with regions (that have more than one team) when there is a home and an away game at the same day. In order to alleviate this concern, I drop the third league from the sample and focus only on the first two leagues.\footnote{There remain still a few ambiguities but they are solved the following: in 12\% of the matches there is still a doubling of two teams of one region play on the same day, either home and away game, or two away games. The status of the region on that day in the latter case is set to away. In the former case, I put it to home game.} This approach helps to clarify the treatment status of a region considerably.
+
+Table \ref{tab_soc_ext:reg_fe_assrate_home_away}
+
+
+to make it fair and square column 1 shows the baseline model (considers only home games) when dropping league three from the original sample and adjust the games as it is done in the distinction of home/away. 
+
+Column 2 presents the estimates when allowing home and game effects to have an impact on the assault rate. The effect of 
+
+
+% \clb{c}{prior\\relationship} 
+% table home & away games
+%--------------------------------------------
+\vspace*{\fill}
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Effect of soccer games on the assault rate, distinction of home and away game}\label{tab_soc_ext:reg_fe_assrate_home_away}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{2}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+				&\clb{c}{baseline\\w/o L3} & \clb{c}{distinction\\home/away$^1$}\\
+				\midrule
+				\input{reg_fe/assrate_fixed_effects_home_away} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
+			weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size
+			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.\newline
+			\hspace*{15 pt}$^1$: Effect size [\%] corresponds to the coefficient of Home game day.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+\vspace*{\fill}\clearpage 
+
+%--------------------------------------------
 
 
 
@@ -385,6 +402,8 @@ Previously I showed evidence that soccer games (home games) increase the assault
 
 % temporal displacement
 \textbf{Temporal displacement.--} write stuff here
+in last column of Table I find a positive effect - indicating that there is no offsetting gooing on, but if there are any displacement effects across time, then they are positive
+
 
 
 Interpretation of no displacement effect? 
@@ -438,7 +457,7 @@ Interpretation of no displacement effect?
 \subsection{Robustness}
 \textbf{Poisson model of the number of physical assaults.--}First, I test whether my results are sensitive to an alternative measure of the dependent variable. In the following I use the raw number of assaults as the outcome variable. Because of the discrete nature of the dependent variable, and given there are many cells with zero reports, a Poisson model is the model of choice \citep{lindo2018college}. The corresponding regression specification reads as follows:
 \begin{align}
-E\left[ \text{Assaults}_{rdmy}\right.&|\left.\text{Gameday}_{rdmy},\text{date}_{dmy},\vartheta_r, \mathbf{X}_{rdmy}  \right] \nonumber \\ &=  exp\left( \beta\ \text{Gameday}_{rdmy} + \text{date}_{dmy} + \vartheta_r + \lambda\mathbf{X}_{rdmy} \right) 
+E\left[ \text{Assaults}_{rdmy}\right.&|\left.\text{Gameday}_{rdmy},\vartheta_r,\text{date}_{dmy}, \mathbf{X}_{rdmy}  \right] \nonumber \\ &=  exp\left( \beta\ (\text{Gameday}_{rdmy}) + \vartheta_r + \text{date}_{dmy} + \lambda\mathbf{X}_{rdmy} \right). 
 \label{eq_soc_ext:poisson_model}
 \end{align}
 
@@ -809,6 +828,45 @@ Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fi
 %--------------------------------------------
 
 
+
+
+
+
+
+
+
+
+
+
+%--------------------------------------------------------------------
+% IDEA COLLECTION FOR ANALYSIS
+%--------------------------------------------------------------------
+
+\newpage
+\section*{Idea collection}
+\underline{Further Possible interactions:} 
+\begin{itemize}
+	\item $(\gamma_d \times \delta_m)$: month-specific DOW fixed effects
+	\item $r \times time$: e.g. $r \times w$, $r \times y \times m$,  $r \times y \times w$
+\end{itemize}
+
+\underline{Other approaches to compute standard errors:}
+\begin{itemize}
+	\item clustered at club level $c$ (allow for correlation over time within region and across regions corresponding to the same club)
+
+	\item adjust for serial correlation: 
+	\begin{itemize}
+		\item BDM (2004) clustered at club level
+		\item CGM (2008) wild cluster bootstrap t-procedures
+	\end{itemize}
+\end{itemize}
+
+\underline{drop observations:}
+\begin{itemize}
+	\item focus on only season (i.e. exclude winter break)
+	\item how many games are played on holidays? drop these? 
+	\item drop when information of crime is not available on the hour
+\end{itemize}
 
 
 \end{document}
