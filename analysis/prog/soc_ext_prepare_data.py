@@ -15,12 +15,15 @@ Inputs:
      - weather_prepared.csv                  final          panel(ags,day) with weather variables
      - crime_prepared.csv                    final          panel(ags,day) with number of assaults
      - regional_data_prepared.csv            final          panel(ags,year)
+     - oddsportal_prepared.csv               final          bet-quotes on match lebel, output of webscraping_oddsportal.py
      - map_stadiums_AGS.csv                  intermed_maps  comes as output from QGIS, which AGS contain a stadium
 
 
 Outputs:
      - data_prepared                         final          merged df
 
+Updates:
+    - 2020-05-07 added data from oddsportal
 
 """
 
@@ -33,19 +36,19 @@ start_time = time.time()
 
 
 # paths (work LOCAL)
-z_prepared_data =             'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/final/'
-z_maps_input_intermediate =   'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/maps/'
-z_data_output_Dx =            'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/final/'
-z_data_output =               'F:/econ/soc_ext/analysis/data/final/'
-z_prefix =                    'soc_ext_'
+#z_prepared_data =             'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/final/'
+#z_maps_input_intermediate =   'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/maps/'
+#z_data_output_Dx =            'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/final/'
+#z_data_output =               'F:/econ/soc_ext/analysis/data/final/'
+#z_prefix =                    'soc_ext_'
 
 
 # paths HOME
-#z_prepared_data =             '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/final/'
-#z_maps_input_intermediate =   '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/maps/'
-#z_data_output_Dx =            '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/final/'
-#z_prefix =                    'soc_ext_'
-##z_data_output =              not applicable
+z_prepared_data =             '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/final/'
+z_maps_input_intermediate =   '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/maps/'
+z_data_output_Dx =            '/Users/marcfabel/Dropbox/soc_ext_Dx/analysis/data/final/'
+z_prefix =                    'soc_ext_'
+#z_data_output =              not applicable
 
 
 # magic numbers
@@ -92,6 +95,14 @@ soccer['d_multi_games'].fillna(0, inplace=True)
 soccer.drop( soccer[ (soccer['d_multi_games'] == 1) & (soccer['league'] == 3)].index, inplace=True)
 soccer['d_gameday'] = 1
 
+
+
+########## ODDSPORTAL ##########
+mydateparser = lambda x: pd.datetime.strptime(x, "%Y-%m-%d")
+odds = pd.read_csv(z_prepared_data + 'oddsportal_prepared.csv', sep=';', 
+                   encoding='UTF-8', parse_dates=['date'] , date_parser=mydateparser)
+# connect to soccer
+soccer = soccer.merge(odds, on=['date', 'home_team'], how='left')
 
 
 ########## WEATHER ##########
@@ -228,8 +239,8 @@ data.rename(columns={'season2':'season'}, inplace=True)
 z_number_obs_june = data.month[data.month == 6].count()
 data.drop(data[data.month==6].index, inplace=True)
 
-# result should be 96878 x 321
-assert(data.shape == (96878-z_number_obs_june, 362))
+# result should be 96878 x 366
+assert(data.shape == (96878-z_number_obs_june, 366))
 
 ###############################################################################
 #       Restrict sample
