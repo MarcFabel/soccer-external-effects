@@ -1,7 +1,7 @@
 %--------------------------------------------------------------------
 %	DOCUMENT CLASS
 %--------------------------------------------------------------------
-\documentclass[11pt, a4paper, draft]{article} % type of document (paper, presentation, book,...); scrartcl class with sans serif titles, European layout 
+\documentclass[11pt, a4paper]{article} % type of document (paper, presentation, book,...); scrartcl class with sans serif titles, European layout 
 \usepackage{fullpage} % leaves less space at margins of page
 \usepackage[onehalfspacing]{setspace} % determine line pitch to 1.5
 
@@ -316,7 +316,6 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 \begin{itemize}
 	\item general effect of a game (increase number of FE)
 	\item separately by home/away game
-	\item break it down to hour windows: before, during, and after the game
 	\item spillover/displacement effects (temporal \& spatial), important for validity of the identification scheme
 	\item channels: unexpected losses; work with pregame point spread and see what other papers did
 	\item \textbf{heterogeneity of the effects:}
@@ -328,70 +327,92 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 	\end{itemize}
 	\item \textbf{robustness:}
 	\begin{itemize}
+		\item drop Nachholspiele
+	\end{itemize}
+	\item what can be done later
+	\begin{itemize}
+		\item break it down to hour windows: before, during, and after the game
 		\item different specification of what are the affected regions, vary radius around stadium which region is affected: at first use only region (gemeinde/Kreis) in which the stadium is located, then play around with radius.
-
 		\item placebo games and placebo outcomes (any type that is not affected)?
 		\item control for mass events (see BHR paper)
-		\item drop Nachholspiele
 	\end{itemize}
 \end{itemize}
 
 
 
 
-
 \newpage
-\subsection{Home and away games}
-so far only analysis of home games, is that fair? 
-away games completetly different: the most devoted fans travel out of the municipality - could this affect the assault rate as well? Is it eventually lower when there is an away game?
-
-In order to answer that I build up my data a bit differently. Whereas in the normal version, the soccer data was merged to the other data on the match level (with the home team's region ID as identifier), in this case I use the soccer data on the table standings level (so both I match both, the home and away team to a region). One consequence of this approach is that it makes the treatment status of single regions less clear. What do you do with regions (that have more than one team) when there is a home and an away game at the same day. In order to alleviate this concern, I drop the third league from the sample and focus only on the first two leagues.\footnote{There remain still a few ambiguities but they are solved the following: in 12\% of the matches there is still a doubling of two teams of one region play on the same day, either home and away game, or two away games. The status of the region on that day in the latter case is set to away. In the former case, I put it to home game.} This approach helps to clarify the treatment status of a region considerably.
-
-Table \ref{tab_soc_ext:reg_fe_assrate_home_away}
+\subsection{Emotional cues}
 
 
-to make it fair and square column 1 shows the baseline model (considers only home games) when dropping league three from the original sample and adjust the games as it is done in the distinction of home/away. 
 
-Column 2 presents the estimates when allowing home and game effects to have an impact on the assault rate. The effect of 
+Are emotional cues a potential channel of how soccer games can affect assault rates?
+
+write some motivation why I do this 
+
+In the first step I investigate the effect of emotional upsetting events experienced during the game. In order to estimate that, I build an index that equals one for games in which there is either a penalty (20\% of all games), at least one red card is being issued (10\% of all games), or the referee received a not sufficient grade (15\% of all games).\footnote{A not sufficient grade are marks above 4.0.} The index shows that 35\% of all games experience at least one upsetting episode as defined in the previous categories. The Index is built as the (non-)occurence of the single events do not seem to have a differential impact on the assault rate. Column 1 in Table \ref{tab_soc_ext:reg_fe_assrate_emotional_cues} shows no evidence for the fact that emotional cues trigger more violent behavior. 
+
+In the second and third column I show estimates following the approach of \cite{card2011family}. Identification: seperate the effect from the upset event from games with certain predicted outcomes. 
+what is the idea - see Lindo paper
+In order to measure how certain an outcome can be predicted I use the betting odds from \texttt{oddsportal.com}. I translate the odds to probabilities of the three game outcomes.\footnote{The probability is the inverse ratio of the betting odd.} The probabilities serve as good predictors for the game outcomes, as it is shown by Figure \ref{fig_soc_ext:pregame_probability_spread_outcomes}. In panel A, I show the close relationship between the realized score differential and the probability spread. Panel B and C show that the probability of victory is increasing with higher values of the probability spread. I define a game too close to be predictable when the difference between win and loss is in absolute value terms smaller than 20 percent.\footnote{The results are the same when defining other threshold values and when deviating from the symmetry around the origin.} When the spread's value is exceeding the threshold then the home game is expected to win or lose, respectively. Around 45\% of the games are expected to be close or to be won, while 10\% of the games are expected to be lost. The significantly larger share of wins can be attributed to the home-advantage. 
+
+describe col 2. what do we learn and ultimately col 3 , what is the take-away.
 
 
-% \clb{c}{prior\\relationship} 
-% table home & away games
-%--------------------------------------------
+Taken all together emotional cues is not a driver for violent behavior in the context of professional soccer games.
+
+
+\begin{figure}[H]\centering
+	\caption{Pregame probability spread and actual game outcomes}\label{fig_soc_ext:pregame_probability_spread_outcomes}
+	\includegraphics[width=\linewidth]{descriptive/soc_ext_pregame_probability_spread_outcomes.pdf}
+	\scriptsize
+	\begin{minipage}{\linewidth}
+		\emph{Notes:} Panel A shows the relationship between realized score differential versus the pregame probability spread. The realized score differential is defined as the home team's minus the guest team's final score. The plotted regression line has an intercept of -0.020 (s.e. =0.29) and a slope of 2.328 (s.e. = 0.095). Panel B presents the fraction of actual game results by predicted outcome classifications. Panel C shows the probability of winning a game as a function of the probability spread. The curve is obtained from a regression using a third-order polynomial.
+	\end{minipage}
+\end{figure}
+
+
+
+
 \vspace*{\fill}
 \begin{table}[H] \centering 
-	\begin{threeparttable} \centering \caption{Effect of soccer games on the assault rate, distinction of home and away game}\label{tab_soc_ext:reg_fe_assrate_home_away}
+	\begin{threeparttable} \centering \caption{Effect of emotional cues}\label{tab_soc_ext:reg_fe_assrate_emotional_cues}
 		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
-			\begin{tabular}{l*{2}{c}}
+			\begin{tabular}{l*{3}{c}}
 				\toprule 
-				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
-				&\clb{c}{baseline\\w/o L3} & \clb{c}{distinction\\home/away$^1$}\\
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+				&&\multicolumn{2}{c}{Card \& Dahl (2011) specification}\\
+				\cmidrule(lr){3-4}
+				&\clb{c}{Upset\\event index} & \clb{c}{predicted\\outcomes}& \clb{c}{predicted\\and actual\\outcomes}\\
 				\midrule
-				\input{reg_fe/assrate_fixed_effects_home_away} 
+				\input{reg_fe/assrate_fixed_effects_emotional_cues} 
 				\bottomrule 
 		\end{tabular}}
 		\begin{tablenotes} 
 			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
 			weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size
-			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.\newline
-			\hspace*{15 pt}$^1$: Effect size [\%] corresponds to the coefficient of Home game day.
+			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
 		\end{tablenotes} 
 	\end{threeparttable} 
 \end{table}
 \vspace*{\fill}\clearpage 
 
-%--------------------------------------------
 
-
-
-
+TO DO: data section - write webscraping from oddsportal
+- betting odds from oddsportal.com , odds for each game for win, tie and loss
+- translate odds to probabilities, which are the reciprocal value
+- maybe have the figure about pregame prob spread and outcomes in the data section and describe it in more detail
+- avoid dopplungen od content in the data section and here in that section
 
 
 
 
 
 \newpage
-\subsection{Displacement Effects}
+\subsection{Potential threats to Identification and Validity of the Design}
+
+
+\subsubsection{Displacement Effects}
 
 Previously I showed evidence that soccer games (home games) increase the assault rate. However, it could very well be that I merely measure a displacement of the offense. It is possible that the increase in violent behavior is offset by a reduction in assaults in other areas or at different times \citep{lindo2018college}. In other words, the assault would have been committed anyway, but just at a different time or at another location. One explanation for that are different population flows around days on which games take place. In the following, I want to investigate the two above mentioned concerns.
 
@@ -443,6 +464,58 @@ Interpretation of no displacement effect?
 	\end{minipage}
 \end{figure}
 \vspace*{\fill}\clearpage
+
+
+
+\subsubsection{Home and away games}
+so far only analysis of home games, is that fair? 
+away games completetly different: the most devoted fans travel out of the municipality - could this affect the assault rate as well? Is it eventually lower when there is an away game?
+
+In order to answer that I build up my data a bit differently. Whereas in the normal version, the soccer data was merged to the other data on the match level (with the home team's region ID as identifier), in this case I use the soccer data on the table standings level (so both I match both, the home and away team to a region). One consequence of this approach is that it makes the treatment status of single regions less clear. What do you do with regions (that have more than one team) when there is a home and an away game at the same day. In order to alleviate this concern, I drop the third league from the sample and focus only on the first two leagues.\footnote{There remain still a few ambiguities but they are solved the following: in 12\% of the matches there is still a doubling of two teams of one region play on the same day, either home and away game, or two away games. The status of the region on that day in the latter case is set to away. In the former case, I put it to home game.} This approach helps to clarify the treatment status of a region considerably.
+
+Table \ref{tab_soc_ext:reg_fe_assrate_home_away}
+
+
+to make it fair and square column 1 shows the baseline model (considers only home games) when dropping league three from the original sample and adjust the games as it is done in the distinction of home/away. 
+
+Column 2 presents the estimates when allowing home and game effects to have an impact on the assault rate. The effect of 
+
+
+% \clb{c}{prior\\relationship} 
+% table home & away games
+%--------------------------------------------
+\vspace*{\fill}
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Effect of soccer games on the assault rate, distinction of home and away game}\label{tab_soc_ext:reg_fe_assrate_home_away}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{2}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+				&\clb{c}{baseline\\w/o L3} & \clb{c}{distinction\\home/away$^1$}\\
+				\midrule
+				\input{reg_fe/assrate_fixed_effects_home_away} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
+			weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size
+			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.\newline
+			\hspace*{15 pt}$^1$: Effect size [\%] corresponds to the coefficient of Home game day.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+\vspace*{\fill}\clearpage 
+
+%--------------------------------------------
+
+
+
+
+
+
+
+
+
 
 
 
