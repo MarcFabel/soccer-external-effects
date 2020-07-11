@@ -181,11 +181,11 @@ data[z_gameday_columns] = data[z_gameday_columns].fillna(0)
 ###############################################################################
 
 # generate assault rate
-data['assrate']                 = (data['ass']                   * 100000 * data['days_in_year'])/data['pop_t']
+data['assrate']                 = (data['ass']                   * 1000000)/data['pop_t']
 
 # assault rates per gender and age-group
-data['assrate_f']               = (data['ass_f']                 * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_m']               = (data['ass_m']                 * 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_f']               = (data['ass_f']                 * 1000000)/data['pop_t']
+data['assrate_m']               = (data['ass_m']                 * 1000000)/data['pop_t']
 
 
 
