@@ -24,6 +24,8 @@ Outputs:
 
 Updates:
     - 2020-05-07 added data from oddsportal
+    - 2020-07-11 removed the scaling by days of year in the specifications of the assault rates
+                    but make assrates as crime per 1,000,000 [before per 100,000]
 
 """
 
@@ -177,46 +179,46 @@ data[z_gameday_columns] = data[z_gameday_columns].fillna(0)
 ###############################################################################
 
 # generate assault rate
-data['assrate']                 = (data['ass']                   * 100000 * data['days_in_year'])/data['pop_t']
+data['assrate']                 = (data['ass']                   * 1000000)/data['pop_t']
 
 # assault rates per gender and age-group
-data['assrate_f']               = (data['ass_f']                 * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_m']               = (data['ass_m']                 * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_0_17']            = (data['ass_0_17']              * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_18_29']           = (data['ass_18_29']             * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_30_39']           = (data['ass_30_39']             * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_40_49']           = (data['ass_40_49']             * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_50_59']           = (data['ass_50_59']             * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_60+']             = (data['ass_60+']               * 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_f']               = (data['ass_f']                 * 1000000)/data['pop_t']
+data['assrate_m']               = (data['ass_m']                 * 1000000)/data['pop_t']
+data['assrate_0_17']            = (data['ass_0_17']              * 1000000)/data['pop_t']
+data['assrate_18_29']           = (data['ass_18_29']             * 1000000)/data['pop_t']
+data['assrate_30_39']           = (data['ass_30_39']             * 1000000)/data['pop_t']
+data['assrate_40_49']           = (data['ass_40_49']             * 1000000)/data['pop_t']
+data['assrate_50_59']           = (data['ass_50_59']             * 1000000)/data['pop_t']
+data['assrate_60+']             = (data['ass_60+']               * 1000000)/data['pop_t']
 
 # assault_rate: relationship and attempt/success
-data['assrate_vs_strangers']    = (data['ass_vs_strangers']     * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_vs_rel']          = (data['ass_vs_rel']           * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_attempt']         = (data['ass_attempt']          * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_success']         = (data['ass_success']          * 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_domestic']		= (data['ass_domestic'] 		* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_vs_strangers']    = (data['ass_vs_strangers']     * 1000000)/data['pop_t']
+data['assrate_vs_rel']          = (data['ass_vs_rel']           * 1000000)/data['pop_t']
+data['assrate_attempt']         = (data['ass_attempt']          * 1000000)/data['pop_t']
+data['assrate_success']         = (data['ass_success']          * 1000000)/data['pop_t']
+data['assrate_domestic']		= (data['ass_domestic'] 		* 1000000)/data['pop_t']
 
 # age x gender
-data['assrate_0_17_f']			= (data['ass_0_17_f'] 			* 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_18_29_f']			= (data['ass_18_29_f'] 			* 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_30_39_f']			= (data['ass_30_39_f'] 			* 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_40_49_f']			= (data['ass_40_49_f'] 			* 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_50_59_f']			= (data['ass_50_59_f'] 			* 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_60+_f']			= (data['ass_60+_f'] 			* 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_0_17_m']			= (data['ass_0_17_m'] 			* 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_18_29_m']			= (data['ass_18_29_m'] 			* 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_30_39_m']			= (data['ass_30_39_m'] 			* 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_40_49_m']			= (data['ass_40_49_m'] 			* 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_50_59_m']			= (data['ass_50_59_m'] 			* 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_60+_m']			= (data['ass_60+_m'] 			* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_0_17_f']			= (data['ass_0_17_f'] 			* 1000000)/data['pop_t']
+data['assrate_18_29_f']			= (data['ass_18_29_f'] 			* 1000000)/data['pop_t']
+data['assrate_30_39_f']			= (data['ass_30_39_f'] 			* 1000000)/data['pop_t']
+data['assrate_40_49_f']			= (data['ass_40_49_f'] 			* 1000000)/data['pop_t']
+data['assrate_50_59_f']			= (data['ass_50_59_f'] 			* 1000000)/data['pop_t']
+data['assrate_60+_f']			= (data['ass_60+_f'] 			* 1000000)/data['pop_t']
+data['assrate_0_17_m']			= (data['ass_0_17_m'] 			* 1000000)/data['pop_t']
+data['assrate_18_29_m']			= (data['ass_18_29_m'] 			* 1000000)/data['pop_t']
+data['assrate_30_39_m']			= (data['ass_30_39_m'] 			* 1000000)/data['pop_t']
+data['assrate_40_49_m']			= (data['ass_40_49_m'] 			* 1000000)/data['pop_t']
+data['assrate_50_59_m']			= (data['ass_50_59_m'] 			* 1000000)/data['pop_t']
+data['assrate_60+_m']			= (data['ass_60+_m'] 			* 1000000)/data['pop_t']
 
 # relationship x gender
-data['assrate_vs_strangers_f']	= (data['ass_vs_strangers_f'] 	* 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_vs_rel_f']		= (data['ass_vs_rel_f'] 		* 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_domestic_f']		= (data['ass_domestic_f'] 		* 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_vs_strangers_m']	= (data['ass_vs_strangers_m'] 	* 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_vs_rel_m']		= (data['ass_vs_rel_m'] 		* 100000 * data['days_in_year'])/data['pop_t']
-data['assrate_domestic_m']		= (data['ass_domestic_m'] 		* 100000 * data['days_in_year'])/data['pop_t']
+data['assrate_vs_strangers_f']	= (data['ass_vs_strangers_f'] 	* 1000000)/data['pop_t']
+data['assrate_vs_rel_f']		= (data['ass_vs_rel_f'] 		* 1000000)/data['pop_t']
+data['assrate_domestic_f']		= (data['ass_domestic_f'] 		* 1000000)/data['pop_t']
+data['assrate_vs_strangers_m']	= (data['ass_vs_strangers_m'] 	* 1000000)/data['pop_t']
+data['assrate_vs_rel_m']		= (data['ass_vs_rel_m'] 		* 1000000)/data['pop_t']
+data['assrate_domestic_m']		= (data['ass_domestic_m'] 		* 1000000)/data['pop_t']
 
 
 
@@ -287,11 +289,11 @@ print("--- %s seconds ---" % (time.time() - start_time))
 #data['pop_50_59_t'] = data[['pop_50_54_t', 'pop_55_59_t']].sum(axis='columns')
 #data['pop_60+_t']   = data[['pop_60_64_t', 'pop_65_74_t', 'pop_74+_t']].sum(axis='columns')
 
-#data['assrate_0_17']  = (data['ass_0_17']  * 100000 * data['days_in_year'])/data['pop_0_17_t']
-#data['assrate_18_29'] = (data['ass_18_29'] * 100000 * data['days_in_year'])/data['pop_18_29_t']
-#data['assrate_30_39'] = (data['ass_30_39'] * 100000 * data['days_in_year'])/data['pop_30_39_t']
-#data['assrate_40_49'] = (data['ass_40_49'] * 100000 * data['days_in_year'])/data['pop_40_49_t']
-#data['assrate_50_59'] = (data['ass_50_59'] * 100000 * data['days_in_year'])/data['pop_50_59_t']
-#data['assrate_60+']   = (data['ass_60+']   * 100000 * data['days_in_year'])/data['pop_60+_t']
+#data['assrate_0_17']  = (data['ass_0_17']  * 1000000)/data['pop_0_17_t']
+#data['assrate_18_29'] = (data['ass_18_29'] * 1000000)/data['pop_18_29_t']
+#data['assrate_30_39'] = (data['ass_30_39'] * 1000000)/data['pop_30_39_t']
+#data['assrate_40_49'] = (data['ass_40_49'] * 1000000)/data['pop_40_49_t']
+#data['assrate_50_59'] = (data['ass_50_59'] * 1000000)/data['pop_50_59_t']
+#data['assrate_60+']   = (data['ass_60+']   * 1000000)/data['pop_60+_t']
 #data.drop(['pop_0_17_t', 'pop_18_29_t', 'pop_30_39_t', 'pop_40_49_t', 'pop_50_59_t', 'pop_60+_t'],inplace=True, axis=1)
 
