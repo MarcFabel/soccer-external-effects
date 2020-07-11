@@ -54,21 +54,21 @@ start_time = time.time()
 
 
 # paths work (SERVER)
-#z_weather_source =                  'F:/econ/soc_ext/analysis/data/source/weather/cdc_download_2019-08-28_11-40/data/'
-#z_weather_output_intermed =         'F:/econ/soc_ext/analysis/data/intermediate/weather/'
-#z_map_input_intermed =              'F:/econ/soc_ext/analysis/data/intermediate/maps/'
-#z_weather_output_final =            'F:/econ/soc_ext/analysis/data/final/'
-#z_weather_figures_desc =            'F:/econ/soc_ext/analysis/output/graphs/descriptive/'
-#z_prefix =                          'soc_ext_'
+z_weather_source =                  'F:/econ/soc_ext/analysis/data/source/weather/cdc_download_2019-08-28_11-40/data/'
+z_weather_output_intermed =         'F:/econ/soc_ext/analysis/data/intermediate/weather/'
+z_map_input_intermed =              'F:/econ/soc_ext/analysis/data/intermediate/maps/'
+z_weather_output_final =            'F:/econ/soc_ext/analysis/data/final/'
+z_weather_figures_desc =            'F:/econ/soc_ext/analysis/output/graphs/descriptive/'
+z_prefix =                          'soc_ext_'
 
 
 # paths work (LOCAL)
-z_weather_source =                  'F:/econ/soc_ext/analysis/data/source/weather/cdc_download_2019-08-28_11-40/data/'
-z_weather_output_intermed =         'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/weather/'
-z_map_input_intermed =              'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/maps/'
-z_weather_output_final =            'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/final/'
-z_weather_figures_desc =            'F:/econ/soc_ext/analysis/output/graphs/descriptive/'
-z_prefix =                          'soc_ext_'
+#z_weather_source =                  'F:/econ/soc_ext/analysis/data/source/weather/cdc_download_2019-08-28_11-40/data/'
+#z_weather_output_intermed =         'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/weather/'
+#z_map_input_intermed =              'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/intermediate/maps/'
+#z_weather_output_final =            'C:/Users/fabel/Dropbox/soc_ext_Dx/analysis/data/final/'
+#z_weather_figures_desc =            'F:/econ/soc_ext/analysis/output/graphs/descriptive/'
+#z_prefix =                          'soc_ext_'
 
 
 # HOME directories
@@ -252,19 +252,21 @@ print(len(weather.drop_duplicates(subset='AGS')))
 
 
 style.available
-style.use('seaborn-darkgrid')
+style.use('seaborn-white')
 
 #style.use('seaborn-paper') # alternative talk and presentation - makes it bigger
 #sns.set_context('paper')
 
 
 # histogram unweighted
-sns.distplot(stadium_monitor['distance_closest_sdo'], hist=True, kde=False, norm_hist=True,
+ax = sns.distplot(stadium_monitor['distance_closest_sdo'], hist=True, kde=False, norm_hist=True,
              bins=int(50/4), color = 'darkblue',
              hist_kws={'edgecolor':'black'})
 
 plt.xlabel('Distance [km]')
 plt.ylabel('Density') # 'Number of monitor-stadium pairs'
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
 
 plt.savefig(z_weather_figures_desc + z_prefix + 'distance_monitors_stadiums.pdf')
 
