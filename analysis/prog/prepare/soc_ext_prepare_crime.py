@@ -27,7 +27,7 @@ import seaborn as sns
 from matplotlib.dates import DateFormatter
 import matplotlib.style as style
 #style.available
-style.use('seaborn-darkgrid')
+style.use('seaborn-white')
 import time
 start_time = time.time()
 
@@ -256,6 +256,8 @@ ax.set(xlabel='', ylabel='Relative frequency') #xlabel='months',
 ax.set_xticklabels(ass_h.hour)
 plt.title("Panel A: Assaults across the course of a day", fontweight="bold", loc='left')
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
 plt.savefig(z_crime_figures_desc + z_prefix + 'assaults_per_hour.pdf')
 
 
@@ -279,6 +281,8 @@ ax = sns.barplot(ass_dow.dow, ass_dow.freq, color = 'darkblue')
 ax.set(xlabel='', ylabel='Relative frequency') #xlabel='months',
 plt.title("Panel B: Assaults across days of the week", fontweight="bold", loc='left')
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
 plt.savefig(z_crime_figures_desc + z_prefix + 'assaults_per_dow.pdf')
 
 
@@ -314,6 +318,8 @@ ax = sns.barplot(ass_month.month, ass_month.freq_norm, color = 'darkblue')
 ax.set(xlabel='', ylabel='Relative frequency') #xlabel='months',
 plt.title("Panel C: Assaults across months of the year $^1$", fontweight="bold", loc='left')
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
 plt.savefig(z_crime_figures_desc + z_prefix + 'assaults_per_month_2014.pdf')
 
 
@@ -339,6 +345,8 @@ ax = sns.lineplot(ass_day.date_d_mod, ass_day.freq, color = 'darkblue')   #, kin
 ax.set(xlabel='', ylabel='Relative frequency') #xlabel='months',
 plt.title("Panel D: Assaults across days of the year $^1$", fontweight="bold", loc='left')
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
 plt.savefig(z_crime_figures_desc + z_prefix + 'assaults_per_day_2014_single.pdf')
 
 
@@ -381,6 +389,8 @@ for year in range(2011,2016):
     ax.xaxis.set_major_formatter(DateFormatter("%m"))
     ax.set_yticks(np.arange(0, 0.0025, 0.0005))
     plt.title(str(year), fontweight="bold", loc='center')
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
     plt.savefig(z_crime_figures_desc + z_prefix + 'assaults_per_day_' + str(year) + '.pdf')
 
 
@@ -442,6 +452,8 @@ ax.set_xticklabels(offenses.offense_key)
 for item in ax.get_xticklabels():
      item.set_rotation(90)
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
 plt.savefig(z_crime_figures_desc + z_prefix + 'offense_key_distribution_2014.pdf')
 
 
