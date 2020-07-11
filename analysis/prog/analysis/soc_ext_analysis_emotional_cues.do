@@ -330,8 +330,50 @@
 			pred_win_loss "Expected to win and lost (upset loss)"			///
 			pred_close_loss "Expected to be close and lost (upset loss)")
 		
-		
- 
-		
-		
+	
+	
+	esttab a6 b* using "$tables/assrate_fixed_effects_emotional_cues.tex", 	///
+		se star(* 0.10 ** 0.05 *** 0.01)				 					///
+		keep(d_upset* pred_*) 												///
+		scalars("N \midrule Observations"									///
+		"region Region FE" "time Time Fe" "weather Weather Controls"		///
+		"holiday Holiday FE" "interact Interact FE") 						///
+		sfmt(%12.0fc)	b(%12.3f) se(%12.3f) 								///
+		replace booktabs fragment label 									///
+		nomtitles nonumbers noobs nonote nogaps noline						///
+		coeflabels(															///
+			d_upset "Upset event (Index)"									///
+			d_upset_no "No upset event (Index)"								///
+			pred_loss "Expected to lose"									///
+			pred_win "Expected to win"										///
+			pred_close "Expected to be close"								///
+			pred_loss_win "Expected to lose and won (upset win)"			///
+			pred_win_loss "Expected to win and lost (upset loss)"			///
+			pred_close_loss "Expected to be close and lost (upset loss)")
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 		
