@@ -25,3 +25,12 @@ capture program drop preg_fe
 		summ `2' if e(sample) & d_gameday == 0
 		qui estadd scalar mean = abs(round(_b[`3']/`r(mean)'*100,.01))
 	end
+	
+	
+capture program drop reg_fe_unweighted
+	program define reg_fe_unweighted
+		qui eststo `1': reghdfe `2' `3' `4' , absorb(`5') vce(cluster ags#year year#month)  
+		qui estadd scalar Nn = e(N)
+		qui summ `2' if e(sample) & d_gameday == 0
+		qui estadd scalar mean = abs(round(_b[`3']/`r(mean)'*100,.01))
+	end
