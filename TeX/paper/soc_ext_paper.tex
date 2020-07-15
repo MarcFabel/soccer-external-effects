@@ -313,29 +313,67 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 \newpage
 \section{Results}\label{sec_soc_ext:results}
 
+
+
+% MAIN RESULTS
+%--------------------------------------------------------------------
+\subsection{Main results}
+
+% descriptive figure, ass_rate across DOW
+Before presenting the regression results, Figure \ref{fig_soc_ext:assault_rate_across_dows} gives an intuitive preview of the main findings. Using the same data as the main analysis, it shows the assault rate across days of the week.\footnote{Appendix Figure \ref{fig_soc_ext:assaults_across_dows} shows the same scheme when using the raw number of assaults across days of the week for days with and without games.} The daily rates are presented for days with and without home games. The average daily assault rate is higher for weeks in which there is a home game compared to when no game takes place. The difference in means is statistically significant for all days except for Tuesdays and Wednesdays.\footnote{The average assault rate on Thursdays with games is very high in relation to Thursdays without games. This may be the result of very few games taking place on a Thursday. In the dataset, only 18 (0.4\%) games take place on a Thursday.} The empirical model exploits the variation in assaults across days of the week, and particularly how the pattern varies between weeks with and without games.
+
+% main result table with more controls
+Table \ref{tab_soc_ext:reg_fe_assrate} reports estimates corresponding to equation \ref{eq_soc_ext:model} when adding progressively more controls. The dependent variable is the assault rate, which is defined as the number of offenses per million population. In column 1, I include region, day-of-week, month, and year fixed effects. Column 2 adds weather controls. Holidays fixed effects are included in column 3. Column 4, controls for region specific date fixed effects. Note that although the estimates vary marginally across columns, I use throughout the paper the model presented in column 4 for subsequent analyses. The estimate from the preferred specification in column 4 suggests that a home game increases the assault rate by an average 2.677 assaults per million population. This corresponds to an increase of 21.5\% from the game-free level.
+
+% victim characteristics
+After establishing that soccer games lead to more assaults, I shed some light on who are the victims of these additional offenses. Table \ref{tab_soc_ext:reg_fe_assrate_victim_chars} shows the effect of soccer games on the assault rate by victim characteristics. First, Column 2 and 3 show the effect heterogeneity by gender. Although the estimates for women and men are statistically significant from zero, the additional victims are almost exclusively male. Male victimization rates increase by 2.432 offenses per million population. The increased assault rate for males consume more than 90\% of the effect found on the entire sample. Figure \ref{fig_soc_ext:fe_age_profile} shows the age profile of the effects for each gender separately. For women, the point estimates are small in magnitude and not significantly different from zero. The one exception are women aged 40-49 years. In contrast, the effects of adult men are throughout significant. The largest effect for males is found in the age bracket 18-29 years and is decreasing thereafter. Second, I explore effect heterogeneity by the relationship between victim and suspect. The columns 4 and 5 distinguish the relations from a formal perspective, such as kin or acquaintances. Although both estimates are positive and statistically significant, the majority of additional assaults is coming from victims who haven't had any prior connection to the suspect. The victimization rate of strangers to the suspect rises by on average 1.939 assaults per million population. This implies that almost three out of four extra cases originate from this type of victim-suspect pair. Column 6 considers spatial-social relationships, in this instance whether victim and suspect live in the same household. The assault rate in the domestic context is increasing due to a soccer game by on average 0.096 assaults per million population. This implies that only few (13\%) victims that have known the suspect also live in the same household. Taken together, the additional victims due to soccer games are young males with no prior relationship to the suspect. This description has large overlap with the population who usually gather around soccer games.
+
+
+
+% crime characteristics
+In the next step, I consider effect heterogeneity by crime characteristics. Columns 2-5 of Table \ref{tab_soc_ext:reg_fe_assrate_crime_chars} show the heterogeneity of the effect by the time of the offense. The impact of a soccer game on the assault rate is smallest in summer months with 1.482 assaults per million population, corresponding to an increase of 13.4\%. The summer months (July and August) are the time when the soccer season starts and results are not yet so important. The estimates are higher (but not significantly different from each other) during other times of the season. Columns 6 and 7 consider effect heterogeneity by assault execution. I find that the effects of soccer games on the assault rate are mostly driven by 'successfully' committed offenses with by on average 2.310 additional assaults per million population.
+
+
+% Summarizing paragraph??? XXX
+
+
+\subsection{Threats to validity}
 \begin{itemize}
-	\item general effect of a game (increase number of FE)
-	\item separately by home/away game
-	\item spillover/displacement effects (temporal \& spatial), important for validity of the identification scheme
-	\item channels: unexpected losses; work with pregame point spread and see what other papers did
-	\item \textbf{heterogeneity of the effects:}
-	\begin{itemize}
-		\item \underline{victim characteristics:} demographics (age, gender), relationship between offender and victim (known/unknown)
-		\item \underline{crime characteristics:} timing (season), type of charge (definition of assault), assault execution
-		\item \underline{game and club characteristics:} prominent game or team (derby, rivalry, BL/2L/3L), covariate space that was scraped from kicker and transfermarkt, emotional cues (Card \& Dahl story or referee quality, penalty in last minutes,...)
-		\item \underline{region characteristics:} Regionaldatenbank - treatment effect heterogeneity (causal forests) - just for this part or for all heterogeneity aspects?
-	\end{itemize}
-	\item \textbf{robustness:}
-	\begin{itemize}
-		\item drop Nachholspiele
-	\end{itemize}
-	\item what can be done later
-	\begin{itemize}
-		\item break it down to hour windows: before, during, and after the game
-		\item different specification of what are the affected regions, vary radius around stadium which region is affected: at first use only region (gemeinde/Kreis) in which the stadium is located, then play around with radius.
-		\item placebo games and placebo outcomes (any type that is not affected)?
-		\item control for mass events (see BHR paper)
-	\end{itemize}
+	\item Displacement (spatial \& temporal)
+	\item Home and away games
+\end{itemize}
+
+
+\subsection{Channels}
+\begin{itemize}
+	\item Emotional cues (unexpected losses)
+	\item Prominent games/teams (derby, rivalry, BL/2L/3L), covariate space that was scraped from kicker and transfermarkt
+	\item ML application -> deprived regions? (region characteristics)
+\end{itemize}	
+
+
+\subsection{Robustness}
+\begin{itemize}
+	\item Poisson model
+	\item drop Nachholspiele
+\end{itemize}
+
+
+
+
+
+
+
+\bigskip
+{\color{red}\textbf{TO DO (decreasing priority)}}
+\begin{itemize}
+	\item prominent games
+	\item ML application
+	\item type of charge (place in paragraph about crime characteristics - see Timo's paper): broadly defined assault, property crimes (use as placebo outcome), other violence, obstructing law enforcement, threats
+	\item break it down to hour windows: before, during, and after the game
+	\item different specification of what are the affected regions, vary radius around stadium which region is affected: at first use only region (gemeinde/Kreis) in which the stadium is located, then play around with radius.
+	\item placebo games and placebo outcomes (any type that is not affected)?
+	\item control for mass events (see BHR paper)
 \end{itemize}
 
 
@@ -537,6 +575,33 @@ E\left[ \text{Assaults}_{rdmy}\right.&|\left.\text{Gameday}_{rdmy},\vartheta_r,\
 Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fixed_effects} shows average marginal effects of the effect of a home game on the number of physical assaults.\footnote{In nonlinear models, coefficients cannot be interpreted as marginal effects. The partial effect for a Poisson model is given by $\frac{\partial E\left[ \text{Assaults}| \mathbf{X}\right]}{\partial x_j} = \beta_j\ exp(\mathbf{x'}\beta)$.} By expanding the model by progressively adding weather controls, holiday fixed effects, and interacted fixed effects, I find stable and robust evidence that a home game leads to an increase in the number of assaults. In column 4, the richest specification, a home game leads to, on average, an increase in the number of assaults by 28.55 percent. This effect is not statistically higher than the baseline results. 
 
 
+\bigskip
+\textbf{Drop delayed games.--} out of 4,461 games 2.24\% are delayed -> days are droppped from analysis
+
+
+\vspace*{\fill}
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Robustness tests: Impact on \textbf{Assault rate}}\label{tab_soc_ext:reg_fe_assrate_rob_delayed_unweighted}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{6}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+				& baseline & \clb{c}{w/o delayed\\games} & \clb{c}{w/o pop.\\weights} \\
+				\midrule
+				\input{reg_fe/assrate_fixed_effects_robust_delayed_unweighted} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
+			weighted by population shares (partly, not all rows), se clustered on region-year and year-month, what do FE entail, effect size
+			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+\vspace*{\fill}\clearpage 
+
+
+
 
 
 %--------------------------------------------------------------------
@@ -688,42 +753,42 @@ Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fi
 %WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
 
 
+
+%--------------------------------------------
+% fig: intuitive representation: assrate across DOW
 \vspace*{\fill}
 \begin{figure}[H]\centering
-	\caption{The average assault rate on gamedays and days where no game takes place}\label{fig_soc_ext:}
+	\caption{The average assault rate on gamedays and days where no game takes place}\label{fig_soc_ext:assault_rate_across_dows}
 	\includegraphics[width=0.9 \linewidth]{descriptive/soc_ext_descr_assaultrate_gd_nongd_hor.pdf}
 	\begin{minipage}{0.95\linewidth}
-		\scriptsize{\emph{Notes:} }
+		\scriptsize{\emph{Notes:} The figure shows the daily average number of assaults per million population for regions that host games of a soccer team from the first three leagues of the German football league system. The daily rates are shown for weeks in which a game is played and for weeks in which no game takes place.}
 	\end{minipage}
 \end{figure}
 \vspace*{\fill}\clearpage
 
-
-
-
-
-
+%--------------------------------------------
+% age profile of effect, ba gender
 \begin{landscape}
 	\vspace*{\fill}
 	\begin{figure}[H]\centering
-		\caption{The age profile of the effect}\label{fig_soc_ext:fe_age_profile}
-		\begin{subfigure}[h]{0.31\linewidth}\centering\caption{Total}
-			\includegraphics[width=\linewidth]{regression/fe_agebrackets_t.pdf}
-		\end{subfigure}
-		\begin{subfigure}[h]{0.31\linewidth}\centering\caption{Women}
+		\caption{The age profile of the impact of soccer matches on the assault rate}\label{fig_soc_ext:fe_age_profile}
+		% \begin{subfigure}[h]{0.31\linewidth}\centering\caption{Total}
+		% 	\includegraphics[width=\linewidth]{regression/fe_agebrackets_t.pdf}
+		% \end{subfigure}
+		\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Women}
 			\includegraphics[width=\linewidth]{regression/fe_agebrackets_f.pdf}
 		\end{subfigure}
-		\begin{subfigure}[h]{0.31\linewidth}\centering\caption{Men}
+		\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Men}
 			\includegraphics[width=\linewidth]{regression/fe_agebrackets_m.pdf}
 		\end{subfigure}
 		\scriptsize
 		\begin{minipage}{\linewidth}
-			\emph{Notes:} The figures show FE estimates with the richest specification along with 95\% confidence intervals for all assaults, and for both genders separately. 
+			\emph{Notes:} The figure shows estimates and 95\% confidence intervals across age brackets and by gender. To estimate the effect, I used the model shown in equation \ref{eq_soc_ext:model} in its richest specification with all covariates and population weights. The outcome variable is defined as the number of assaults per million population.
 		\end{minipage}
 	\end{figure}
 	\vspace*{\fill}\clearpage
 \end{landscape}
-
+%--------------------------------------------
 
 
 %--------------------------------------------------------------------
@@ -737,6 +802,7 @@ Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fi
 
 
 %--------------------------------------------
+% main regression table: include fixed effects
 \vspace*{\fill}
 \begin{table}[H] \centering 
 	\begin{threeparttable} \centering \caption{Effects on \textbf{Assault rate}}\label{tab_soc_ext:reg_fe_assrate}
@@ -749,16 +815,68 @@ Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fi
 				\bottomrule 
 		\end{tabular}}
 		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
-			weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size
-			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
+			\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
 		\end{tablenotes} 
 	\end{threeparttable} 
 \end{table}
 \vspace*{\fill}\clearpage 
 
 %--------------------------------------------
+% subcategories: VICTIM characteristics
+\newgeometry{left=1cm,right=1cm,top=3cm,bottom=3cm} 
+\begin{landscape}
+	\vspace*{\fill}
+	\begin{table}[H] \centering 
+		\begin{threeparttable} \centering \caption{Effects on Assault rate, by victim characteristics}
+			\label{tab_soc_ext:reg_fe_assrate_victim_chars}
+			{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+				\begin{tabular}{l*{6}{c}}
+					\toprule 
+					&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
+					& & \multicolumn{2}{c}{\textbf{Gender}} & \multicolumn{3}{c}{\textbf{Victim-suspect-relationship}} \\
+					\cmidrule(lr){3-4} \cmidrule(lr){5-7}
+					& baseline & women & men & strangers$^a$ & \clb{c}{prior$^a$\\relationship} & domestic$^b$ \\
+					\midrule
+					\input{reg_fe/assrate_fixed_effects_subcat_victim_chars} 
+					\bottomrule 
+			\end{tabular}}
+			\begin{tablenotes} 
+				\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.\newline \hspace*{15pt} $^a$: covers formal relationships (e.g. types of kin or acquaintances). \newline \hspace*{15pt} $^b$: covers spatial-social relationships. In this instance, whether victim and suspect live in the same household.
+			\end{tablenotes} 
+		\end{threeparttable} 
+	\end{table}
+	\vspace*{\fill}\clearpage 
+\end{landscape}
 
+%--------------------------------------------
+% subcategories: CRIME characteristics
+\begin{landscape}
+	\vspace*{\fill}
+	\begin{table}[H] \centering 
+		\begin{threeparttable} \centering \caption{Effects on Assault rate, by crime characteristics}
+			\label{tab_soc_ext:reg_fe_assrate_crime_chars}
+			{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+				\begin{tabular}{l*{7}{c}}
+					\toprule 
+					&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)} &\multicolumn{1}{c}{(7)}\\
+					& & \multicolumn{4}{c}{\textbf{Timing}$^a$} & \multicolumn{2}{c}{\textbf{assault execution}} \\
+					\cmidrule(lr){3-6} \cmidrule(lr){7-8}
+					& baseline & spring & summer & fall & winter & attempt & success \\
+					\midrule
+					\input{reg_fe/assrate_fixed_effects_subcat_crime_chars} 
+					\bottomrule 
+			\end{tabular}}
+			\begin{tablenotes} 
+				\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.\newline \hspace*{10pt}$^a$: spring (March - May), summer (July and August), fall (September - November), winter (December - February).
+			\end{tablenotes} 
+		\end{threeparttable} 
+	\end{table}
+	\vspace*{\fill}\clearpage 
+\end{landscape}
+\restoregeometry 
+
+%--------------------------------------------
+% temporal displacement: include leads and lags
 \vspace*{\fill}
 \begin{table}[H] \centering 
 	\begin{threeparttable} \centering \caption{Effects on \textbf{Assault rate with leads/lags}}\label{tab_soc_ext:reg_fe_assrate_leads_lags}
@@ -771,68 +889,11 @@ Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fi
 				\bottomrule 
 		\end{tabular}}
 		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
-			weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size
-			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
+			\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
 		\end{tablenotes} 
 	\end{threeparttable} 
 \end{table}
 \vspace*{\fill}\clearpage 
-
-%--------------------------------------------
-% subcategories: VICTIM characteristics
-\begin{landscape}
-	\vspace*{\fill}
-	\begin{table}[H] \centering 
-		\begin{threeparttable} \centering \caption{Effects on Assault rate, by victim characteristics}
-			\label{tab_soc_ext:reg_fe_assrate_victim_chars}
-			{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
-				\begin{tabular}{l*{6}{c}}
-					\toprule 
-					&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
-					& & \multicolumn{2}{c}{Gender} & \multicolumn{3}{c}{Victim-suspect-relationship} \\
-					\cmidrule(lr){3-4} \cmidrule(lr){5-7}
-					& baseline & women & men & strangers & \clb{c}{prior\\relationship}  & domestic \\
-					\midrule
-					\input{reg_fe/assrate_fixed_effects_subcat_victim_chars} 
-					\bottomrule 
-			\end{tabular}}
-			\begin{tablenotes} 
-				\item \scriptsize \emph{Notes:} The table shows estimates ..... 
-				weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size, strangers and prior relationship are defined in formal way (e.g. what type of family, acquaintance - if any), whereas the domestic sphere is defined in a spatial-social manner (e.g. living in the same household, education or care contexts). 
-				Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
-			\end{tablenotes} 
-		\end{threeparttable} 
-	\end{table}
-	\vspace*{\fill}\clearpage 
-\end{landscape}
-%--------------------------------------------
-% subcategories: CRIME characteristics
-\begin{landscape}
-	\vspace*{\fill}
-	\begin{table}[H] \centering 
-		\begin{threeparttable} \centering \caption{Effects on Assault rate, by crime characteristics}
-			\label{tab_soc_ext:reg_fe_assrate_crime_chars}
-			{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
-				\begin{tabular}{l*{7}{c}}
-					\toprule 
-					&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)} &\multicolumn{1}{c}{(7)}\\
-					& & \multicolumn{4}{c}{\textbf{Timing}} & \multicolumn{2}{c}{\textbf{assault execution}} \\
-					\cmidrule(lr){3-6} \cmidrule(lr){7-8}
-					& baseline & spring & summer & fall & winter & attempt & success \\
-					\midrule
-					\input{reg_fe/assrate_fixed_effects_subcat_crime_chars} 
-					\bottomrule 
-			\end{tabular}}
-			\begin{tablenotes} 
-				\item \scriptsize \emph{Notes:} The table shows estimates ..... 
-				weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size
-				Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
-			\end{tablenotes} 
-		\end{threeparttable} 
-	\end{table}
-	\vspace*{\fill}\clearpage 
-\end{landscape}
 %--------------------------------------------
 % robustensss: ASSAULTS and POISSON
 \vspace*{\fill}
@@ -899,6 +960,15 @@ Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fi
 \end{figure}
 \vspace*{\fill}\clearpage
 %--------------------------------------------
+% descriptive: assaults across DOW, days w/-w/o games
+\begin{figure}[H]\centering
+	\caption{Average number of assaults on gamedays and days when no game takes place}\label{fig_soc_ext:assaults_across_dows}
+	\includegraphics[width=\linewidth]{descriptive/soc_ext_descr_assaults_gd_nongd_hor.pdf}
+	\scriptsize
+	\begin{minipage}{\linewidth}
+		\emph{Notes:} The figure shows the daily average number of assaults for regions that host games of a soccer team from the first three leagues of the German football league system. The daily rates are shown for weeks in which a game is played and for weeks in which no game takes place.
+	\end{minipage}
+\end{figure}
 
 
 
