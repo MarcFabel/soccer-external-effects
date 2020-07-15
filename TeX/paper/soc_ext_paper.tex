@@ -328,20 +328,37 @@ Table \ref{tab_soc_ext:reg_fe_assrate} reports estimates corresponding to equati
 % victim characteristics
 After establishing that soccer games lead to more assaults, I shed some light on who are the victims of these additional offenses. Table \ref{tab_soc_ext:reg_fe_assrate_victim_chars} shows the effect of soccer games on the assault rate by victim characteristics. First, Column 2 and 3 show the effect heterogeneity by gender. Although the estimates for women and men are statistically significant from zero, the additional victims are almost exclusively male. Male victimization rates increase by 2.432 offenses per million population. The increased assault rate for males consume more than 90\% of the effect found on the entire sample. Figure \ref{fig_soc_ext:fe_age_profile} shows the age profile of the effects for each gender separately. For women, the point estimates are small in magnitude and not significantly different from zero. The one exception are women aged 40-49 years. In contrast, the effects of adult men are throughout significant. The largest effect for males is found in the age bracket 18-29 years and is decreasing thereafter. Second, I explore effect heterogeneity by the relationship between victim and suspect. The columns 4 and 5 distinguish the relations from a formal perspective, such as kin or acquaintances. Although both estimates are positive and statistically significant, the majority of additional assaults is coming from victims who haven't had any prior connection to the suspect. The victimization rate of strangers to the suspect rises by on average 1.939 assaults per million population. This implies that almost three out of four extra cases originate from this type of victim-suspect pair. Column 6 considers spatial-social relationships, in this instance whether victim and suspect live in the same household. The assault rate in the domestic context is increasing due to a soccer game by on average 0.096 assaults per million population. This implies that only few (13\%) victims that have known the suspect also live in the same household. Taken together, the additional victims due to soccer games are young males with no prior relationship to the suspect. This description has large overlap with the population who usually gather around soccer games.
 
-
-
 % crime characteristics
 In the next step, I consider effect heterogeneity by crime characteristics. Columns 2-5 of Table \ref{tab_soc_ext:reg_fe_assrate_crime_chars} show the heterogeneity of the effect by the time of the offense. The impact of a soccer game on the assault rate is smallest in summer months with 1.482 assaults per million population, corresponding to an increase of 13.4\%. The summer months (July and August) are the time when the soccer season starts and results are not yet so important. The estimates are higher (but not significantly different from each other) during other times of the season. Columns 6 and 7 consider effect heterogeneity by assault execution. I find that the effects of soccer games on the assault rate are mostly driven by 'successfully' committed offenses with by on average 2.310 additional assaults per million population.
+{\color{red}  type of charge}
 
 
-% Summarizing paragraph??? XXX
+
+% Threats to validity
+%--------------------------------------------------------------------
+\subsection{Potential threats to Identification and Validity of the Design}
+ This section considers the possibility that I measure not additional assaults due to soccer games but merely displacements of offenses. Furthermore, the sensitivity of the main results is tested by additionally including away games in the model.
+
+% Intro why we see displacement
+Previously I showed evidence that soccer games increase the assault rate. However, it could very well be that I only pick up an effect that displaces offenses. It is possible that the increase in violent behavior is offset by a reduction in assaults in other areas or at different times \citep{lindo2018college}. In other words, the assault would have been committed anyway, but just at a different time or at another location. One potential explanation for that are different population flows around days on which games take place.
+
+% spatial displacement
+In order to estimate \textit{spatial displacement effects}, I investigate the impact of  soccer matches on nearby regions. I define neighboring regions to constitute nearby regions. A neighbor region is a municipality that shares a common boundary with a region that contains a stadium.\footnote{If there are two municipalities that share a common border and each of the regions contains a stadium, both regions will not serve as neighbor regions and they are dismissed from the set of spatial spillover candidates.} Figure \ref{fig_soc_ext:map_neighboring_regions} shows a map of the selected regions. The sample of neighboring regions exhibits a considerably higher number of observations. This is owed to the fact that a region with a stadium has, on average, a bit more than 11 neighbor municipalities. Table \ref{tab_soc_ext:reg_fe_assrate_neighbor_regions} shows the estimates of the impact of a home game on these neighboring regions. In comparison to the baseline effects, the coefficients of spillover effects across space are small and not significantly different from zero. Consequently, the results do not suggest that offsetting spatial spillover effects are present.
+
+% temporal displacement
+In the next step, \textit{temporal displacement effects} are being considered. To capture this possibility, I include one day leads and lags of the game day indicator. Table \ref{tab_soc_ext:reg_fe_assrate_leads_lags} contains the estimates when enriching the baseline model with the temporal spillover components. The estimates of the gameday itself are not significantly different from the baseline model. The coefficients of one day before and after the game are almost always small in magnitude and not statistically significant. Only exception is the estimate of the day before the game in column 4, which implies that a soccer game leads to an average increase of 0.352 assaults per million population on the day before a game. The positive coefficient, however, does not suggest temporal displacement effects, which would require a negative estimate. This rather indicates additional assaults due to activities on the day preceding important games. 
 
 
-\subsection{Threats to validity}
-\begin{itemize}
-	\item Displacement (spatial \& temporal)
-	\item Home and away games
-\end{itemize}
+
+% Home and Away games
+As discussed above, the baseline model considers the effect of soccer matches, but for home games only. This restriction could entail serious problems for the validity of the design. When away matches are not accounted for, they end up in the control group. The control observations might be biased downwards when the local team is playing away and the most devoted (and eventually violent) fans travel with their team out of the municipality. This could mean that the assault rate at home is decreasing due to the absence of local agitators and days with away matches cannot be used as control units anymore. In order to address this concern, I investigate the \textit{effect of home and away matches separately}. To analyze the effect of away matches I have to build up my data differently. Whereas in the normal version, the soccer data is merged to the other data on the match level (with the home team's region ID as identifier), in this case I use the soccer data on the table standings level. In other words, both the home and away team is matched to a region. One consequence of this approach is that it makes the treatment status of single regions less clear.\footnote{When only considering home games, the treatment status is not a problem. This is due to the fact that local authorities do not allow two home games on the same day.} For instance, the treatment status of regions that have more than one team is ambiguous when there is a home and an away match at the same day. In order to alleviate this concern, I drop the third league from the sample and focus only on the first two leagues.\footnote{There remain still a few ambiguities but they are solved the following: in 12\% of the matches there is still a doubling of two teams of one region play on the same day, either home and away game, or two away games. The status of the region on that day in the latter case is set to away. In the former case, I put it to home game.} This approach helps to clarify the treatment status of a region considerably. Table \ref{tab_soc_ext:reg_fe_assrate_home_away} shows the results when investigating home and away matches separately. To be able to compare the estimated effects, column 1 shows estimates retrieved from the baseline model (home matches only) when adjusting the sample as it is described above. Column 2 presents the estimates when allowing home and game effects to have an impact on the assault rate. The estimate of an away game is small in magnitude and not significantly different from zero. In contrast, the effect of a home game is sizable and leads to an average increase in the assault rate by 2.910 assaults per million population. The coefficient is not significantly different from the one in column one. Overall, the results suggest that the focus on home games only does not lead to an invalid identification scheme, which would have been represented by a negative and significant estimate of the away game effect. 
+
+
+
+
+
+
+
 
 
 \subsection{Channels}
@@ -446,105 +463,7 @@ TO DO: data section - write webscraping from oddsportal
 
 
 
-\newpage
-\subsection{Potential threats to Identification and Validity of the Design}
 
-
-\subsubsection{Displacement Effects}
-
-Previously I showed evidence that soccer games (home games) increase the assault rate. However, it could very well be that I merely measure a displacement of the offense. It is possible that the increase in violent behavior is offset by a reduction in assaults in other areas or at different times \citep{lindo2018college}. In other words, the assault would have been committed anyway, but just at a different time or at another location. One explanation for that are different population flows around days on which games take place. In the following, I want to investigate the two above mentioned concerns.
-
-
-% spatial displacement
-\textbf{Spatial displacement.--} In order to estimate spatial displacement effects, I investigate the impact of  soccer matches on nearby regions. I define neighboring regions to constitute nearby regions. A neighbor region is a municipality that shares a common boundary with a region that contains a stadium.\footnote{If there are two municipalities that share a common border and each of the regions contains a stadium, both regions will not serve as neighbor regions and they are dismissed from the set of spatial spillover candidates.} Figure \ref{fig_soc_ext:map_neighboring_regions} shows a map of the selected regions. The sample of neighboring regions exhibits a considerably higher number of observations. This is owed to the fact that a region with a stadium has, on average, a bit more than 11 neighbor municipalities. Table \ref{tab_soc_ext:reg_fe_assrate_neighbor_regions} shows the estimates of the impact of a home game on these neighboring regions. In comparison to the baseline effects, the coefficients for spillover effects across space are small and not significantly different from zero. 
-
-
-% temporal displacement
-\textbf{Temporal displacement.--} write stuff here
-in last column of Table I find a positive effect - indicating that there is no offsetting gooing on, but if there are any displacement effects across time, then they are positive
-
-
-
-Interpretation of no displacement effect? 
-
-
-% table spatial displacement - neighboring regions
-%--------------------------------------------
-\vspace*{\fill}
-\begin{table}[H] \centering 
-	\begin{threeparttable} \centering \caption{Spatial displacement effect: Impact on \textbf{Assault rate}}\label{tab_soc_ext:reg_fe_assrate_neighbor_regions}
-		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
-			\begin{tabular}{l*{6}{c}}
-				\toprule 
-				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
-				\midrule
-				\input{reg_fe/assrate_neighbor_regions_fixed_effects} 
-				\bottomrule 
-		\end{tabular}}
-		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
-			weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size
-			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
-		\end{tablenotes} 
-	\end{threeparttable} 
-\end{table}
-\vspace*{\fill}\clearpage 
-
-%--------------------------------------------
-
-% map spatial displacement - neighboring regions
-\vspace*{\fill}
-\begin{figure}[H]\centering
-	\caption{Spatial displacement - neighboring regions}\label{fig_soc_ext:map_neighboring_regions}
-	\includegraphics[width=0.9\linewidth]{maps/soc_ext_2010_2015_map_stadiums_neighbor_regions_zoom_100.png}
-	\begin{minipage}{0.95\linewidth}
-		\scriptsize{\emph{Notes:} This map shows the regions that are used in the analysis for spatial displacement effects over the seasons 2010/11 until 2014/15. The neighboring municipalities are chosen to be in the sample for estimating spatial displacement effects if they have a common border with a region that contains a stadium. The red dots are the stadiums, the black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
-	\end{minipage}
-\end{figure}
-\vspace*{\fill}\clearpage
-
-
-
-\subsubsection{Home and away games}
-so far only analysis of home games, is that fair? 
-away games completetly different: the most devoted fans travel out of the municipality - could this affect the assault rate as well? Is it eventually lower when there is an away game?
-
-In order to answer that I build up my data a bit differently. Whereas in the normal version, the soccer data was merged to the other data on the match level (with the home team's region ID as identifier), in this case I use the soccer data on the table standings level (so both I match both, the home and away team to a region). One consequence of this approach is that it makes the treatment status of single regions less clear. What do you do with regions (that have more than one team) when there is a home and an away game at the same day. In order to alleviate this concern, I drop the third league from the sample and focus only on the first two leagues.\footnote{There remain still a few ambiguities but they are solved the following: in 12\% of the matches there is still a doubling of two teams of one region play on the same day, either home and away game, or two away games. The status of the region on that day in the latter case is set to away. In the former case, I put it to home game.} This approach helps to clarify the treatment status of a region considerably.
-
-Table \ref{tab_soc_ext:reg_fe_assrate_home_away}
-
-
-to make it fair and square column 1 shows the baseline model (considers only home games) when dropping league three from the original sample and adjust the games as it is done in the distinction of home/away. 
-
-Column 2 presents the estimates when allowing home and game effects to have an impact on the assault rate. The effect of 
-
-
-% \clb{c}{prior\\relationship} 
-% table home & away games
-%--------------------------------------------
-\vspace*{\fill}
-\begin{table}[H] \centering 
-	\begin{threeparttable} \centering \caption{Effect of soccer games on the assault rate, distinction of home and away game}\label{tab_soc_ext:reg_fe_assrate_home_away}
-		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
-			\begin{tabular}{l*{2}{c}}
-				\toprule 
-				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
-				&\clb{c}{baseline\\w/o L3} & \clb{c}{distinction\\home/away$^1$}\\
-				\midrule
-				\input{reg_fe/assrate_fixed_effects_home_away} 
-				\bottomrule 
-		\end{tabular}}
-		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
-			weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size
-			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.\newline
-			\hspace*{15 pt}$^1$: Effect size [\%] corresponds to the coefficient of Home game day.
-		\end{tablenotes} 
-	\end{threeparttable} 
-\end{table}
-\vspace*{\fill}\clearpage 
-
-%--------------------------------------------
 
 
 
@@ -790,6 +709,24 @@ Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fi
 \end{landscape}
 %--------------------------------------------
 
+% map SPATIAL DISPLACEMENT - neighboring regions
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{Spatial displacement - neighboring regions}\label{fig_soc_ext:map_neighboring_regions}
+	\includegraphics[width=0.9\linewidth]{maps/soc_ext_2010_2015_map_stadiums_neighbor_regions_zoom_100.png}
+	\begin{minipage}{0.95\linewidth}
+		\scriptsize{\emph{Notes:} This map shows the regions that are used in the analysis for spatial displacement effects over the seasons 2010/11 until 2014/15. The neighboring municipalities are chosen to be in the sample for estimating spatial displacement effects if they have a common border with a region that contains a stadium. The red dots are the stadiums, the black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
+%--------------------------------------------
+
+
+
+
+
+
+
 
 %--------------------------------------------------------------------
 % TABLES
@@ -876,10 +813,30 @@ Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fi
 \restoregeometry 
 
 %--------------------------------------------
-% temporal displacement: include leads and lags
+% SPATIAL DISPLACEMENT - neighboring regions
 \vspace*{\fill}
 \begin{table}[H] \centering 
-	\begin{threeparttable} \centering \caption{Effects on \textbf{Assault rate with leads/lags}}\label{tab_soc_ext:reg_fe_assrate_leads_lags}
+	\begin{threeparttable} \centering \caption{Spatial displacement effect: Impact on \textbf{Assault rate}}\label{tab_soc_ext:reg_fe_assrate_neighbor_regions}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{6}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+				\midrule
+				\input{reg_fe/assrate_neighbor_regions_fixed_effects} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that share a common boundary with a distract that contains a stadium of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+\vspace*{\fill}\clearpage 
+
+%--------------------------------------------
+% TEMPORAL DISPLACEMENT: include leads and lags
+\vspace*{\fill}
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Temporal displacement effect: Effects on \textbf{Assault rate with leads/lags}}\label{tab_soc_ext:reg_fe_assrate_leads_lags}
 		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
 			\begin{tabular}{l*{6}{c}}
 				\toprule 
@@ -894,6 +851,27 @@ Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fi
 	\end{threeparttable} 
 \end{table}
 \vspace*{\fill}\clearpage 
+
+%--------------------------------------------
+% HOME & AWAY games
+
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Effect of soccer games on the assault rate, distinction of home and away game}\label{tab_soc_ext:reg_fe_assrate_home_away}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{2}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+				&\clb{c}{baseline\\w/o L3} & \clb{c}{distinction\\home/away$^1$}\\
+				\midrule
+				\input{reg_fe/assrate_fixed_effects_home_away} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first two leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.\newline
+			\hspace*{15 pt}$^1$: Effect size corresponds to the coefficient of Home game day.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
 %--------------------------------------------
 % robustensss: ASSAULTS and POISSON
 \vspace*{\fill}
