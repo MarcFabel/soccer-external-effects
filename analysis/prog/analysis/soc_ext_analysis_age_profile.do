@@ -24,6 +24,8 @@
 	global prog			"$path\prog"
 	global graphs		"$path\output\graphs\regression"
 
+	global t_95   	  = 1.960
+
 	
 	cd "$prog\analysis"
 	
@@ -32,12 +34,13 @@
 ********************************************************************************
 *	Regressionmodels - output will be read in to generate graphs
 ********************************************************************************
-
+	use "$data/data_prepared.dta", clear
+	do "$prog/aux_files/soc_ext_aux_program.do" 
 	
 // Total Assault rate (AGE-PROFILE) ********************************************
 	eststo clear
 	*baseline
-	reg_fe a1 $y $gd "$weather" "$region_fe $time_fe $holiday $interaction"
+	reg_fe a1 assrate $gd "$weather" "$region_fe $time_fe $holiday $interaction"
 	qui estadd local region 	"yes"
 	qui estadd local time 		"yes" 
 	qui estadd local weather 	"yes"
@@ -284,7 +287,7 @@ twoway scatter beta model , sort color(gs4)  || ///
 	xlabel(,val) ///
 	xtitle("Age brackets") ///
 	ytitle("") ///
-	xscale(r(1.5 7.5)) yscale(r(0 65)) ylabel(0 20 40 60) ///
+	xscale(r(1.5 7.5)) yscale(r(0 1.7)) ylabel(0 .5 1 1.5) ///
 	saving($temp/fe_agebrackets_t.gph, replace)
 graph export "$graphs/fe_agebrackets_t.pdf", as(pdf) replace
 
@@ -321,7 +324,7 @@ twoway scatter beta model , sort color(cranberry)  || ///
 	xlabel(,val) ///
 	xtitle("Age brackets") ///
 	ytitle("") ///
-	xscale(r(1.5 7.5)) yscale(r(0 65)) ylabel(0 20 40 60) ///
+	xscale(r(1.5 7.5)) yscale(r(0 1.7)) ylabel(0 .5 1 1.5) ///
 	saving($temp/fe_agebrackets_f.gph, replace)
 graph export "$graphs/fe_agebrackets_f.pdf", as(pdf) replace
 
@@ -359,13 +362,29 @@ twoway scatter beta model , sort color(navy)  || ///
 	xlabel(,val) ///
 	xtitle("Age brackets") ///
 	ytitle("") ///
-	xscale(r(1.5 7.5)) yscale(r(0 65)) ylabel(0 20 40 60) ///
+	xscale(r(1.5 7.5)) yscale(r(0 1.7)) ylabel(0 .5 1 1.5) ///
 	saving($temp/fe_agebrackets_m.gph, replace)	
 graph export "$graphs/fe_agebrackets_m.pdf", as(pdf) replace
 	
 /*
 cd $temp	
 graph combine "fe_agebrackets_t" "fe_agebrackets_f" "fe_agebrackets_m", col(3)	altshrink iscale(1) ycommon
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
