@@ -122,11 +122,11 @@ keep if d_gameday == 1
 	
 	twoway bar freq  dow_num, horizontal ///
 		xscale(rev) yscale(alt rev lc(white))  ///
-		ytitle("") xlabel(,grid) ///
+		ytitle("") xlabel(0 0.25 0.5,grid ) ///
 		plotregion(color(white)) scheme(s1mono) ///		
 		ylabel(none) xtitle("Frequency of games") ///
 		plotregion(margin(right)) ///
-		fxsize(40) ///
+		fxsize(25) ///
 		saving($graphs_temp/distr_gamedays_hor,replace)
 
 		
@@ -143,7 +143,6 @@ keep if d_gameday == 1
 		bar(1, color(gs4)) bar(2, color(forest_green)) ///
 		ytitle("Average assault rate") ///
 		plotregion(color(white)) scheme(s1mono) ///
-		ylabel(0 (200) 800) ///
 		saving($graphs_temp/assrate_gd_nongd_hor,replace)
 		
 	
@@ -157,6 +156,31 @@ keep if d_gameday == 1
 	
 	
 	
+// 2.X) Same figure with just the NUMBER of assaults	 ***********************
+// 
+	use "$data/data_prepared.dta", clear
+	do "$prog/aux_files/soc_ext_aux_program.do" 
+	
+	collapse (mean) ass  [fw=pop_t], by(d_gameday dow_num)
+	reshape wide ass , i(dow_num) j(d_gameday)
+
+	graph bar ass0 ass1, over(dow_num) horizontal ///
+		legend(label(1 "w/o game") label(2 "with game") order(2 1) ///
+		pos(2) ring(0) col(1) ) ///
+		bar(1, color(gs4)) bar(2, color(forest_green)) ///
+		ytitle("Average number of assaults") ///
+		plotregion(color(white)) scheme(s1mono) ///
+		saving($graphs_temp/ass_gd_nongd_hor,replace)	
+	
+	graph combine "$graphs_temp/distr_gamedays_hor" "$graphs_temp/ass_gd_nongd_hor", ///
+		row(1) imargin(zero) plotregion(color(white)) scheme(s1mono)
+	
+	graph export "$graphs/soc_ext_descr_assaults_gd_nongd_hor.pdf", as(pdf) replace
+	
+	
+
+	
+// 2.c) Significance of the difference	 ***************************************
 	
 	
 	
