@@ -207,7 +207,7 @@
 		se star(* 0.10 ** 0.05 *** 0.01)  								///
 		keep(pred_*) 													///
 		scalars( "N Observations" 										///
-		"region Region FE" "time Time Fe" "weather Weather Controls" 	///
+		"region Region FE" "time Date Fe" "weather Weather Controls" 	///
 		"holiday Holiday FE" "interact Interact FE") 					///
 		sfmt( %12.0fc)	b(%12.3f) se(%12.3f) 		///
 		coeflabels(pred_loss "Gameday, expected to lose"				///
@@ -230,7 +230,6 @@
 ********************************************************************************	
 	* stärker aufs Geschen eingehen
 	
-	eststo clear
 	* game outcomes 
 	global outcome "dwin dtie dloss"
 	eststo a1: reghdfe assrate $outcome $weather [pw=p_wght], ///
@@ -301,7 +300,7 @@
 		se star(* 0.10 ** 0.05 *** 0.01)  								///
 		keep(dwin dtie dloss d_ref* d_l* d_penal* d_red* d_upset*) 		///
 		scalars( "N Observations" 										///
-		"region Region FE" "time Time Fe" "weather Weather Controls" 	///
+		"region Region FE" "time Date Fe" "weather Weather Controls" 	///
 		"holiday Holiday FE" "interact Interact FE") 					///
 		sfmt( %12.0fc)	b(%12.3f) se(%12.3f)	
 		
@@ -317,7 +316,7 @@
 		se star(* 0.10 ** 0.05 *** 0.01)  									///
 		keep(d_upset* pred_*) 												///
 		scalars( "N Observations" 											///
-		"region Region FE" "time Time Fe" "weather Weather Controls" 		///
+		"region Region FE" "time Date Fe" "weather Weather Controls" 		///
 		"holiday Holiday FE" "interact Interact FE") 						///
 		sfmt( %12.0fc)	b(%12.3f) se(%12.3f) 								///
 		coeflabels(															///
@@ -336,7 +335,7 @@
 		se star(* 0.10 ** 0.05 *** 0.01)				 					///
 		keep(d_upset* pred_*) 												///
 		scalars("N \midrule Observations"									///
-		"region Region FE" "time Time Fe" "weather Weather Controls"		///
+		"region Region FE" "time Date Fe" "weather Weather Controls"		///
 		"holiday Holiday FE" "interact Interact FE") 						///
 		sfmt(%12.0fc)	b(%12.3f) se(%12.3f) 								///
 		replace booktabs fragment label 									///

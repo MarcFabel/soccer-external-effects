@@ -70,7 +70,7 @@
 	esttab a*, noobs 													///
 		se star(* 0.10 ** 0.05 *** 0.01) keep(d_gameday) 				///
 		scalars("mean Effect size [\%]" "Nn Observations" 				///
-		"region Region FE" "time Time Fe" "weather Weather Controls" 	///
+		"region Region FE" "time Date Fe" "weather Weather Controls" 	///
 		"holiday Holiday FE" "interact Interact FE") 					///
 		sfmt(%3.2f %12.0fc)	b(%12.3f) se(%12.3f) 	
 	
@@ -78,7 +78,7 @@
 		se star(* 0.10 ** 0.05 *** 0.01)				 				///
 		keep(d_gameday) coeflabels(d_gameday "Game day")				///
 		scalars("mean \midrule Effect size [\%]" "Nn Observations"		///
-		"region Region FE" "time Time Fe" "weather Weather Controls"	///
+		"region Region FE" "time Date Fe" "weather Weather Controls"	///
 		"holiday Holiday FE" "interact Interact FE") 					///
 		sfmt(%3.2f %12.0fc)	b(%12.3f) se(%12.3f) 						///
 		replace booktabs fragment label 								///
@@ -124,7 +124,7 @@
 		keep(d_gameday F.d_gameday L.d_gameday) coeflabels(				///
 		$gd "Game day" L.$gd "Day after game" F.$gd "Day before game")	///
 		scalars("mean Effect size [\%]" "Nn Observations" 				///
-		"region Region FE" "time Time Fe" "weather Weather Controls" 	///
+		"region Region FE" "time Date Fe" "weather Weather Controls" 	///
 		"holiday Holiday FE" "interact Interact FE") 					///
 		sfmt(%3.2f %12.0fc)	b(%12.3f) se(%12.3f) 	
 	
@@ -133,7 +133,7 @@
 		keep(d_gameday F.d_gameday L.d_gameday) coeflabels(				///
 		$gd "Game day" L.$gd "Day after game" F.$gd "Day before game")	///
 		scalars("mean \midrule Effect size [\%]" "Nn Observations"		///
-		"region Region FE" "time Time Fe" "weather Weather Controls"	///
+		"region Region FE" "time Date Fe" "weather Weather Controls"	///
 		"holiday Holiday FE" "interact Interact FE") 					///
 		sfmt(%3.2f %12.0fc)	b(%12.3f) se(%12.3f) 						///
 		replace booktabs fragment label 								///
@@ -197,7 +197,7 @@
 	esttab a*, noobs 													///
 		se star(* 0.10 ** 0.05 *** 0.01) keep(d_gameday) 				///
 		scalars("mean Effect size" "Nn Observations" 				///
-		"region Region FE" "time Time Fe" "weather Weather Controls" 	///
+		"region Region FE" "time Date Fe" "weather Weather Controls" 	///
 		"holiday Holiday FE" "interact Interact FE") 					///
 		sfmt(%3.2f %12.0fc)	b(%12.3f) se(%12.3f)
 	
@@ -205,7 +205,7 @@
 		se star(* 0.10 ** 0.05 *** 0.01)				 				///
 		keep(d_gameday) coeflabels(d_gameday "Game day")				///
 		scalars("mean \midrule Effect size [\%]" "Nn Observations"		///
-		"region Region FE" "time Time Fe" "weather Weather Controls"	///
+		"region Region FE" "time Date Fe" "weather Weather Controls"	///
 		"holiday Holiday FE" "interact Interact FE") 					///
 		sfmt(%3.2f %12.0fc)	b(%12.3f) se(%12.3f) 						///
 		replace booktabs fragment label 								///
@@ -287,7 +287,7 @@
 	esttab a*, noobs 													///
 		se star(* 0.10 ** 0.05 *** 0.01) keep(d_gameday) 				///
 		scalars("mean Effect size" "Nn Observations" 				///
-		"region Region FE" "time Time Fe" "weather Weather Controls" 	///
+		"region Region FE" "time Date Fe" "weather Weather Controls" 	///
 		"holiday Holiday FE" "interact Interact FE") 					///
 		sfmt(%3.2f %12.0fc)	b(%12.3f) se(%12.3f)
 	
@@ -295,7 +295,7 @@
 		se star(* 0.10 ** 0.05 *** 0.01)				 				///
 		keep(d_gameday) coeflabels(d_gameday "Game day")				///
 		scalars("mean \midrule Effect size [\%]" "Nn Observations"		///
-		"region Region FE" "time Time Fe" "weather Weather Controls"	///
+		"region Region FE" "time Date Fe" "weather Weather Controls"	///
 		"holiday Holiday FE" "interact Interact FE") 					///
 		sfmt(%3.2f %12.0fc)	b(%12.3f) se(%12.3f) 						///
 		replace booktabs fragment label 								///
@@ -375,7 +375,7 @@
 	esttab a*, noobs 													///
 		se star(* 0.10 ** 0.05 *** 0.01) keep(d_g*) 					///
 		scalars("mean Effect size" "Nn Observations" 					///
-		"region Region FE" "time Time Fe" "weather Weather Controls" 	///
+		"region Region FE" "time Date Fe" "weather Weather Controls" 	///
 		"holiday Holiday FE" "interact Interact FE") 					///
 		sfmt(%3.2f %12.0fc)	b(%12.3f) se(%12.3f) 						///
 		rename(d_gd_ht_loses d_gameday d_gd_ht_wins d_gameday d_gd_ht_loses_2nd_half d_gameday)

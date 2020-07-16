@@ -101,7 +101,7 @@
 	esttab a*, noobs 													///
 		se star(* 0.10 ** 0.05 *** 0.01) keep(d_home_game d_away_game) 	///
 		scalars("mean Effect size [\%]" "Nn Observations" 				///
-		"region Region FE" "time Time Fe" "weather Weather Controls" 	///
+		"region Region FE" "time Date Fe" "weather Weather Controls" 	///
 		"holiday Holiday FE" "interact Interact FE") 					///
 		sfmt(%3.2f %12.0fc)	b(%12.3f) se(%12.3f) 	
 		
@@ -151,7 +151,7 @@
 		se star(* 0.10 ** 0.05 *** 0.01) keep(d_gameday d_home_game d_away_game) 				///
 		coeflabels(d_gameday "Game day" d_home_game "Home game day" d_away_game "Away game day")	///
 		scalars("mean Effect size [\%]" "Nn Observations" 				///
-		"region Region FE" "time Time Fe" "weather Weather Controls" 	///
+		"region Region FE" "time Date Fe" "weather Weather Controls" 	///
 		"holiday Holiday FE" "interact Interact FE") 					///
 		sfmt(%3.2f %12.0fc)	b(%12.3f) se(%12.3f) 
 
@@ -160,7 +160,7 @@
 		keep(d_gameday d_home_game d_away_game)							///
 		coeflabels(d_gameday "Game day" d_home_game "Home game day" d_away_game "Away game day")	///			
 		scalars("mean \midrule Effect size [\%]" "Nn Observations"		///
-		"region Region FE" "time Time Fe" "weather Weather Controls"	///
+		"region Region FE" "time Date Fe" "weather Weather Controls"	///
 		"holiday Holiday FE" "interact Interact FE") 					///
 		sfmt(%3.2f %12.0fc)	b(%12.3f) se(%12.3f) 						///
 		replace booktabs fragment label 								///
