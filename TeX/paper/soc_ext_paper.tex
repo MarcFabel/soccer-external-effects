@@ -198,7 +198,7 @@ labelfont={bf}
 \section{Introduction}\label{sec_soc_ext:introduction}
 
 
-
+hello what 
 
 
 
@@ -279,6 +279,7 @@ The data on soccer matches is self-collected and is obtained via web-scraping fr
 
 Figure \ref{fig_soc_ext:descriptives_matches_time_attendance} illustrates some insights into key variables. Panel A shows the number of matches per day of the week and league. The vast majority of the matches is taking place between Friday and Sunday.\footnote{The inclusion of day-of-week fixed effects in the baseline specification help to account for the higher share of games played on weekends, which are associated with higher levels of criminal behavior.} This is particularly true for the highest league, whereas lower leagues play occasionally on weekdays, too. Matches happening on weekdays are exclusively held in the evenings. In contrast, matches on weekends occur usually in the afternoon. The three different divisions can attract spectators differently, as depicted in Panel C. The Bundesliga as the highest tier can intrigue the most people to show up with an average audience of 44,000 people per game, followed by the second league with on average 17,000 fans per match, and the lowest league can attract on average a bit less than 6,000 fans per game to show up in the stadium.
 
+When investigating channels of how soccer games can affect assaults, I exploit betting odds that were obtained via webscraping from oddsportal.com. The betting odds give an idea about pregame expectations. I translate the odds of the three game outcomes to probabilities, which are the inverse of the betting odds. The probabilities serve as good predictors for the game outcomes, as it is shown by Figure \ref{fig_soc_ext:pregame_probability_spread_outcomes}. In panel A, I show the close relationship between the realized score differential and the probability spread. Panel B and C show that the probability of victory is increasing with higher values of the probability spread. 
 
 
 \subsection{Weather data}
@@ -356,6 +357,20 @@ As discussed above, the baseline model considers the effect of soccer matches, b
 
 
 
+% Channels
+%--------------------------------------------------------------------
+\subsection{Channels}
+This section investigates potential mechanisms of how soccer games can lead to additional assaults. I consider emotional cues and game prominence as potential channels.
+
+
+% emotional cues
+In the first step, I consider emotional cues as potential channels of how soccer games can affect assault rates. This is motivated by the findings of \cite{card2011family} who demonstrate that unexpected losses of local football teams spur family violence. The results fit well into the context of the frustration-aggression hypothesis, first proposed by \cite{dollard1939frustration}, which predicts belligerent behavior in the event of frustrating events.\footnote{\cite{berkowitz1989frustration} presents a good overview about the frustration-aggression hypothesis.} \cite{rees2009college} show in a similar fashion that there are more violent offenses when the local football team loses. For this reason, I analyze in Table \ref{tab_soc_ext:reg_fe_assrate_emotional_cues} whether visceral factors may be the reason for the additional assaults. Column 1 investigates whether the mere existence of an emotionally upsetting event during a game leads to a higher assault rate. To answer this question, I build an index that equals one for games in which there happens at least one of the following potentially unsettling events:  a penalty is awarded (20\% of all games), a red card is being issued (10\% of all games), or the referee receives a non-sufficient grade (15\% of all games). The index shows that 35\% of all games experience at least one upsetting episode as defined in the previous categories. The estimates in column 1 do not suggest that emotional cues trigger more violent behavior as the estimates for games with and without upsetting events are not significantly different from each other. 	In the second and third column I show estimates following the approach of \cite{card2011family}, in which I examine the impact of game outcomes relative to their pregame expectations. Pregame expectations are included in the analysis as matches with contrasting predictions may be very different from each other. By including predicted outcomes, you can estimate the effect when a team is expected to win but loses, and vice versa. Using data from oddsportal.com, I define a game too close to be predictable when the absolute probability difference between win and loss is smaller than 20 percent.\footnote{Similar results are obtained when defining other threshold values and when I deviate from the symmetry around the origin.} When the spread's value is exceeding the threshold then the home game is expected to win or lose, respectively. Around 45\% of the games are expected to be close or to be won, while 10\% of the games are expected to be lost. The significantly larger share of wins may be attributed to the home-advantage. Column 2 starts out by examining the effects of matches with distinct predicted match outcomes. The estimates do not suggest that the effect of games with different predicted outcomes differ systematically from each other. In column 3, I include additionally interactions between expected and true game outcomes. The estimates are relatively small in magnitude and not significantly different from zero, implying that unexpected wins/losses do not cause additional assaults. Taken all together, there is no evidence that emotional cues drive violent behavior in the context of professional soccer games in Germany.
+
+
+
+
+
+
 
 
 
@@ -367,6 +382,37 @@ As discussed above, the baseline model considers the effect of soccer matches, b
 	\item Prominent games/teams (derby, rivalry, BL/2L/3L), covariate space that was scraped from kicker and transfermarkt
 	\item ML application -> deprived regions? (region characteristics)
 \end{itemize}	
+
+
+
+
+\vspace*{\fill}
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Effect of game/team prominence}\label{tab_soc_ext:reg_fe_assrate_prominent_games}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{5}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
+				&\multicolumn{2}{c}{Rivals/derbies} & \multicolumn{3}{c}{League}\\
+				\cmidrule(lr){2-3}\cmidrule(lr){4-6}
+				& rival & non-rival & league 1 & league 2 & league 3\\
+				\midrule
+				\input{reg_fe/assrate_fixed_effects_prominent_games} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
+			weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size
+			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+\vspace*{\fill}\clearpage 
+
+
+
+
+
 
 
 \subsection{Robustness}
@@ -384,7 +430,6 @@ As discussed above, the baseline model considers the effect of soccer matches, b
 \bigskip
 {\color{red}\textbf{TO DO (decreasing priority)}}
 \begin{itemize}
-	\item prominent games
 	\item ML application
 	\item type of charge (place in paragraph about crime characteristics - see Timo's paper): broadly defined assault, property crimes (use as placebo outcome), other violence, obstructing law enforcement, threats
 	\item break it down to hour windows: before, during, and after the game
@@ -396,68 +441,7 @@ As discussed above, the baseline model considers the effect of soccer matches, b
 
 
 
-\newpage
-\subsection{Emotional cues}
 
-
-
-Are emotional cues a potential channel of how soccer games can affect assault rates?
-
-write some motivation why I do this 
-
-In the first step I investigate the effect of emotional upsetting events experienced during the game. In order to estimate that, I build an index that equals one for games in which there is either a penalty (20\% of all games), at least one red card is being issued (10\% of all games), or the referee received a not sufficient grade (15\% of all games).\footnote{A not sufficient grade are marks above 4.0.} The index shows that 35\% of all games experience at least one upsetting episode as defined in the previous categories. The Index is built as the (non-)occurence of the single events do not seem to have a differential impact on the assault rate. Column 1 in Table \ref{tab_soc_ext:reg_fe_assrate_emotional_cues} shows no evidence for the fact that emotional cues trigger more violent behavior. 
-
-In the second and third column I show estimates following the approach of \cite{card2011family}. Identification: seperate the effect from the upset event from games with certain predicted outcomes. 
-what is the idea - see Lindo paper
-In order to measure how certain an outcome can be predicted I use the betting odds from \texttt{oddsportal.com}. I translate the odds to probabilities of the three game outcomes.\footnote{The probability is the inverse ratio of the betting odd.} The probabilities serve as good predictors for the game outcomes, as it is shown by Figure \ref{fig_soc_ext:pregame_probability_spread_outcomes}. In panel A, I show the close relationship between the realized score differential and the probability spread. Panel B and C show that the probability of victory is increasing with higher values of the probability spread. I define a game too close to be predictable when the difference between win and loss is in absolute value terms smaller than 20 percent.\footnote{The results are the same when defining other threshold values and when deviating from the symmetry around the origin.} When the spread's value is exceeding the threshold then the home game is expected to win or lose, respectively. Around 45\% of the games are expected to be close or to be won, while 10\% of the games are expected to be lost. The significantly larger share of wins can be attributed to the home-advantage. 
-
-describe col 2. what do we learn and ultimately col 3 , what is the take-away.
-
-
-Taken all together emotional cues is not a driver for violent behavior in the context of professional soccer games.
-
-
-\begin{figure}[H]\centering
-	\caption{Pregame probability spread and actual game outcomes}\label{fig_soc_ext:pregame_probability_spread_outcomes}
-	\includegraphics[width=\linewidth]{descriptive/soc_ext_pregame_probability_spread_outcomes.pdf}
-	\scriptsize
-	\begin{minipage}{\linewidth}
-		\emph{Notes:} Panel A shows the relationship between realized score differential versus the pregame probability spread. The realized score differential is defined as the home team's minus the guest team's final score. The plotted regression line has an intercept of -0.020 (s.e. =0.29) and a slope of 2.328 (s.e. = 0.095). Panel B presents the fraction of actual game results by predicted outcome classifications. Panel C shows the probability of winning a game as a function of the probability spread. The curve is obtained from a regression using a third-order polynomial.
-	\end{minipage}
-\end{figure}
-
-
-
-
-\vspace*{\fill}
-\begin{table}[H] \centering 
-	\begin{threeparttable} \centering \caption{Effect of emotional cues}\label{tab_soc_ext:reg_fe_assrate_emotional_cues}
-		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
-			\begin{tabular}{l*{3}{c}}
-				\toprule 
-				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
-				&&\multicolumn{2}{c}{Card \& Dahl (2011) specification}\\
-				\cmidrule(lr){3-4}
-				&\clb{c}{Upset\\event index} & \clb{c}{predicted\\outcomes}& \clb{c}{predicted\\and actual\\outcomes}\\
-				\midrule
-				\input{reg_fe/assrate_fixed_effects_emotional_cues} 
-				\bottomrule 
-		\end{tabular}}
-		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
-			weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size
-			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
-		\end{tablenotes} 
-	\end{threeparttable} 
-\end{table}
-\vspace*{\fill}\clearpage 
-
-
-TO DO: data section - write webscraping from oddsportal
-- betting odds from oddsportal.com , odds for each game for win, tie and loss
-- translate odds to probabilities, which are the reciprocal value
-- maybe have the figure about pregame prob spread and outcomes in the data section and describe it in more detail
-- avoid dopplungen od content in the data section and here in that section
 
 
 
@@ -630,8 +614,18 @@ Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fi
 \vspace*{\fill}\clearpage
 
 
-
-
+%--------------------------------------------
+% Pregame probability spread
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{Pregame probability spread and actual game outcomes}\label{fig_soc_ext:pregame_probability_spread_outcomes}
+	\includegraphics[width=\linewidth]{descriptive/soc_ext_pregame_probability_spread_outcomes.pdf}
+	\scriptsize
+	\begin{minipage}{\linewidth}
+		\emph{Notes:} Panel A shows the relationship between realized score differential versus the pregame probability spread. The realized score differential is defined as the home team's minus the guest team's final score. The plotted regression line has an intercept of -0.020 (s.e. =0.29) and a slope of 2.328 (s.e. = 0.095). Panel B presents the fraction of actual game results by predicted outcome classifications. Panel C shows the probability of winning a game as a function of the probability spread. The curve is obtained from a regression using a third-order polynomial.
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
 %--------------------------------------------
 
 % MAP: Stadium and Weather monitors
@@ -869,6 +863,26 @@ Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fi
 		\begin{tablenotes} 
 			\item \scriptsize \emph{Notes:} The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first two leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.\newline
 			\hspace*{15 pt}$^1$: Effect size corresponds to the coefficient of Home game day.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+%--------------------------------------------
+% channels: EMOTIONAL CUES
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Effect of emotional cues}\label{tab_soc_ext:reg_fe_assrate_emotional_cues}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{3}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+				&&\multicolumn{2}{c}{Card \& Dahl (2011) specification}\\
+				\cmidrule(lr){3-4}
+				&\clb{c}{Upset\\event index} & \clb{c}{predicted\\outcomes}& \clb{c}{predicted\\and actual\\outcomes}\\
+				\midrule
+				\input{reg_fe/assrate_fixed_effects_emotional_cues} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The gameday indicator is replaced by an index that captures unsettling events. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	The upset event index in column 1 is defined as a dummy variable equal to one if one of the following events take place: a penalty is awarded (20\% of all games), a red card is being issued (10\% of all games), or the referee receives a non-sufficient grade (15\% of all games). In columns 2 and 3 I use data from oddsportal.com to classify games as expected to win/lose/be close.
 		\end{tablenotes} 
 	\end{threeparttable} 
 \end{table}
