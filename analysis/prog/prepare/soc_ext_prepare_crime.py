@@ -419,8 +419,11 @@ offenses = c[14]['offense_key'].astype(str).value_counts().to_frame()
 offenses.reset_index(inplace=True, drop=False)
 offenses.rename(columns={'index':'offense_key', 'offense_key':'counts'}, inplace=True)
 offenses['freq'] = offenses['counts']/float(offenses['counts'].sum())
-offenses = offenses[:19]
 offenses.sort_values(['counts'], inplace=True, ascending=False)
+
+offenses.to_csv(z_crime_output + 'offenses_frequency_2014.csv', sep=';', encoding='UTF-8', index=False)
+
+offenses = offenses[:19]
 
 
 # 2011
