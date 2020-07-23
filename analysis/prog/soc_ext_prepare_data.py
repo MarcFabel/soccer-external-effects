@@ -26,6 +26,7 @@ Updates:
     - 2020-05-07 added data from oddsportal
     - 2020-07-11 removed the scaling by days of year in the specifications of the assault rates
                     but make assrates as crime per 1,000,000 [before per 100,000]
+    - 2020-07-23 add other type of crime data
 
 """
 
@@ -116,11 +117,17 @@ weather.drop(['Unnamed: 0'], inplace=True, axis=1)
 
 
 
-########## CRIME ##########
+########## ASSAULTS ##########
 assaults = pd.read_csv(z_prepared_data + 'crime_prepared.csv', sep=';', encoding='UTF-8') # when updated: has to be copied from F!
 assaults.drop(['bula'], inplace=True, axis=1)
 assaults.rename(columns={'date_d_mod':'date', 'location':'AGS'}, inplace=True)
 assaults['date'] = pd.to_datetime(assaults['date'], format='%Y-%m-%d')
+
+
+########## OTHER TYPES OF CRIME ##########
+other_crime = pd.read_csv(z_prepared_data + 'crime_other_assault_types_prepared.csv', sep=';', encoding='UTF-8')
+other_crime.rename(columns={'date_d_mod':'date', 'location':'AGS'}, inplace=True)
+other_crime['date'] = pd.to_datetime(other_crime['date'], format='%Y-%m-%d')
 
 
 
@@ -158,6 +165,13 @@ data = data.merge(assaults, on=['date', 'AGS'], how='outer')
 assaults_cols = assaults.columns.drop(['date', 'AGS']).tolist() # to fill nr assaults with zeros for NaNs
 assert(len(assaults_cols)==32)
 data[assaults_cols] = data[assaults_cols].fillna(value=0)
+
+
+# merge Crime Data on other types of violence etc (robustness section)
+data = data.merge(other_crime, on=['date', 'AGS'], how='outer')
+crime_cols = other_crime.columns.drop(['date', 'AGS']).tolist() # to fill nr crime with zeros for NaNs
+assert(len(crime_cols)==10)
+data[crime_cols] = data[crime_cols].fillna(value=0)
 
 
 # merge Regional Data Base
@@ -242,7 +256,7 @@ z_number_obs_june = data.month[data.month == 6].count()
 data.drop(data[data.month==6].index, inplace=True)
 
 # result should be 96878 x 366
-assert(data.shape == (96878-z_number_obs_june, 366))
+assert(data.shape == (96878-z_number_obs_june, 376))
 
 ###############################################################################
 #       Restrict sample
