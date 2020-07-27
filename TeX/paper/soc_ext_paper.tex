@@ -386,8 +386,76 @@ sample split: larger effects rural (2x basline), ue rate no effect
 
 
 
-
+% Robustness
+%--------------------------------------------------------------------
 \subsection{Robustness}
+\textbf{Poisson model of the number of physical assaults.--}First, I test whether my results are sensitive to an alternative measure of the dependent variable. In the following I use the raw number of assaults as the outcome variable. Because of the discrete nature of the dependent variable, and given there are many cells with zero reports, a Poisson model is the model of choice \citep{lindo2018college}. The corresponding regression specification reads as follows:
+\begin{align}
+E\left[ \text{Assaults}_{rdmy}\right.&|\left.\text{Gameday}_{rdmy},\vartheta_r,\text{date}_{dmy}, \mathbf{X}_{rdmy}  \right] \nonumber \\ &=  exp\left( \beta\ (\text{Gameday}_{rdmy}) + \vartheta_r + \text{date}_{dmy} + \lambda\mathbf{X}_{rdmy} \right). 
+\label{eq_soc_ext:poisson_model}
+\end{align}
+
+Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fixed_effects} shows average marginal effects of the effect of a home game on the number of physical assaults.\footnote{In nonlinear models, coefficients cannot be interpreted as marginal effects. The partial effect for a Poisson model is given by $\frac{\partial E\left[ \text{Assaults}| \mathbf{X}\right]}{\partial x_j} = \beta_j\ exp(\mathbf{x'}\beta)$.} By expanding the model by progressively adding weather controls, holiday fixed effects, and interacted fixed effects, I find stable and robust evidence that a home game leads to an increase in the number of assaults. In column 4, the richest specification, a home game leads to, on average, an increase in the number of assaults by 28.55 percent. This effect is not statistically higher than the baseline results. 
+
+
+\bigskip
+\textbf{Drop delayed games.--} out of 4,461 games 2.24\% are delayed -> days are droppped from analysis
+
+
+\vspace*{\fill}
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Robustness tests: Impact on \textbf{Assault rate}}\label{tab_soc_ext:reg_fe_assrate_rob_delayed_unweighted}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{6}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+				& baseline & \clb{c}{w/o delayed\\games} & \clb{c}{w/o pop.\\weights} \\
+				\midrule
+				\input{reg_fe/assrate_fixed_effects_robust_delayed_unweighted} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
+			weighted by population shares (partly, not all rows), se clustered on region-year and year-month, what do FE entail, effect size
+			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+\vspace*{\fill}\clearpage 
+
+
+\vspace*{\fill}
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Robustness tests: Impact on \textbf{Assault rate}}\label{tab_soc_ext:reg_fe_assrate_robustness}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{4}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+				& coefficient & \clb{c}{standard\\error} & \clb{c}{Effect\\ size [\%]} & $N$ \\
+				\midrule
+				\input{reg_fe/assrate_fixed_effects_robustness} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
+			weighted by population shares (partly, not all rows), se clustered on region-year and year-month, what do FE entail, effect size
+			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+\vspace*{\fill}\clearpage 
+
+
+Table \ref{tab_soc_ext:offense_keys_code} illustrates which offenses are contained in the broad category. and in general how the penal codes of the German Criminal Code are translated into the offense key of the Police Crime Statistics.
+
+
+
+
+
+
+
+
+
 \begin{itemize}
 	\item Poisson model
 	\item drop Nachholspiele
@@ -437,43 +505,6 @@ sample split: larger effects rural (2x basline), ue rate no effect
 
 
 
-
-
-\newpage
-\subsection{Robustness}
-\textbf{Poisson model of the number of physical assaults.--}First, I test whether my results are sensitive to an alternative measure of the dependent variable. In the following I use the raw number of assaults as the outcome variable. Because of the discrete nature of the dependent variable, and given there are many cells with zero reports, a Poisson model is the model of choice \citep{lindo2018college}. The corresponding regression specification reads as follows:
-\begin{align}
-E\left[ \text{Assaults}_{rdmy}\right.&|\left.\text{Gameday}_{rdmy},\vartheta_r,\text{date}_{dmy}, \mathbf{X}_{rdmy}  \right] \nonumber \\ &=  exp\left( \beta\ (\text{Gameday}_{rdmy}) + \vartheta_r + \text{date}_{dmy} + \lambda\mathbf{X}_{rdmy} \right). 
-\label{eq_soc_ext:poisson_model}
-\end{align}
-
-Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fixed_effects} shows average marginal effects of the effect of a home game on the number of physical assaults.\footnote{In nonlinear models, coefficients cannot be interpreted as marginal effects. The partial effect for a Poisson model is given by $\frac{\partial E\left[ \text{Assaults}| \mathbf{X}\right]}{\partial x_j} = \beta_j\ exp(\mathbf{x'}\beta)$.} By expanding the model by progressively adding weather controls, holiday fixed effects, and interacted fixed effects, I find stable and robust evidence that a home game leads to an increase in the number of assaults. In column 4, the richest specification, a home game leads to, on average, an increase in the number of assaults by 28.55 percent. This effect is not statistically higher than the baseline results. 
-
-
-\bigskip
-\textbf{Drop delayed games.--} out of 4,461 games 2.24\% are delayed -> days are droppped from analysis
-
-
-\vspace*{\fill}
-\begin{table}[H] \centering 
-	\begin{threeparttable} \centering \caption{Robustness tests: Impact on \textbf{Assault rate}}\label{tab_soc_ext:reg_fe_assrate_rob_delayed_unweighted}
-		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
-			\begin{tabular}{l*{6}{c}}
-				\toprule 
-				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
-				& baseline & \clb{c}{w/o delayed\\games} & \clb{c}{w/o pop.\\weights} \\
-				\midrule
-				\input{reg_fe/assrate_fixed_effects_robust_delayed_unweighted} 
-				\bottomrule 
-		\end{tabular}}
-		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
-			weighted by population shares (partly, not all rows), se clustered on region-year and year-month, what do FE entail, effect size
-			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
-		\end{tablenotes} 
-	\end{threeparttable} 
-\end{table}
-\vspace*{\fill}\clearpage 
 
 
 
@@ -947,6 +978,7 @@ Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fi
 \vspace*{\fill}\clearpage
 %--------------------------------------------
 % descriptive: assaults across DOW, days w/-w/o games
+\vspace*{\fill}
 \begin{figure}[H]\centering
 	\caption{Average number of assaults on gamedays and days when no game takes place}\label{fig_soc_ext:assaults_across_dows}
 	\includegraphics[width=\linewidth]{descriptive/soc_ext_descr_assaults_gd_nongd_hor.pdf}
@@ -955,13 +987,37 @@ Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fi
 		\emph{Notes:} The figure shows the daily average number of assaults for regions that host games of a soccer team from the first three leagues of the German football league system. The daily rates are shown for weeks in which a game is played and for weeks in which no game takes place.
 	\end{minipage}
 \end{figure}
+\vspace*{\fill}\clearpage
+
+
+%--------------------------------------------------------------------
+% APPENDIX TABLES
+%--------------------------------------------------------------------
+\newpage
+\renewcommand\thetable{A\arabic{table}}
+\setcounter{table}{0} 
 
 
 
 
-
-
-
+% CODING of offenses: keys and penal code
+\vspace*{\fill}
+\begin{table}[H]\centering
+	\begin{threeparttable}\centering \caption{Coding of various offenses}\label{tab_soc_ext:offense_keys_code}
+		\begin{tabular}{lccc}
+			\toprule
+			&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+			& offense key & § StGB \\
+			\midrule
+			\input{descriptive/offense_key_stgb_code.tex}
+			\bottomrule
+		\end{tabular}
+		\begin{tablenotes}
+			\item \scriptsize \emph{Notes:} The table shows how the keys of the Police Crime Statistics are translated into the corresponding paragraphs of the German Criminal Code (StGB).
+		\end{tablenotes}
+	\end{threeparttable}
+\end{table}
+\vspace*{\fill}\clearpage
 
 
 
