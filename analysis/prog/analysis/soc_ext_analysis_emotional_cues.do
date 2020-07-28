@@ -288,7 +288,27 @@
 	qui estadd local holiday	"yes"
 	qui estadd local interact	"yes"
 		
-		
+	
+	*index in two columns not in one regression
+	eststo a7: reghdfe assrate d_upset $weather [pw=p_wght], ///
+		absorb($region_fe $time_fe $holiday $interaction ) ///
+		vce(cluster ags#year year#month)	
+	qui estadd local region 	"yes"
+	qui estadd local time 		"yes" 
+	qui estadd local weather 	"yes"
+	qui estadd local holiday	"yes"
+	qui estadd local interact	"yes"
+	
+	eststo a8: reghdfe assrate d_upset_no $weather [pw=p_wght], ///
+		absorb($region_fe $time_fe $holiday $interaction ) ///
+		vce(cluster ags#year year#month)	
+	qui estadd local region 	"yes"
+	qui estadd local time 		"yes" 
+	qui estadd local weather 	"yes"
+	qui estadd local holiday	"yes"
+	qui estadd local interact	"yes"	
+	
+	
 	 * won/lost in last minutes, place of table X Spieltag 
 		
 	* derbys
