@@ -1,4 +1,4 @@
-		set seed 123
+	set seed 123
 	set processors 4
 	
 
@@ -6,7 +6,6 @@
 	global data			"$path\data\final"
 	global temp			"$path/output/temp"
 	global prog			"$path\prog"
-	global graphs		"$path/output/graphs/regression"
 
 	
 	
@@ -17,32 +16,32 @@
 	
 	
 	capture drop temp d_gameday_random
-	qui gen temp = runiform() 
-	qui summ d_gameday
+	summ d_gameday
+	scalar number_games = r(mean)
 	drop if d_gameday == 1
-	qui gen d_gameday_random = cond(temp < r(mean), 1,0)
+	qui gen temp = runiform() 
+	qui gen d_gameday_random = cond(temp < number_games, 1,0)
 	
 	reg_fe a assrate d_gameday_random "$weather" "$region_fe $time_fe $holiday $interaction"
 	
-	esttab a using "$temp/placebo_5000.csv", replace noobs 	wide		///
+	esttab a using "$temp/placebo_10000.csv", replace noobs 	wide		///
 		se nostar keep(d_gameday_random) 				///
 		sfmt(%3.2f %12.0fc)	b(%12.3f) se(%12.3f) ///
 		nomtitles nonumbers  nonote nogaps noline nopar
 	
 	
-	*estout a, keep(d_gameday_random) cells(b se) 
 	
 	
 	
-	forval j=1/4999 {
+	forval j=1/9999 {
 		disp `j'
 		capture drop temp d_gameday_random
 		qui gen temp = runiform() 
-		qui gen d_gameday_random = cond(temp < r(mean), 1,0)
+		qui gen d_gameday_random = cond(temp < number_games, 1,0)
 		
 		reg_fe a assrate d_gameday_random "$weather" "$region_fe $time_fe $holiday $interaction"
 		
-		esttab a using "$temp/placebo_5000.csv", append noobs wide			///
+		esttab a using "$temp/placebo_10000.csv", append noobs wide			///
 			se nostar keep(d_gameday_random) 				///
 			sfmt(%3.2f %12.0fc)	b(%12.3f) se(%12.3f) ///
 			nomtitles nonumbers  nonote nogaps noline nopar
@@ -51,7 +50,7 @@
 	
 	
 // open file: 
-	import delimited "$temp/placebo_5000 - Copy.csv", delimiter("") stripquote(yes) colrange(2) clear 
+	import delimited "$temp/placebo_10000 - Copy.csv", delimiter("") stripquote(yes) colrange(2) clear 
 	
 	capture drop beta
 	qui gen beta = substr(v1,2,.)
@@ -104,19 +103,20 @@
 		
 	* histogram t
 	hist t, kden  kdenopts(lcolor(maroon) lw(thick)) 	///
-		fcol(gs8%50) ///
+		fcol(gs8%60) ///
 		scheme(s1mono) plotregion(color(white)) ///
 		xtitle("t") ///
 		addplot(area den_vals t_vals if t_vals<-1.96, color(maroon%100) || ///
 		area den_vals t_vals if t_vals>1.96, color(maroon%100) below) ///
-		legend(label(2 "kernel density") label(3 "significant coefficients")  pos(2) ring(0) region(ls(none))) ///
+		legend(label(2 "kernel density") label(3 "significant" "coefficients") ///
+		order(2 3)  pos(2) ring(0) region(ls(none))) ///
 		title("Panel B: Distribution of t-statistics", pos(11) span size(vlarge)) ///
 		saving($temp/placebo_t.gph, replace)
 		
 
 	
 	* fraction of significant estimates
-	line fraction_significant n if n>4, lc(gs2) ///
+	line fraction_significant n if n>3, lc(gs2) ///
 		scheme(s1mono) plotregion(color(white)) ///
 		xtitle("Iteration") ytitle("Percent") ///
 		title("Panel C: Fraction significant estimates", pos(11) span size(vlarge)) ///
