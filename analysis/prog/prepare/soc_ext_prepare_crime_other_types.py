@@ -25,12 +25,6 @@ Updates:
 from datetime import datetime, timedelta
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from matplotlib.dates import DateFormatter
-import matplotlib.style as style
-#style.available
-style.use('seaborn-white')
 import time
 start_time = time.time()
 
@@ -129,6 +123,8 @@ offenses.drop(['AGS', 'active'], inplace=True, axis=1)
 
 
 
+offenses.sort_values(['location', 'date_offense'], inplace=True)
+# 
 
 
 
@@ -181,8 +177,6 @@ offenses.drop(['date_offense', 'date_h', 'date_off_mod_str'], axis=1, inplace=Tr
 
 
 
-
-
 #########  generate variables    #########
 offenses['all_offenses'] = 1
 
@@ -224,3 +218,72 @@ offenses.reset_index(inplace=True, drop=False)
 
 
 offenses.to_csv(z_crime_output + 'crime_other_assault_types_prepared.csv', sep=';', encoding='UTF-8', index=False)
+
+
+
+
+
+
+
+
+
+
+###############################################################################
+
+# find error 
+temp = c[11].loc[c[11].location == 1002000].copy()
+
+
+
+
+temp = temp[['offense_key', 'date_offense', 'location']]
+temp.sort_values('date_offense', inplace=True)
+temp['offense_key'] = temp['offense_key'].astype(str)
+temp['offense_key'] = temp['offense_key'].str.rjust(6, '0')
+
+
+# keep if date is available
+#temp = temp.loc[temp['offense_key'] == 224000]
+temp['date_ymd'] = temp['date_offense'].str.slice(0,8)
+temp['date_d'] = pd.to_datetime(temp['date_ymd'], format='%Y%m%d', errors='coerce')
+temp['date_h'] = pd.to_datetime(temp['date_offense'], format='%Y%m%d%H', errors='coerce')
+
+# drop when day information is not available
+temp.drop( temp[temp.date_d.isnull()].index, inplace=True)
+
+
+# modify the date: assign temp happening between midnight and 6 am to the preceding day
+def modify_day(date_h):
+    if pd.isnull(date_h) is False:  # date_h is not missing
+        hour = date_h.strftime("%H")
+        if 0<= int(hour) <= 5:  # if incidence happened between 0:00 am and 5:59 am
+            S = date_h - timedelta(days=1)
+        else:
+            S = date_h
+    else:
+        S = 'NaT'
+    return S
+
+temp['temp'] = temp.date_h.apply(lambda x: modify_day(x))
+temp['temp'].fillna(temp.date_d, inplace=True)
+temp['date_off_mod_str'] = temp.temp.apply(lambda x: x.strftime('%d%b%Y'))
+temp.drop(['date_ymd', 'date_d', 'temp'], axis=1, inplace=True)
+
+
+# use only relevant time window: Januar 2011 - June 2015
+temp['date_d_mod'] = pd.to_datetime(temp['date_off_mod_str'], format='%d%b%Y')
+start = datetime(z_first_year_wave,1,1)
+end = datetime(z_last_year_wave,6,30)
+invalid_dates = temp[ (temp['date_d_mod'] < start) | (temp['date_d_mod'] > end)].index
+temp.drop(invalid_dates, inplace=True)
+
+temp.drop(['date_offense', 'date_h', 'date_off_mod_str'], axis=1, inplace=True)
+
+
+temp['simple_bh'] = np.where(temp.offense_key == '224000', 1, 0)
+
+
+temp.drop(['offense_key'], axis=1, inplace=True)
+
+temp = temp.groupby(['date_d_mod','location']).sum()
+temp.reset_index(inplace=True, drop=False)
