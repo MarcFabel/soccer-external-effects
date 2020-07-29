@@ -369,7 +369,7 @@ In the first step, I consider emotional cues as potential channels of how soccer
 
 
 % game/team prominence (rivals & league)
-Second, I use information about game and team prominence as potential channels. For many sport fans, the affection for the own soccer team plays a central role \citep{wann1993sports}. Almost as important as the passion for the own team is the cultivation of animosities against rivals. Often resentments and hatred can translate into violent actions \citep{nassauer2011hate}. In order to test the hypothesis that the additional assaults are the result of feelings of dislike, I compare the impact of matches in which known rival teams are playing against each other to regular matches. To answer this question, the game day indicator of equation \ref{eq_soc_ext:model} is replaced by an interaction with a dummy variable that equals one for rival matches. The estimates are shown in columns 1 and 2 of Table \ref{tab_soc_ext:reg_fe_assrate_prominent_games}. Games that are classified as rival matches lead to an average increase of 7.976 assaults per million population. This corresponds to almost three times the baseline effect. Although the standard errors are relatively large, as only 2\% of the games are classified as rival matches, the effect is significantly different from regular matches. Next to the explanation of mutual dislike of opposing fan groups, it could be the mere prominence of teams/games that attract more people. As shown in Figure \ref{fig_soc_ext:descriptives_matches_time_attendance}, attendance varies substantially across the tiers of the German football league system. Columns 3-5 shows the effect of games by the league in which the teams are playing. The largest effect is in the highest tier, the Bundesliga, in which a game leads to a rise in the assault rate by, on average, 3.530 assaults per million population. The impact of matches from the first league are significantly larger than the effect of matches from the other two leagues.  
+Second, I use information about game and team prominence as potential channels. For many sport fans, the affection for the own soccer team plays a central role \citep{wann1993sports}. Almost as important as the passion for the own team is the cultivation of animosities against rivals. Often resentments and hatred can translate into violent actions \citep{nassauer2011hate}. In order to test the hypothesis that the additional assaults are the result of feelings of dislike, I compare the impact of matches in which known rival teams are playing against each other to regular matches. To answer this question, the game day indicator of equation \ref{eq_soc_ext:model} is replaced by an interaction with a dummy variable that equals one for rival matches. Appendix Table \ref{tab_soc_ext:prominent_games_derbies} gives an overview of rival matches. The estimates are shown in columns 1 and 2 of Table \ref{tab_soc_ext:reg_fe_assrate_prominent_games}. Games that are classified as rival matches lead to an average increase of 8.320 assaults per million population. This corresponds to more than three times the baseline effect. Although the standard errors are relatively large, as only 2.5\% of the games are classified as rival matches, the effect is significantly different from regular matches. Next to the explanation of mutual dislike of opposing fan groups, it could be the mere prominence of teams/games that attract more people. As shown in Figure \ref{fig_soc_ext:descriptives_matches_time_attendance}, attendance varies substantially across the tiers of the German football league system. Columns 3-5 shows the effect of games by the league in which the teams are playing. The largest effect is in the highest tier, the Bundesliga, in which a game leads to a rise in the assault rate by, on average, 3.530 assaults per million population. The impact of matches from the first league are significantly larger than the effect of matches from the other two leagues.  
 Summing up, there is evidence that the prominence of games are a crucial determinant for the size of the effect of soccer matches on the assault rate, where rival matches and games in the top league lead to more assaults.
 
 
@@ -451,16 +451,17 @@ Table \ref{tab_soc_ext:offense_keys_code} illustrates which offenses are contain
 
 %--------------------------
 
-\vspace*{\fill}
-\begin{figure}[H]\centering
-	\caption{The effect of Placebo games}\label{fig_soc_ext:}
-	\includegraphics[width=0.9 \linewidth]{regression/robustness_placebo_games.pdf}
-	\begin{minipage}{0.95\linewidth}
-		\scriptsize{\emph{Notes:} The figure shows the effect of placebo games. Panel A presents the distribution of the coefficients (along with a normal density) after 10,000 iterations. Panel B shows the distribution of the t-statistics and the resulting ranges of significant coefficients, with a level of significance $\alpha=0.05$. Panel C shows the fraction of significant estimates across the number of iterations.}
-	\end{minipage}
-\end{figure}
-\vspace*{\fill}\clearpage
+%\vspace*{\fill}
+%\begin{figure}[H]\centering
+%	\caption{The effect of Placebo games}\label{fig_soc_ext:}
+%	\includegraphics[width=0.9 \linewidth]{regression/robustness_placebo_games.pdf}
+%	\begin{minipage}{0.95\linewidth}
+%		\scriptsize{\emph{Notes:} The figure shows the effect of placebo games. Panel A presents the distribution of the coefficients (along with a normal density) after 10,000 iterations. Panel B shows the distribution of the t-statistics and the resulting ranges of significant coefficients, with a level of significance $\alpha=0.05$. Panel C shows the fraction of significant estimates across the number of iterations.}
+%	\end{minipage}
+%\end{figure}
+%\vspace*{\fill}\clearpage
 %--------------------------
+
 
 
 
@@ -1009,7 +1010,7 @@ Table \ref{tab_soc_ext:offense_keys_code} illustrates which offenses are contain
 
 
 
-
+%--------------------------------------------
 % CODING of offenses: keys and penal code
 \vspace*{\fill}
 \begin{table}[H]\centering
@@ -1029,7 +1030,46 @@ Table \ref{tab_soc_ext:offense_keys_code} illustrates which offenses are contain
 \end{table}
 \vspace*{\fill}\clearpage
 
-
+%--------------------------------------------
+% Derbies and prominent games
+\vspace*{\fill}
+\begin{table}[H]\centering
+	\begin{threeparttable}\centering \caption{Prominent games}\label{tab_soc_ext:prominent_games_derbies}
+		\begin{tabular}{lllc}
+			\toprule
+			\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+			\multicolumn{1}{c}{team A} & \multicolumn{1}{c}{team B} & \multicolumn{1}{c}{comment} \\
+			\midrule
+			Aalen 		& Heidenheim& Ostalbderby \\
+			Aue			& Dresden	& Sachsenderby \\
+			Bielefeld	& Münster	& Westfalenderby \\
+			Braunschweig& Hannover	& Niedersachsenderby \\
+			Bremen		& Hamburg	& Nordderby \\
+			Dortmund	& München	& "German Clasico" \\
+			Dortmund 	& Schalke 	& Revierderby \\
+			Dresden		& Rostock	& Ostderby \\
+			Düsseldorf	& Köln		& Rheinderby \\
+			Düsseldorf	& Gladbach	& Rheinderby \\
+			Erfurt		& Jena		& Thüringenderby \\
+			Frankfurt	& K'lautern	& Südwestderby \\
+			Frankfurt	& Mainz		& Rhein-Main-Derby \\
+			Frankfurt	& Nürnberg	& Derby \\
+			Fürth		& Nürnberg	& Frankenderby \\
+			Gladbach 	& Köln		& Rheinderby \\
+			Hertha		& Union		& Berlinderby \\
+			Köln		& Leverkusen& Rheinderby \\
+			Köln		& Schalke	& Derby \\
+			München		& Nürnberg	& Bayernderby \\
+			Münster		& Osnabrück	& Derby \\
+			Rostock		& St. Pauli & Derby \\
+			\bottomrule
+		\end{tabular}
+		\begin{tablenotes}
+			\item \scriptsize \emph{Notes:} The table shows prominent matches between teams that are known rivals. The above mentioned fixtures make up almost 2.5\% of all matches in the sample. \newline \emph{Source:} \cite{spiegel_rivals}, \cite{90min}, \cite{derbyorg}
+		\end{tablenotes}
+	\end{threeparttable}
+\end{table}
+\vspace*{\fill}\clearpage
 
 
 
