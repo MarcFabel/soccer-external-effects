@@ -311,7 +311,7 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 %--------------------------------------------------------------------
 % RESULTS
 %--------------------------------------------------------------------
-\newpage
+\bigskip
 \section{Results}\label{sec_soc_ext:results}
 
 
@@ -388,89 +388,37 @@ sample split: larger effects rural (2x basline), ue rate no effect
 
 % Robustness
 %--------------------------------------------------------------------
-\subsection{Robustness}
-\textbf{Poisson model of the number of physical assaults.--}First, I test whether my results are sensitive to an alternative measure of the dependent variable. In the following I use the raw number of assaults as the outcome variable. Because of the discrete nature of the dependent variable, and given there are many cells with zero reports, a Poisson model is the model of choice \citep{lindo2018college}. The corresponding regression specification reads as follows:
+\subsection{Robustness tests}
+I perform several sensitivity and placebo tests to assess the robustness of the findings. The results of these checks are reported in Table \ref{tab_soc_ext:reg_fe_assrate_robustness}. Overall, the sensitivity tests demonstrate that the main results are robust to alternative specifications and estimations, indicating that soccer games lead to more assaults.\newline
+
+
+% Alternative econometrics: sample, weights, estimation
+\textbf{Alternative econometric specifications.--} First, I show that the results are not sensitive to alterations of the \textit{sample}. Adjustments to the sample may be necessary as some of the games are played on different days than what was originally planned. The deviation from the original match plan may pose a risk to the allocation of games that is as good as random. For this reason, I drop the set of rescheduled games from the analysis. The results are almost identical to the baseline results.\footnote{From the 4,461 games in the sample, 2.24\% are rescheduled. The vast majority (95\%) are in league three.} Second, I show the effects when leaving out population \textit{weights} from the regressions. The effect of of soccer matches without population weights is considerably larger: a home game leads to an increase in the average assault rate by 5.342 assaults per million population. The higher coefficient compared to the baseline specification indicates that the effects of rural areas must be larger, as they obtain higher relevance when population weights are omitted. Third, I show that my results are robust to a different \textit{estimation} procedure and an alternative measure of the \textit{dependent variable}. In the following I use the raw number of assaults as the outcome variable. Because of the discrete nature of the dependent variable, and given that there are many cells with zero reports, a Poisson model is the model of choice \citep{lindo2018college}. The corresponding regression specification reads as follows:
 \begin{align}
 E\left[ \text{Assaults}_{rdmy}\right.&|\left.\text{Gameday}_{rdmy},\vartheta_r,\text{date}_{dmy}, \mathbf{X}_{rdmy}  \right] \nonumber \\ &=  exp\left( \beta\ (\text{Gameday}_{rdmy}) + \vartheta_r + \text{date}_{dmy} + \lambda\mathbf{X}_{rdmy} \right). 
 \label{eq_soc_ext:poisson_model}
 \end{align}
 
-Due to the nonlinearity of the model, Table \ref{tab_soc_ext:assaults_poisson_fixed_effects} shows average marginal effects of the effect of a home game on the number of physical assaults.\footnote{In nonlinear models, coefficients cannot be interpreted as marginal effects. The partial effect for a Poisson model is given by $\frac{\partial E\left[ \text{Assaults}| \mathbf{X}\right]}{\partial x_j} = \beta_j\ exp(\mathbf{x'}\beta)$.} By expanding the model by progressively adding weather controls, holiday fixed effects, and interacted fixed effects, I find stable and robust evidence that a home game leads to an increase in the number of assaults. In column 4, the richest specification, a home game leads to, on average, an increase in the number of assaults by 28.55 percent. This effect is not statistically higher than the baseline results. 
+Due to the nonlinearity of the model, the coefficient in Table \ref{tab_soc_ext:reg_fe_assrate_robustness} shows average marginal effects of the effect of a home game on the number of physical assaults.\footnote{In nonlinear models, coefficients cannot be interpreted as marginal effects. The partial effect for a Poisson model is given by $\frac{\partial E\left[ \text{Assaults}| \mathbf{X}\right]}{\partial x_j} = \beta_j\ exp(\mathbf{x'}\beta)$. In order to present a single response value, I follow \cite{cameron2005microeconometrics} and report the average response: $\frac{1}{N}\sum_i \frac{\partial E\left[ \text{Assaults}_i| \mathbf{X}_i\right]}{\partial x_{ij}} = \hat\beta_j \times \frac{1}{N} \sum_i\ exp(\mathbf{x}_i'\hat\beta)$.} A home game is predicted to lead to an average increase by 1.483 assaults. This corresponds to an increase in the number of assaults by 28.55 percent. \newline
 
-
-\bigskip
-\textbf{Drop delayed games.--} out of 4,461 games 2.24\% are delayed -> days are droppped from analysis
-
-
-\vspace*{\fill}
-\begin{table}[H] \centering 
-	\begin{threeparttable} \centering \caption{Robustness tests: Impact on \textbf{Assault rate}}\label{tab_soc_ext:reg_fe_assrate_rob_delayed_unweighted}
-		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
-			\begin{tabular}{l*{6}{c}}
-				\toprule 
-				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
-				& baseline & \clb{c}{w/o delayed\\games} & \clb{c}{w/o pop.\\weights} \\
-				\midrule
-				\input{reg_fe/assrate_fixed_effects_robust_delayed_unweighted} 
-				\bottomrule 
-		\end{tabular}}
-		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
-			weighted by population shares (partly, not all rows), se clustered on region-year and year-month, what do FE entail, effect size
-			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
-		\end{tablenotes} 
-	\end{threeparttable} 
-\end{table}
-\vspace*{\fill}\clearpage 
-
-
-\vspace*{\fill}
-\begin{table}[H] \centering 
-	\begin{threeparttable} \centering \caption{Robustness tests: Impact on \textbf{Assault rate}}\label{tab_soc_ext:reg_fe_assrate_robustness}
-		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
-			\begin{tabular}{l*{4}{c}}
-				\toprule 
-				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
-				& coefficient & \clb{c}{standard\\error} & \clb{c}{Effect\\ size [\%]} & $N$ \\
-				\midrule
-				\input{reg_fe/assrate_fixed_effects_robustness} 
-				\bottomrule 
-		\end{tabular}}
-		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The table shows estimates ..... 
-			weighted by population shares (partly, not all rows), se clustered on region-year and year-month, what do FE entail, effect size
-			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
-		\end{tablenotes} 
-	\end{threeparttable} 
-\end{table}
-\vspace*{\fill}\clearpage 
-
-
-Table \ref{tab_soc_ext:offense_keys_code} illustrates which offenses are contained in the broad category. and in general how the penal codes of the German Criminal Code are translated into the offense key of the Police Crime Statistics.
-
-
-%--------------------------
-
-%\vspace*{\fill}
-%\begin{figure}[H]\centering
-%	\caption{The effect of Placebo games}\label{fig_soc_ext:}
-%	\includegraphics[width=0.9 \linewidth]{regression/robustness_placebo_games.pdf}
-%	\begin{minipage}{0.95\linewidth}
-%		\scriptsize{\emph{Notes:} The figure shows the effect of placebo games. Panel A presents the distribution of the coefficients (along with a normal density) after 10,000 iterations. Panel B shows the distribution of the t-statistics and the resulting ranges of significant coefficients, with a level of significance $\alpha=0.05$. Panel C shows the fraction of significant estimates across the number of iterations.}
-%	\end{minipage}
-%\end{figure}
-%\vspace*{\fill}\clearpage
-%--------------------------
+ 
+% Other forms of violence 
+\textbf{Other forms of violence.--} In the next step, I investigate the robustness of the findings when looking at other forms of violence. First, a broader definition of assaults is considered. So far, offenses coded as simple bodily harm constitute my assault variable. For this robustness test, I further include negligent, dangerous, and grievous bodily harm as well as brawls as assault offenses. Appendix Table \ref{tab_soc_ext:offense_keys_code} illustrates which offenses are contained in the the wider assault category and how the penal codes of the German Criminal Code are translated into the offense key of the Police Crime Statistics. The effect size of 5.417 assaults per million population is significantly larger than the baseline coefficient. This indicates that soccer games lead to increases in the other forms of bodily harm, too. Second, I investigate the effect of soccer games on threats, which can be regarded as a precursor of physical violence. The effect size with 0.216 threats per million population is relatively small. The estimate corresponds to an increase of 5.4\%. Third, offenses coded as resistance to enforcement officers are examined. I find that soccer games lead to, on average, 0.775 offenses per million population. Taken together, the results from this set of robustness checks indicate that other forms of violence are affected likewise. This suggests that there are additional violent offenses and no substitution of different crime formats is happening. Furthermore, the categories of violent crimes are all consistent with the idea of the frustration-aggression hypothesis.\newline
+ 
+ 
+% Placebo games
+\textbf{Placebo games.--} I estimate the impact of \textit{placebo games} on the assault rate in order to check whether the obtained results are observed just by chance.\footnote{Unfortunately, there are no offenses that may be used as placebo outcomes. This is due to the fact that most of the offenses covered in the PCS are potentially affected by soccer games.} The true matches take place on roughly  5\% of the days in the sample. To estimate the effect of placebo games, I drop the affected days with the actual matches and randomly assign dummy indicators with the same frequency of the true matches. In the last step, I estimate the model as shown in equation \ref{eq_soc_ext:model}. This procedure is carried out 10,000 times and the results are shown in Figure \ref{fig_soc_ext:robustness_placebo_games}. Panel A shows the distribution of the coefficients. As expected, the coefficients are centered around zero. Panel B, shows the distribution of the t-statistics. The red area under the kernel density belongs to significant estimates when using a significance level of $\alpha=0.05$. Panel C shows that 6.57\% of the estimates are significantly different from zero with 10,000 iterations. With a significance level of $\alpha=0.01$ , there are 3.06\% significant estimates. The low levels of significant coefficients support the idea that the results obtained earlier are not only observed by pure chance. 
 
 
 
 
 
 
-\begin{itemize}
-	\item Poisson model
-	\item drop Nachholspiele
-\end{itemize}
+
+
+
+
+
 
 
 
@@ -728,8 +676,16 @@ Table \ref{tab_soc_ext:offense_keys_code} illustrates which offenses are contain
 \end{figure}
 \vspace*{\fill}\clearpage
 %--------------------------------------------
-
-
+% Robustness: PLACEBO GAMES
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{The effect of placebo games}\label{fig_soc_ext:robustness_placebo_games}
+	\includegraphics[width=0.9 \linewidth]{regression/robustness_placebo_games.pdf}
+	\begin{minipage}{0.95\linewidth}
+		\scriptsize{\emph{Notes:} The figure shows the effect of placebo games. Panel A presents the distribution of the coefficients (along with a normal density) after 10,000 iterations. Panel B shows the distribution of the t-statistics and the resulting ranges of significant coefficients, with a level of significance $\alpha=0.05$. Panel C shows the fraction of significant estimates across the number of iterations.}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
 
 
 
@@ -923,26 +879,26 @@ Table \ref{tab_soc_ext:offense_keys_code} illustrates which offenses are contain
 \end{table}
 \vspace*{\fill}\clearpage 
 %--------------------------------------------
-% robustensss: ASSAULTS and POISSON
+% Robustness: ECONOMETRICS & other VIOLENCE
 \vspace*{\fill}
 \begin{table}[H] \centering 
-	\begin{threeparttable} \centering \caption{Effects on \textbf{the number of Assaults}}\label{tab_soc_ext:assaults_poisson_fixed_effects}
+	\begin{threeparttable} \centering \caption{Robustness tests: Impact on \textbf{Assault rate}}\label{tab_soc_ext:reg_fe_assrate_robustness}
 		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
-			\begin{tabular}{l*{6}{c}}
+			\begin{tabular}{l*{4}{c}}
 				\toprule 
 				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+				& coefficient & \clb{c}{standard\\error} & \clb{c}{Effect\\ size [\%]} & $N$ \\
 				\midrule
-				\input{reg_fe/assaults_poisson_fixed_effects} 
+				\input{reg_fe/assrate_fixed_effects_robustness} 
 				\bottomrule 
 		\end{tabular}}
 		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The table shows average marginal effects of the effect of gd of the number of physical assaults xxx 
-			weighted by population shares, se clustered on region-year and year-month, what do FE entail, effect size
-			Clustered standard errors are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	\emph{Source:} xxx.
+			\item \scriptsize \emph{Notes:} The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first two leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Except where otherwise noted, the specifications use population-weights. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. All specifications use region and date fe, their interactions, weather controls, and holiday FE. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.\newline \hspace*{15pt} $^1$: number of assaults is dependent variable.
 		\end{tablenotes} 
 	\end{threeparttable} 
 \end{table}
 \vspace*{\fill}\clearpage 
+%--------------------------------------------
 
 
 
@@ -1031,7 +987,7 @@ Table \ref{tab_soc_ext:offense_keys_code} illustrates which offenses are contain
 \vspace*{\fill}\clearpage
 
 %--------------------------------------------
-% Derbies and prominent games
+% Channels: Derbies and prominent games
 \vspace*{\fill}
 \begin{table}[H]\centering
 	\begin{threeparttable}\centering \caption{Prominent games}\label{tab_soc_ext:prominent_games_derbies}
