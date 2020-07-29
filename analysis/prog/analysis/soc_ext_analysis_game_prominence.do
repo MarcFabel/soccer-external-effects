@@ -11,7 +11,9 @@
 *	Output:
 *		xxx
 *
-*	
+*
+*	Update: 
+*		29.07.2020	added games to violent_games list (increased effect of derbies)	
 	
 	clear all 
 	set more off
@@ -91,6 +93,9 @@ d_game_derby        7.976***
 d_game_non~y                        2.430***
                                   (0.282)   
 --------------------------------------------
+
+* with more derbies: v2 of violent games
+
 */				
 
 
