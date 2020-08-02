@@ -27,6 +27,7 @@ Updates:
     - 2020-07-11 removed the scaling by days of year in the specifications of the assault rates
                     but make assrates as crime per 1,000,000 [before per 100,000]
     - 2020-07-23 add other type of crime data
+    - 2020-08-02 add victim characteristics (police and alcohol)
 
 """
 
@@ -163,7 +164,7 @@ data = data.merge(holidays, on=['bula', 'date'], how='outer')
 # merge Crime Data
 data = data.merge(assaults, on=['date', 'AGS'], how='outer')
 assaults_cols = assaults.columns.drop(['date', 'AGS']).tolist() # to fill nr assaults with zeros for NaNs
-assert(len(assaults_cols)==32)
+assert(len(assaults_cols)==34)
 data[assaults_cols] = data[assaults_cols].fillna(value=0)
 
 
@@ -210,7 +211,9 @@ data['assrate_vs_strangers']    = (data['ass_vs_strangers']     * 1000000)/data[
 data['assrate_vs_rel']          = (data['ass_vs_rel']           * 1000000)/data['pop_t']
 data['assrate_attempt']         = (data['ass_attempt']          * 1000000)/data['pop_t']
 data['assrate_success']         = (data['ass_success']          * 1000000)/data['pop_t']
-data['assrate_domestic']		= (data['ass_domestic'] 		* 1000000)/data['pop_t']
+data['assrate_domestic']		    = (data['ass_domestic'] 		    * 1000000)/data['pop_t']
+data['assrate_police']          = (data['ass_police']           * 1000000)/data['pop_t']
+data['assrate_alchol']          = (data['ass_alcohol']          * 1000000)/data['pop_t']
 
 # age x gender
 data['assrate_0_17_f']			= (data['ass_0_17_f'] 			* 1000000)/data['pop_t']
@@ -256,7 +259,7 @@ z_number_obs_june = data.month[data.month == 6].count()
 data.drop(data[data.month==6].index, inplace=True)
 
 # result should be 96878 x 366
-assert(data.shape == (96878-z_number_obs_june, 376))
+assert(data.shape == (96878-z_number_obs_june, 380))
 
 ###############################################################################
 #       Restrict sample
