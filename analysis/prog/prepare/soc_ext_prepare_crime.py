@@ -15,6 +15,7 @@ Outputs:
 
 Updates:
     20.10.2019: include subcategroeis of assaults (gender,age,relationship,attempt)
+    02.08.2020: include victim category (police & alcohol)
 
 """
 
@@ -88,7 +89,9 @@ for year in range(11,16):
 assaults = c[11].copy()
 for year in range(12,16):
     assaults = assaults.append(c[year])
-assaults = assaults[['offense_key', 'date_offense', 'location', 'attempt', 'age', 'gender', 'vs_relation_formal', 'vs_relation_spatial_social']]
+assaults = assaults[['offense_key', 'date_offense', 'location', 'attempt',
+                     'age', 'gender', 'vs_relation_formal',
+                     'vs_relation_spatial_social', 'specific_role']]
 
 
 # keep only assaults
@@ -135,7 +138,9 @@ assaults['vs_strangers'] = np.where((assaults.vs_relation_formal==500)
                                    | (assaults.vs_relation_formal==800), 1, 0)
 assaults['domestic'] = np.where((assaults.vs_relation_spatial_social==110)
                                     | (assaults.vs_relation_spatial_social==190), 1, 0) #110erziehungsverhaeltnis 190 sonstiges verh. (ehepartner)
-assaults.drop(['gender', 'attempt', 'vs_relation_formal', 'vs_relation_spatial_social'], inplace=True, axis=1)
+assaults['police'] = np.where(assaults.specific_role==2610, 1, 0)
+assaults['alcohol'] = np.where(assaults.specific_role==1110, 1, 0)
+assaults.drop(['gender', 'attempt', 'vs_relation_formal', 'vs_relation_spatial_social', 'specific_role'], inplace=True, axis=1)
 assaults.rename(columns={'D_attempt' : 'attempt'}, inplace=True)
 
 
@@ -181,6 +186,8 @@ assaults['ass_vs_rel'] = np.where(assaults.vs_strangers == 0,1,0)
 assaults['ass_attempt'] = np.where(assaults.attempt == 1,1,0)
 assaults['ass_success'] = np.where(assaults.attempt == 0,1,0)
 assaults['ass_domestic'] = np.where(assaults.domestic == 1,1,0)
+assaults['ass_police'] = np.where(assaults.police == 1,1,0)
+assaults['ass_alcohol'] = np.where(assaults.alcohol == 1,1,0)
 
 assaults['ass_0_17_f']  = np.where((assaults.age < 18) & (assaults.female == 1),1,0)
 assaults['ass_18_29_f'] = np.where((assaults.age >= 18) & (assaults.age <=29) & (assaults.female == 1),1,0)
@@ -208,7 +215,7 @@ assaults['ass_domestic_m'] = np.where((assaults.domestic == 1) & (assaults.femal
 assaults['ass'] = 1
 assaults = assaults.groupby(['date_d_mod','location']).sum()
 assaults.reset_index(inplace=True, drop=False)
-assaults.drop(['age', 'female', 'vs_strangers', 'attempt', 'domestic'], inplace=True, axis=1)
+assaults.drop(['age', 'female', 'vs_strangers', 'attempt', 'domestic', 'police', 'alcohol'], inplace=True, axis=1)
 assaults['bula'] = assaults.location.apply(lambda x: x/1000000).astype(int)
 
 
