@@ -205,6 +205,7 @@ football is synonymous with soccer
 - legal dispute between federal states and DFL about reimbursement of costs for high risk games
 	* develop idea of external cost
 
+- simultaneously very prominent industry w/ large revenues and attendance rates
 
 % soccer games and strategy how to estimate causal effect
 
@@ -240,6 +241,26 @@ football is synonymous with soccer
 % roadmap
 
 
+
+
+% literature: 
+\cite{rees2009college}
+topic: Division I-A college football games and crime
+data: National Incident Based Reporting System (NIBRS), 6 football seasons (2000-2005)
+estimation: negative binomial regression model, with holiday FE, DOW, month, year, police agency FE-> exploit within agency variation
+results: assaults, vandalism, arrests for disorderly conduct and alcohol-related offenses increase in hosting municipalities on game days, the most sizable effect are associated with upsets (when worse teams win over better teams), no effects for away games
+
+
+\cite{lindo2018college}
+topic: effect of college party culture surrounding Division 1 football games on sexual assaults
+results: daily reports of rape victimization among 17-24-year-old women increase by 28 percent, home games: 41 percent, away games 15 percent, larger effect for prominent games and for teams playing in the better ranked subdivision of Division 1, game outcome matters: upset wins increase rape particularly strong
+data: NIBRS plus self-collected data on football games -> panel: agency-by-day level
+emprical approach: within law eforcement agency over time, poisson model, with agency, DOW, holidaz and year FE
+
+
+
+my findings are in contrast to other studies in terms of effects during upsetting events, no frustration-agression hypothesis, specific events -> selection into specific matches to live out violent fantasies
+
 %--------------------------------------------------------------------
 % BACKGROUND
 %--------------------------------------------------------------------
@@ -252,6 +273,7 @@ Bundesliga is an independent body , sperated from the German Football Associatio
 
 %in league 1 and 2; in each 17 home and away games
 %matchplan: grundlage internationale Spiele
+% exploit plaubily random variation in the timing of matches
 %In die Vorbereitung der Spielpläne für die Bundesliga und die 2. Bundesliga fließen Vorgaben von Kommunen, Sicherheitsorganen, der Zentralen Informationsstelle Sporteinsätze (ZIS), von internationalen Fußballverbänden (FIFA/UEFA), von Fans, Clubs und Stadionbetreibern ein. Neben naheliegenden Einschränkungen wie der Tatsache, dass benachbarte Clubs versetzt zu ihren Heimspielen antreten sollten, müssen u. a. auch Feiertage, parallele Großveranstaltungen (zB Oktoberfest) oder Spieltermine internationaler Wettbewerbe (UEFA Champions League & UEFA Europa League) berücksichtigt werden.
 %https://www.bundesliga.com/de/bundesliga/news/so-entsteht-der-spielplan-bundesliga-2-bundesliga-dfl-computer-software.jsp
 
@@ -266,19 +288,27 @@ Bundesliga is an independent body , sperated from the German Football Associatio
 
 
 \subsection{Soccer and Violent Crime}
-- mechanisms from psychology
-	* social learning \cite{bandura1973aggression}
-	* frustration-aggression hypothesis \cite{dollard1939frustration}
-	
-- mass events: increase social contact and change how the interactions take place (in particular for smaller municipalities which attract thousands of spectators) \cite{lindo2018college}. Bundesliga has highest average attendance per match across all European main football leagues\citep{wicker2017effect}: 42,700 per match in 2018/19.
+
+- mass events: 
+	* mechanical effect
+	* increase social contact and change how the interactions take place (in particular for smaller municipalities which attract thousands of spectators) \cite{lindo2018college}. Bundesliga has highest average attendance per match across all European main football leagues\citep{wicker2017effect}: 42,700 per match in 2018/19.
+
+- theories on spectator violence
+
+- mechanisms from psychology literature to explain aggressive, or even violent fan behavior
+	* frustration-aggression hypothesis \cite{dollard1939frustration}: aggressive fan behavior in the event of defeat of the favorite team (see results found by \cite{card2011family})
+	* social learning \cite{bandura1973aggression,bandura2007social}: independent of the outcome of the game, observation of the game enough to unleash violent actions. 
+
 
 - role of alcohol
 		- \cite{PCS2018}: more than every fourth assault (26.2\%) is commuted under the influence of alcohol
 		- \cite{cook2013virtuous} pharmacological effects on aggression and cognitive functioning 
 			* loss of inhibition, impairments of judgment, alcohol is anesthetic, participants of experiments show more aggressive behavior after drinking 
+		- banned for some games: high risk and CL (source?)
+		- any data on how much is consumed?
 		
 	
-- hooligans
+- hooligans: fascination of violence
 	\cite{zis14_15} \cite{feltes2010fussballgewalt}
 
 - coming back to overarching theme of who pays for that
@@ -543,7 +573,7 @@ Due to the nonlinearity of the model, the coefficient in Table \ref{tab_soc_ext:
 \section{Concluding remarks}\label{sec_soc_ext:conclusion}
 
 
-
+larger effects for prominent games
 
 %--------------------------------------------------------------------
 % BIBLIOGRAPHY
