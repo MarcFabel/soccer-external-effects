@@ -194,6 +194,14 @@
 	qui estadd local holiday	"yes"
 	qui estadd local interact	"yes"
 	
+	*police
+	reg_fe a7 assrate_police $gd "$weather" "$region_fe $time_fe $holiday $interaction"
+	qui estadd local region 	"yes"
+	qui estadd local time 		"yes" 
+	qui estadd local weather 	"yes"
+	qui estadd local holiday	"yes"
+	qui estadd local interact	"yes"
+	
 	esttab a*, noobs 													///
 		se star(* 0.10 ** 0.05 *** 0.01) keep(d_gameday) 				///
 		scalars("mean Effect size" "Nn Observations" 				///
