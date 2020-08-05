@@ -50,7 +50,7 @@
 	
 	
 // open file: 
-	import delimited "$temp/placebo_10000 - Copy.csv", delimiter("") stripquote(yes) colrange(2) clear 
+	import delimited "$temp/placebo_10000.csv", delimiter("") stripquote(yes) colrange(2) clear 
 	
 	capture drop beta
 	qui gen beta = substr(v1,2,.)
@@ -64,11 +64,11 @@
 	replace number_significant = d_significant[_n] + number_significant[_n-1] if n>1
 	qui gen fraction_significant = (number_significant/n)*100
 	
-	summ d_significant    // 6.62% of all estimates are statistically significant with alpha = 0.05
+	summ d_significant    // 6.57% of all estimates are statistically significant with alpha = 0.05
 	
 	* alpha = 0.01 : z=2.325
 	qui gen d_significant_99 = cond(t<-2.325 | t>2.325,1,0)
-	summ d_significant_99 //  3.12 of all estimates are statistically significant with alpha = 0.01
+	summ d_significant_99 //  3.06 of all estimates are statistically significant with alpha = 0.01
 	
 	
 	
@@ -76,8 +76,8 @@
 	kdensity beta, generate(beta_vals beta_den_vals)
 	
 	* histogram beta 
-	hist beta , normal normopt(lcolor(navy) lw(thick) ) ///
-		fcol(gs8) ///
+	hist beta  , normal normopt(lcolor(navy) lw(thick) ) ///
+		fcol(gs8%50) ///
 		scheme(s1mono) plotregion(color(white)) ///
 		xlabel(-.5 0 .5) ///
 		xtitle(Beta) /// 
@@ -102,21 +102,27 @@
 		
 		
 	* histogram t
-	hist t, kden  kdenopts(lcolor(maroon) lw(thick)) 	///
-		fcol(gs8%60) ///
-		scheme(s1mono) plotregion(color(white)) ///
-		xtitle("t") ///
-		addplot(area den_vals t_vals if t_vals<-1.96, color(maroon%100) || ///
-		area den_vals t_vals if t_vals>1.96, color(maroon%100) below) ///
-		legend(label(2 "kernel density") label(3 "significant" "coefficients") ///
-		order(2 3)  pos(2) ring(0) region(ls(none))) ///
-		title("Panel B: Distribution of t-statistics", pos(11) span size(vlarge)) ///
-		saving($temp/placebo_t.gph, replace)
+	preserve
+		drop if t<-4 | t>4					// just for visualization purposes * drops 3/10,000 observations
+		capture drop t_vals den_vals
+		kdensity t, generate(t_vals den_vals)
+		
+		hist t, kden  kdenopts(lcolor(maroon) lw(thick)) 	///
+			fcol(gs8%50) ///
+			scheme(s1mono) plotregion(color(white)) ///
+			xtitle("t") ///
+			addplot(area den_vals t_vals if t_vals<-1.96, color(maroon%100) || ///
+			area den_vals t_vals if t_vals>1.96, color(maroon%100) below) ///
+			legend(label(2 "kernel density") label(3 "significant" "coefficients") ///
+			order(2 3)  pos(2) ring(0) region(ls(none))) ///
+			title("Panel B: Distribution of t-statistics", pos(11) span size(vlarge)) ///
+			saving($temp/placebo_t.gph, replace)
+	restore
 		
 
 	
 	* fraction of significant estimates
-	line fraction_significant n if n>3, lc(gs2) ///
+	line fraction_significant n if n>40, lc(gs2) ///
 		scheme(s1mono) plotregion(color(white)) ///
 		xtitle("Iteration") ytitle("Percent") ///
 		title("Panel C: Fraction significant estimates", pos(11) span size(vlarge)) ///
