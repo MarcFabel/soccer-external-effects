@@ -22,6 +22,10 @@ use "$data/data_prepared.dta", clear
 	
 	*poisson	
 	preg_fe a4 ass $gd "$weather" "$region_fe $time_fe $holiday $interaction"
+	*ppmlhdfe ass $gd $weather [pw=p_wght], absorb($region_fe $time_fe $holiday $interaction) vce(cluster ags#year year#month)  d
+	* coefficient:  no partial effects
+	*	d_gameday |   .0732409   .0117647     6.23   0.000     .0501825    .0962993
+	* marginal effect is  7.6%
 	
 ********************************************************************************		
 	// Other forms of violence	
