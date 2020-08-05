@@ -180,8 +180,15 @@ keep if d_gameday == 1
 	
 
 	
-// 2.c) Significance of the difference	 ***************************************
+// 2.Z) Significance of the difference	 ***************************************
+	use "$data/data_prepared.dta", clear
+	do "$prog/aux_files/soc_ext_aux_program.do" 
 	
+	svyset [w=pop_t]
+	
+	forvalues x = 1/7 {
+		svy: mean assrate if dow_num == `x', over(d_gameday)
+	} 
 	
 	
 	
