@@ -209,6 +209,10 @@ violent fan behavior pervasive aspect
 - simultaneously very prominent industry w/ large revenues and attendance rates
 
 % soccer games and strategy how to estimate causal effect
+I undertake an indepth examination of the effects of public mass events on criminal behavior, more specifically the impact of soccer games of the first three leagues of the German football league systems is investigated.
+
+
+I compare the level of assaults on days with and without home games while controlling for any potential source of heterogeneity across days of the week, month, and year, holidays, ... Can I use that?
 
 % data and findings
 
@@ -225,12 +229,12 @@ violent fan behavior pervasive aspect
 - relevant fields of literature
 	* College football 
 		-> criminal behavior \cite{rees2009college}
-		-> sexual assault \cite{lindo2018college}
+		-> sexual assault \cite{lindo2018college}				-> build upon identification strategy
 		-> family violence \cite{card2011family}
 		
 	* soccer
 		-> how time shapes crime \cite{montolio2016time}
-		-> pickpocketing and assaults \cite{montolio2019measuring}
+		-> pick-pocketing and assaults \cite{montolio2019measuring}
 	
 	
 	
@@ -245,29 +249,22 @@ violent fan behavior pervasive aspect
 
 
 % literature: 
-\cite{rees2009college}
-topic: Division I-A college football games and crime
-data: National Incident Based Reporting System (NIBRS), 6 football seasons (2000-2005)
-estimation: negative binomial regression model, with holiday FE, DOW, month, year, police agency FE-> exploit within agency variation
-results: assaults, vandalism, arrests for disorderly conduct and alcohol-related offenses increase in hosting municipalities on game days, the most sizable effect are associated with upsets (when worse teams win over better teams), no effects for away games
+\newpage
+This paper complements the literature on sport events and their effects on different dimensions of crime.\footnote{In addition to the papers presented in this section, other noteworthy studies in that strand of research are: \cite{montolio2019measuring} and \cite{kalist2016national}.} Studies in the US American context often use offense reports from the National Incident Based Reporting System to investigate the impact of American (college) football games on crime. \cite{rees2009college} exploit within agency variation to study the effects of Division I-A college American football games on various offense categories for the years 2000-2005.\footnote{Almost all of the following studies exploit within law enforcement agency variation over time while controlling for weather, holidays and other sources of heterogeneity across time.} They find that assaults, vandalism, arrests for disorderly conduct and alcohol-related offenses increase in hosting municipalities on game days. More sizable effects are associated with upset game outcomes, defined as when lower ranked teams win over better ranked teams. The effects for away games are not significantly different from zero. \cite{lindo2018college} examine the effect of college party culture surrounding Division 1 American football games on sexual assaults. They show that the daily reports of rape victimization among 17-24-year-old women increase by 28 percent on games days. The effects are larger for home games, prominent matches and for teams playing in the better ranked subdivision of Division 1. Furthermore, they show that game outcomes matter: upset wins increase rape victimization strongly. \cite{card2011family} analyze the impact of emotionally unsettling events associated with wins and losses of professional American football teams on family violence for the years 1995-2006. They find an increase of intimate partner violence by ten percent in the event of upset losses (when the home team was expected to win). There are no effects for upset wins or when the game expectations are too close. This suggests an asymmetry of the gain-loss utility function. The effects of male-on-female intimate partner violence are pronounced around the end of the game and are larger for more prominent games.
 
-
-\cite{lindo2018college} -> build upon identification strategy
-topic: effect of college party culture surrounding Division 1 football games on sexual assaults
-results: daily reports of rape victimization among 17-24-year-old women increase by 28 percent, home games: 41 percent, away games 15 percent, larger effect for prominent games and for teams playing in the better ranked subdivision of Division 1, game outcome matters: upset wins increase rape particularly strong
-data: NIBRS plus self-collected data on football games -> panel: agency-by-day level
-emprical approach: within law eforcement agency over time, poisson model, with agency, DOW, holidaz and year FE
-
-
-\cite{card2011family}
-topic: impact of emotionally unsettling events associated with wins and losses of professional football teams on family violence, 
-result: upset losses (when the home team was expected to win) lead to an increase of intimate partner violence by 10 percent, no effect for upset wins or when the game expectations are too close (suggests asymmetry of gain-loss utility function), results pronounced around the end of the game, game importance: the more prominent the higher the effects
-data: merge police reports from the NIBRS with Sunday NFL games over twelve years
+In the European context, researcher focus on football matches to estimate the effect of large scale sport events on crime. \cite{marie2016police} investigates the effect of football matches on crime in London using hourly offense data obtained from the  Metropolitan Crime Statistics System. His results show that property crimes increase (fall) by 4 percent (3 percent) for every extra 10,000 spectators attending a home (away) game. Violent crimes are only affected by derby matches. \cite{montolio2016time} study the temporal impact of football matches in Barcelona on criminal behavior. They match reports on registered crime in the city of Barcelona (2007-2011) with footballl matches played by the Football Club Barcelona (FCB) to see whether the games displace criminal activities temporally. They exploit a panel approach in which they compare crime for the same time window on the same weekday, with and without FCB games. Their results indicate temporal displacements for criminal activities of thefts, criminal damage, robberies and gender violence. Moreover, instances of gender violence increase after home defeats.
 
 
 
 
-my findings are in contrast to other studies in terms of effects during upsetting events, no frustration-agression hypothesis, specific events -> selection into specific matches to live out violent fantasies
+\newpage
+
+% MISSING: AND ADJUSTfootnote in the beginning of the section
+\cite{montolio2019measuring}
+
+
+
+my findings are in contrast to other studies in terms of effects during upsetting events, no frustration-aggression hypothesis, specific events -> selection into specific matches to live out violent fantasies
 
 %--------------------------------------------------------------------
 % BACKGROUND
@@ -277,7 +274,7 @@ my findings are in contrast to other studies in terms of effects during upsettin
 
 German football league system, different leagues/divisions
 https://www.dfl.de/en/about/history/
-Bundesliga is an independent body , sperated from the German Football Association (DFL)
+Bundesliga is an independent body , separated from the German Football Association (DFL)
 
 %in league 1 and 2; in each 17 home and away games
 %matchplan: grundlage internationale Spiele
@@ -302,9 +299,8 @@ Bundesliga is an independent body , sperated from the German Football Associatio
 	* increase social contact and change how the interactions take place (in particular for smaller municipalities which attract thousands of spectators) \cite{lindo2018college}. Bundesliga has highest average attendance per match across all European main football leagues\citep{wicker2017effect}: 42,700 per match in 2018/19.
 
 - theories on spectator violence: 
-\cite{branscombe1992role}
-	
 		* Instinctual theories of aggression: human aggression genetically based, inevitable predisposition \cite{baron1977human}
+		* physiological arousal \cite{branscombe1992role}
 		* frustration-aggression hypothesis \cite{dollard1939frustration}:  in the event of defeat of the favorite team precipitates aggressive fan behavior (see results found by \cite{card2011family})
 		* social learning \cite{bandura1973aggression,bandura2007social}: independent of the outcome of the game, observation of the game enough to unleash violent actions. 
 		* 
@@ -320,6 +316,7 @@ Bundesliga is an independent body , sperated from the German Football Associatio
 	
 - hooligans: fascination of violence
 	\cite{zis14_15} \cite{feltes2010fussballgewalt}
+	Ultras feel challenged simply by the presence of police officers
 
 - coming back to overarching theme of who pays for that
 	
