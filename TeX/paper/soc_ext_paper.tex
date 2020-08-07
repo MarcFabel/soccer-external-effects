@@ -281,6 +281,13 @@ The three full professional divisions of the German football league system are h
 % Soccer and Crime
 \subsection{Soccer and Violent Crime}
 
+Spectator violence has a long tradition in the environment of professional soccer. 
+
+
+% give me some number
+
+
+
 
 - theories on spectator violence: 
 
@@ -361,7 +368,7 @@ The data set used for the analysis covers the time window 2011-2015 and contains
 \subsection{Crime data}
 The crime data is coming from the German Police Crime Statistics (Polizeiliche Kriminalstatistik), which is provided by the Federal Criminal Police Office (Bundeskriminalamt).\footnote{Many aspects of the data preparation is inspired from \cite{hener2019noise} who is using the same data in order to examine the causal effect of noise pollution on criminal behavior.} It covers the universe of individuals that fall victim to a crime against their legally protected personal rights between 2011 and 2015. Yet, as the data is only reported after the end of police procedures, the data is truncated to the period from January 2011 to May 2015 to avoid any problems with lags between the occurrence of the crime and when it is reported. The data includes next to the time (up to the hour) and place (municipality level) of the crime, the crime type code, the victim's age and gender, characteristics of the assault execution (attempt/successful, usage of firearm, lone operator/crime was committed by a group) and information on the relationship between victim and suspect.\footnote{The relationship between victim and suspect is retrieved in two ways. On the one hand, this covers formal relationships (such as types of kin or acquaintances). On the other hand, this examines relationships in a spatial-social manner (for instance living in the same household, or being in an education or care context).} Roughly 40\% of the victims are female, their average age is 32 years, and 40\% of the victims haven't had any prior relationship with the suspect.
 
-The micro-data is aggregated to the municipality-day level and the main outcome, the assault rate, is defined as the number of assaults per 100,000 inhabitants, and multiplied by 365 in order to mirror annual crime rates. Assaults are defined as actions involving physical violence. For that purpose, I use the crime type code of 'intentional simple bodily injury' (Vorsätzliche einfache Körperverletzung § 223 StGB). There are roughly 120 types of criminal offenses in use (recorded in 6 digit codes), though the vast majority of the cases concentrate on only a handful of codes.\footnote{The top 10 of the most prevalent crime keys comprise more than 90\% of the cases.} Figure \ref{fig_soc_ext:offense_types_distribution_2014} shows the distribution of cases per crime key for the twenty most common offense types in 2014. The intentional simple bodily injury is by far the most prevalent offense and it contributes to about 45\% of all cases. The prevalence of the offense type and its association with aggression motivates the decision to have assaults in this definition as the main outcome variable.
+The micro-data is aggregated to the municipality-day level and the main outcome, the assault rate, is defined as the number of assaults per 100,000 inhabitants, and multiplied by 365 in order to mirror annual crime rates. Assaults are defined as actions involving physical violence. For that purpose, I use the crime type code of 'intentional simple bodily injury' (Vorsätzliche einfache Körperverletzung § 223 StGB). There are roughly 120 types of criminal offenses in use (recorded in 6 digit codes), though the vast majority of the cases concentrate on only a handful of codes.\footnote{The top 10 of the most prevalent crime keys comprise more than 90\% of the cases.} Figure \ref{fig_soc_ext:offense_types_distribution_2014} in the Appendix shows the distribution of cases per crime key for the twenty most common offense types in 2014. The intentional simple bodily injury is by far the most prevalent offense and it contributes to about 45\% of all cases. The prevalence of the offense type and its association with aggression motivates the decision to have assaults in this definition as the main outcome variable.
 
 Figure \ref{fig_soc_ext:assault_time_distribution_2014} shows the distribution of assaults over time. Panel A displays the variation of assaults per hour of the day.\footnote{Roughly 15\% of the observations do not contain information on the hour. This does not entail any consequences for the main analysis, as I examine daily variation in the assault rate.} The number of assaults is increasing over the course of a day and peaks around midnight. In order to assign the cases that occur during the early hours to the day, in which they are rooted in, I define a day as running from 6:00 AM until 5:59 AM. Panel B shows the distribution of assaults across days of the week. You can see higher values on Friday and Saturday, whereas the other days have assault rates belonging to the same ballpark. Panel C shows that the number of assaults have a strong seasonal pattern with the highest value recorded in May, and the smallest figure in August.\footnote{Panel C shows the number of assaults across months of the year while adjusting for the number of days per month.} Panel D confirms this impression by plotting the daily number of assaults. New year's eve is a particular impressive outlier in this context. \footnote{Panels C and D are showing data for the year 214 only. Appendix Figure \ref{fig_soc_ext:assault_year_distribution} shows the distribution per day for different years.}
 
@@ -381,7 +388,7 @@ When investigating channels of how soccer games can affect assaults, I exploit b
 
 
 \subsection{Weather data}
-The weather data comes from Germany's National Meteorological Service (Deutscher Wetterdienst). In order to construct the weather control variables, I use the sample of weather monitors, which measure relevant weather variables all at the same time.\footnote{I use the following weather variables as daily averages: the daily average, minimum and maximum air temperature, minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth, and wind velocity.} From this set of monitors I choose the weather monitor with the closest proximity to a stadium. The assigned monitor-stadium pairs can be found in Figure \ref{fig_soc_ext:map_gem_stadiums_nearest_monitor}. The quality of the matches between weather monitors and stadiums is high, as the average distance between stadiums and monitors is 15 kilometers. The distribution of the distance of monitor-stadium pairs can be found in Figure \ref{fig_soc_ext:hist_distance_stadium_monitors}. Few of the weather variables have missing data, which are filled in the following way: propagate the last valid observation forward to the next valid observation (i.e. forward fill).\footnote{The weather variables with missing data are (with the share of missing data in parenthesis): Cloud cover (<1.2\%), snow depth (<0.6\%).}
+The weather data comes from Germany's National Meteorological Service (Deutscher Wetterdienst). In order to construct the weather control variables, I use the sample of weather monitors, which measure relevant weather variables all at the same time.\footnote{I use the following weather variables as daily averages: the daily average, minimum and maximum air temperature, minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth, and wind velocity.} From this set of monitors I choose the weather monitor with the closest proximity to a stadium. The assigned monitor-stadium pairs can be found in Figure \ref{fig_soc_ext:map_gem_stadiums_monitor_and_neighboring_regions}. The quality of the matches between weather monitors and stadiums is high, as the average distance between stadiums and monitors is 15 kilometers. The distribution of the distance of monitor-stadium pairs can be found in Appendix Figure \ref{fig_soc_ext:hist_distance_stadium_monitors}. Few of the weather variables have missing data, which are filled in the following way: propagate the last valid observation forward to the next valid observation (i.e. forward fill).\footnote{The weather variables with missing data are (with the share of missing data in parenthesis): Cloud cover (<1.2\%), snow depth (<0.6\%).}
 
 
 
@@ -442,7 +449,7 @@ In the next step, I consider effect heterogeneity by crime characteristics. Colu
 Previously I showed evidence that soccer games increase the assault rate. However, it could very well be that I only pick up an effect that displaces offenses. It is possible that the increase in violent behavior is offset by a reduction in assaults in other areas or at different times \citep{lindo2018college}. In other words, the assault would have been committed anyway, but just at a different time or at another location. One potential explanation for that are different population flows around days on which games take place.
 
 % spatial displacement
-In order to estimate \textit{spatial displacement effects}, I investigate the impact of soccer matches on nearby regions. I define neighboring regions to constitute nearby regions. A neighbor region is a municipality that shares a common boundary with a region that contains a stadium.\footnote{If there are two municipalities that share a common border and each of the regions contains a stadium, both regions will not serve as neighbor regions and they are dismissed from the set of spatial spillover candidates.} Figure \ref{fig_soc_ext:map_neighboring_regions} shows a map of the selected regions. The sample of neighboring regions exhibits a considerably higher number of observations. This is owed to the fact that a region with a stadium has, on average, a bit more than 11 neighbor municipalities. Table \ref{tab_soc_ext:reg_fe_assrate_neighbor_regions} shows the estimates of the impact of a home game on these neighboring regions. In comparison to the baseline effects, the coefficients of spillover effects across space are small and not significantly different from zero. Consequently, the results do not suggest that offsetting spatial spillover effects are present.
+In order to estimate \textit{spatial displacement effects}, I investigate the impact of soccer matches on nearby regions. I define neighboring regions to constitute nearby regions. A neighbor region is a municipality that shares a common boundary with a region that contains a stadium.\footnote{If there are two municipalities that share a common border and each of the regions contains a stadium, both regions will not serve as neighbor regions and they are dismissed from the set of spatial spillover candidates.} Figure \ref{fig_soc_ext:map_gem_stadiums_monitor_and_neighboring_regions} shows a map of the selected regions. The sample of neighboring regions exhibits a considerably higher number of observations. This is owed to the fact that a region with a stadium has, on average, a bit more than 11 neighbor municipalities. Table \ref{tab_soc_ext:reg_fe_assrate_neighbor_regions} shows the estimates of the impact of a home game on these neighboring regions. In comparison to the baseline effects, the coefficients of spillover effects across space are small and not significantly different from zero. Consequently, the results do not suggest that offsetting spatial spillover effects are present.
 
 % temporal displacement
 In the next step, \textit{temporal displacement effects} are being considered. To capture this possibility, I include one day leads and lags of the game day indicator. Table \ref{tab_soc_ext:reg_fe_assrate_leads_lags} contains the estimates when enriching the baseline model with the temporal spillover components. The estimates of the gameday itself are not significantly different from the baseline model. The coefficients of one day before and after the game are almost always small in magnitude and not statistically significant. Only exception is the estimate of the day before the game in column 4, which implies that a soccer game leads to an average increase of 0.352 assaults per million population on the day before a game. The positive coefficient, however, does not suggest temporal displacement effects, which would require a negative estimate. This rather indicates additional assaults due to activities on the day preceding important games. 
@@ -596,17 +603,7 @@ larger effects for prominent games
 % DATA
 %WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
 
-%--------------------------------------------
-% crime - key distribution
-\vspace*{\fill}
-\begin{figure}[H]\centering
-	\caption{The types of criminal offenses}\label{fig_soc_ext:offense_types_distribution_2014}
-	\includegraphics[width=0.9 \linewidth]{descriptive/soc_ext_offense_key_distribution_2014.pdf}
-	\begin{minipage}{0.95\linewidth}
-		\scriptsize{\emph{Notes:} The figure depicts the frequency distribution of the most common criminal offenses in the Federal Republic of Germany in 2014. The most common offense type is intentional simple bodily injury (224000), followed by threats (232300), and two forms of dangerous and serious bodily injury (222110 \& 222010). These four offense types together comprise around 75\% of all criminal offenses. \newline \emph{Source:} Own representation with data from the Federal Criminal Police Office.}
-	\end{minipage}
-\end{figure}
-\vspace*{\fill}\clearpage
+
 %--------------------------------------------
 
 % crime - assault distribution over time
@@ -639,7 +636,7 @@ larger effects for prominent games
 \vspace*{\fill}
 \begin{figure}[H]\centering
 	\caption{The stadiums}\label{fig_soc_ext:map_gem_stadiums}
-	\includegraphics[width=0.9\linewidth]{maps/soc_ext_2010_2015_Gemeinde_stadiums_75.png}
+	\includegraphics[width=0.9\linewidth]{maps/soc_ext_2010_2015_Gemeinde_stadiums_100.png}
 	\begin{minipage}{0.95\linewidth}
 		\scriptsize{\emph{Notes:} This map shows the stadiums used in the analysis over the seasons 2010/11 until 2014/15. The black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
 	\end{minipage}
@@ -675,36 +672,28 @@ larger effects for prominent games
 \end{figure}
 \vspace*{\fill}\clearpage
 %--------------------------------------------
+% MAP : (I) WEATHER monitors & (II) NEIGHBOUR regions
+\newgeometry{left=1cm,right=1cm,top=3cm,bottom=3cm} 
+\begin{landscape}
+	\vspace*{\fill}
+	\begin{figure}[H]\centering
+		\caption{The stadiums and the closest weather monitors and  neighboring regions}\label{fig_soc_ext:map_gem_stadiums_monitor_and_neighboring_regions}
 
-% MAP: Stadium and Weather monitors
-\vspace*{\fill}
-\begin{figure}[H]\centering
-	\caption{The stadiums and their closest weather monitors}\label{fig_soc_ext:map_gem_stadiums_nearest_monitor}
-	\includegraphics[width=0.9 \linewidth]{maps/soc_ext_2010_2015_Gemeinde_stadiums_nearest_monitor_75.png}
-	\begin{minipage}{0.95\linewidth}
-		\scriptsize{\emph{Notes:} This map shows the stadiums used in the analysis over the seasons 2010/11 until 2014/15 (red dots) and the closest weather monitors (blue dots). The orange lines indicate how the weather monitors are assigned to the stadiums. The black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
-	\end{minipage}
-\end{figure}
-\vspace*{\fill}\clearpage
-%--------------------------------------------
+		\begin{subfigure}[h]{0.47\linewidth}\centering\caption{The closest weather monitors}
+			\includegraphics[width=\linewidth]{maps/soc_ext_2010_2015_Gemeinde_stadiums_nearest_monitor_100.png}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.47\linewidth}\centering\caption{Spatial displacement - neighboring regions}
+			\includegraphics[width=\linewidth]{maps/soc_ext_2010_2015_map_stadiums_neighbor_regions_zoom_100.png}
+		\end{subfigure}
+		\scriptsize
+		\begin{minipage}{0.95\linewidth}
+			\scriptsize{\emph{Notes:} The map on the left shows the stadiums used in the analysis over the seasons 2010/11 until 2014/15 (red dots) and their closest weather monitors (blue dots). The orange lines indicate how the weather monitors are assigned to the stadiums. The map on the right shows the regions that are used in the analysis for spatial displacement effects. The neighboring municipalities are chosen to be in the sample for estimating spatial displacement effects if they have a common border with a region that contains a stadium. The red dots are the stadiums, the black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
+		\end{minipage}
+	\end{figure}
+	\vspace*{\fill}\clearpage
+\end{landscape}
+\restoregeometry
 
-
-
-
-% WEATHER MONITORS: histogram of the distance stadium <-> monitor
-\vspace*{\fill}
-\begin{figure}[H]\centering
-	\caption{The distance between stadiums and their closest weather monitor}\label{fig_soc_ext:hist_distance_stadium_monitors}
-	\includegraphics[width=0.9 \linewidth]{descriptive/soc_ext_distance_monitors_stadiums.pdf}
-	\begin{minipage}{0.95\linewidth}
-		\scriptsize{\emph{Notes:} The figure shows the distribution of the distance between stadiums and their closest weather monitor. The average distance between the two is 15 km. \newline \emph{Source:} Own representation with data from Germany's National Meterological Service (Deutscher Wetterdienst).}
-	\end{minipage}
-\end{figure}
-\vspace*{\fill}\clearpage
-%--------------------------------------------
-% To be put in: 
-%	- histogram: distance weather monitors to stadiums
-%	- barplot: number of offences, by key
 
 
 %--------------------------------------------
@@ -729,8 +718,8 @@ larger effects for prominent games
 
 %--------------------------------------------
 % age profile of effect, ba gender
-\begin{landscape}
-	\vspace*{\fill}
+
+
 	\begin{figure}[H]\centering
 		\caption{The age profile of the impact of soccer matches on the assault rate}\label{fig_soc_ext:fe_age_profile}
 		% \begin{subfigure}[h]{0.31\linewidth}\centering\caption{Total}
@@ -747,20 +736,9 @@ larger effects for prominent games
 			\emph{Notes:} The figure shows estimates and 95\% confidence intervals across age brackets and by gender. To estimate the effect, I used the model shown in equation \ref{eq_soc_ext:model} in its richest specification with all covariates and population weights. The outcome variable is defined as the number of assaults per million population.
 		\end{minipage}
 	\end{figure}
-	\vspace*{\fill}\clearpage
-\end{landscape}
-%--------------------------------------------
 
-% map SPATIAL DISPLACEMENT - neighboring regions
-\vspace*{\fill}
-\begin{figure}[H]\centering
-	\caption{Spatial displacement - neighboring regions}\label{fig_soc_ext:map_neighboring_regions}
-	\includegraphics[width=0.9\linewidth]{maps/soc_ext_2010_2015_map_stadiums_neighbor_regions_zoom_100.png}
-	\begin{minipage}{0.95\linewidth}
-		\scriptsize{\emph{Notes:} This map shows the regions that are used in the analysis for spatial displacement effects over the seasons 2010/11 until 2014/15. The neighboring municipalities are chosen to be in the sample for estimating spatial displacement effects if they have a common border with a region that contains a stadium. The red dots are the stadiums, the black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
-	\end{minipage}
-\end{figure}
-\vspace*{\fill}\clearpage
+
+
 %--------------------------------------------
 % Robustness: PLACEBO GAMES
 \vspace*{\fill}
@@ -1003,7 +981,17 @@ larger effects for prominent games
 \setcounter{figure}{0} 
 \captionsetup[subfigure]{labelformat=parens}
 
-
+%--------------------------------------------
+% crime - key distribution
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{The types of criminal offenses}\label{fig_soc_ext:offense_types_distribution_2014}
+	\includegraphics[width=0.9 \linewidth]{descriptive/soc_ext_offense_key_distribution_2014.pdf}
+	\begin{minipage}{0.95\linewidth}
+		\scriptsize{\emph{Notes:} The figure depicts the frequency distribution of the most common criminal offenses in the Federal Republic of Germany in 2014. The most common offense type is intentional simple bodily injury (224000), followed by threats (232300), and two forms of dangerous and serious bodily injury (222110 \& 222010). These four offense types together comprise around 75\% of all criminal offenses. \newline \emph{Source:} Own representation with data from the Federal Criminal Police Office.}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
 
 %--------------------------------------------
 % crime - assault distribution over time
@@ -1029,6 +1017,20 @@ larger effects for prominent games
 	\end{minipage}
 \end{figure}
 \vspace*{\fill}\clearpage
+%--------------------------------------------
+
+% WEATHER MONITORS: histogram of the distance stadium <-> monitor
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{The distance between stadiums and their closest weather monitor}\label{fig_soc_ext:hist_distance_stadium_monitors}
+	\includegraphics[width=0.9 \linewidth]{descriptive/soc_ext_distance_monitors_stadiums.pdf}
+	\begin{minipage}{0.95\linewidth}
+		\scriptsize{\emph{Notes:} The figure shows the distribution of the distance between stadiums and their closest weather monitor. The average distance between the two is 15 km. \newline \emph{Source:} Own representation with data from Germany's National Meterological Service (Deutscher Wetterdienst).}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
+
+
 %--------------------------------------------
 % descriptive: assaults across DOW, days w/-w/o games
 \vspace*{\fill}
@@ -1184,7 +1186,31 @@ larger effects for prominent games
 
 
 
+%--------------------------------------------
 
+%% MAP: Stadium and Weather monitors
+%\vspace*{\fill}
+%\begin{figure}[H]\centering
+%	\caption{The stadiums and their closest weather monitors}\label{fig_soc_ext:map_gem_stadiums_nearest_monitor}
+%	\includegraphics[width=0.9 \linewidth]{maps/soc_ext_2010_2015_Gemeinde_stadiums_nearest_monitor_75.png}
+%	\begin{minipage}{0.95\linewidth}
+%		\scriptsize{\emph{Notes:} This map shows the stadiums used in the analysis over the seasons 2010/11 until 2014/15 (red dots) and the closest weather monitors (blue dots). The orange lines indicate how the weather monitors are assigned to the stadiums. The black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
+%	\end{minipage}
+%\end{figure}
+%\vspace*{\fill}\clearpage
+%--------------------------------------------
+
+%% map SPATIAL DISPLACEMENT - neighboring regions
+%\vspace*{\fill}
+%\begin{figure}[H]\centering
+%	\caption{Spatial displacement - neighboring regions}\label{fig_soc_ext:map_neighboring_regions}
+%	\includegraphics[width=0.9\linewidth]{maps/soc_ext_2010_2015_map_stadiums_neighbor_regions_zoom_100.png}
+%	\begin{minipage}{0.95\linewidth}
+%		\scriptsize{\emph{Notes:} This map shows the regions that are used in the analysis for spatial displacement effects over the seasons 2010/11 until 2014/15. The neighboring municipalities are chosen to be in the sample for estimating spatial displacement effects if they have a common border with a region that contains a stadium. The red dots are the stadiums, the black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
+%	\end{minipage}
+%\end{figure}
+%\vspace*{\fill}\clearpage
+%--------------------------------------------
 
 %--------------------------------------------
 
