@@ -16,7 +16,7 @@ global outputdata "F:\econ\soc_ext\analysis\data\final\holidays\"
 *************************LOOP OVER SINGLE FILES*********************************
 ********************************************************************************
 
-forvalues i=94/117 {
+forvalues i=94/119 {
 	local j = `i' + 1
 	import excel "${data}Excel_Tabellen\Schulferien_`i'_`j'.xlsx",clear 
 	
@@ -473,7 +473,7 @@ forvalues i=94/117 {
 ************************SEPARATE DATASETS FOR MERGE*****************************
 
 ******************DATASET 1: only Beg-End holidays, no single Ferientage******** 
-forvalues i=94/117 {
+forvalues i=94/119 {
 	local j = `i' + 1
 	use "${data}temp\Schulferien_`i'_`j'.dta",clear 
 	preserve 
@@ -496,7 +496,7 @@ forvalues i=94/117 {
 }
 *Append all datasets 1:
 use "${data}temp\Schulferien_begend_94_95.dta",clear 
-forvalues i=95/117 {
+forvalues i=95/119 {
 	local j = `i' + 1
 	append using "${data}temp\Schulferien_begend_`i'_`j'.dta", force  
 }
@@ -538,7 +538,7 @@ end
 
 save "${data}temp\Schulferien_notes.dta", replace
 
-forvalues i=94/117 {
+forvalues i=94/119 {
 	local j = `i' + 1
 	use "${data}temp\Schulferien_`i'_`j'.dta",clear 
 	keep bula  Sommer Herbst Winter Weinachten Ostern Himmelf_Pfingsten mdy_ft1_Sommer mdy_ft2_Sommer mdy_ft3_Sommer mdy_ft4_Sommer mdy_ft1_Herbst mdy_ft2_Herbst mdy_ft3_Herbst mdy_ft4_Herbst mdy_ft1_Winter mdy_ft2_Winter mdy_ft3_Winter mdy_ft4_Winter mdy_ft1_Weinachten mdy_ft2_Weinachten mdy_ft3_Weinachten mdy_ft4_Weinachten mdy_ft1_Ostern mdy_ft2_Ostern mdy_ft3_Ostern mdy_ft4_Ostern mdy_ft1_Himmelf_Pfingsten mdy_ft2_Himmelf_Pfingsten mdy_ft3_Himmelf_Pfingsten mdy_ft4_Himmelf_Pfingsten
@@ -555,7 +555,7 @@ forvalues i=94/117 {
 
 *Append all datasets 2: 
 use "${data}temp\Schulferien_ft_94_95.dta",clear
-forvalues i=95/116 {
+forvalues i=95/119 {
 	local j = `i' + 1
 	append using "${data}temp\Schulferien_ft_`i'_`j'.dta" 
 }
@@ -596,8 +596,8 @@ stop
 *Generate daily date variable from 1. January 1994 to 31. December 2016: 
 di mdy(1,1,1994)
 di mdy(12,31,2017)
-di mdy(12,31,2017) - mdy(1,1,1994)
-set obs 8766
+di mdy(12,31,2020) - mdy(1,1,1994)
+set obs 9862
 gen mdy = mdy(12,31,1993) + _n
 format mdy %td
 
@@ -898,25 +898,52 @@ save  "${data}temp\Schulferien_final.dta",replace
 
 preserve 
 
-drop if mdy<mdy(01,01,2010) | mdy>mdy(12,31,2015) 
-
-format mdy %td 
-
-drop bew_Ferien type*
-
-
-
-* generate fasching dummy
-	xtset bula mdy
-	qui gen ft10 = 1 if feiertag == "Ostermontag"
-	qui gen fasching = 0 
-	qui replace fasching = 1 if F47.ft10==1 |  F48.ft10==1 |  F49.ft10==1 |  F50.ft10==1 |  F51.ft10==1 |  F52.ft10==1 |  F53.ft10==1
-	drop ft10
-
-
-save  "${outputdata}\Schulferien_1015.dta",replace 
+	drop if mdy<mdy(01,01,2010) | mdy>mdy(12,31,2015) 
+	
+	format mdy %td 
+	
+	drop bew_Ferien type*
+	
+	
+	
+	* generate fasching dummy
+		xtset bula mdy
+		qui gen ft10 = 1 if feiertag == "Ostermontag"
+		qui gen fasching = 0 
+		qui replace fasching = 1 if F47.ft10==1 |  F48.ft10==1 |  F49.ft10==1 |  F50.ft10==1 |  F51.ft10==1 |  F52.ft10==1 |  F53.ft10==1
+		drop ft10
+	
+	
+	save  "${outputdata}\Schulferien_1015.dta",replace 
 
 restore
+
+
+
+
+preserve
+	drop if mdy<mdy(01,01,2020) | mdy>mdy(30,04,2020) 
+	
+	format mdy %td 
+	
+	drop bew_Ferien type*
+	
+	
+	
+	* generate fasching dummy
+		xtset bula mdy
+		qui gen ft10 = 1 if feiertag == "Ostermontag"
+		qui gen fasching = 0 
+		qui replace fasching = 1 if F47.ft10==1 |  F48.ft10==1 |  F49.ft10==1 |  F50.ft10==1 |  F51.ft10==1 |  F52.ft10==1 |  F53.ft10==1
+		drop ft10
+		rename mdy refdatum
+	
+	
+	save  "${outputdata}\Schulferien_2020_Jan_Apr.dta",replace 
+restore
+
+
+
 
 *drop if mdy<mdy(01,01,1995) | mdy>mdy(12,31,2014) 
 
