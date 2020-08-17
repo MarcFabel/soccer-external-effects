@@ -430,10 +430,10 @@ In the next step, I consider effect heterogeneity by crime characteristics. Colu
 Previously, I showed evidence that soccer games increase the assault rate. However, it could very well be that I only pick up an effect that displaces offenses. For example, it is possible that the increase in violent behavior is offset by a reduction in assaults in other areas or at different times \citep{lindo2018college}. In other words, the assault would have been committed anyway, but just at a different time or at another location. One potential explanation for that are different population flows around days on which games take place.
 
 % spatial displacement
-In order to estimate \textit{spatial displacement effects}, I investigate the impact of soccer matches on nearby regions. I define neighboring regions to constitute nearby regions. A neighbor region is a municipality that shares a common boundary with a region that contains a stadium.\footnote{If there are two municipalities that share a common border and each of the regions contains a stadium, both regions will not serve as neighbor regions and they are dismissed from the set of spatial spillover candidates.} Figure \ref{fig_soc_ext:map_gem_stadiums_monitor_and_neighboring_regions} shows a map of the selected regions. The sample of neighboring regions exhibits a considerably higher number of observations. This is owed to the fact that a region with a stadium has, on average, a bit more than 11 neighbor municipalities. Table \ref{tab_soc_ext:reg_fe_assrate_neighbor_regions} shows the estimates of the impact of a home game on these neighboring regions. In comparison to the baseline effects, the coefficients of spillover effects across space are small and not significantly different from zero. Consequently, the results do not suggest that offsetting spatial spillover effects are present.
+In order to estimate \textit{spatial displacement effects}, I investigate the impact of soccer matches on nearby regions. I define neighboring regions to constitute nearby regions. A neighbor region is a municipality that shares a common boundary with a region that contains a stadium.\footnote{If there are two municipalities that share a common border and each of the regions contains a stadium, both regions will not serve as neighbor regions and they are dismissed from the set of spatial spillover candidates.} Figure \ref{fig_soc_ext:map_gem_stadiums_monitor_and_neighboring_regions} shows a map of the selected regions. The sample of neighboring regions exhibits a considerably higher number of observations. This is owed to the fact that a region with a stadium has, on average, a bit more than 11 neighbor municipalities. Panel A of Table \ref{tab_soc_ext:reg_fe_assrate_displacement} shows the estimates of the impact of a home game on these neighboring regions. In comparison to the baseline effects, the coefficients of spillover effects across space are small and not significantly different from zero. Consequently, the results do not suggest that offsetting spatial spillover effects are present.
 
 % temporal displacement
-In the next step, \textit{temporal displacement effects} are being considered. To capture this possibility, I include one day leads and lags of the game day indicator. Table \ref{tab_soc_ext:reg_fe_assrate_leads_lags} contains the estimates when enriching the baseline model with the temporal spillover components. The estimates of the gameday itself are not significantly different from the baseline model. The coefficients of one day before and after the game are almost always small in magnitude and not statistically significant. Only exception is the estimate of the day before the game in column 4, which implies that a soccer game leads to an average increase of 0.352 assaults per million population on the day before a game. The positive coefficient, however, does not suggest temporal displacement effects, which would require a negative estimate. This rather indicates additional assaults due to activities on the day preceding important games. 
+In the next step, \textit{temporal displacement effects} are being considered. To capture this possibility, I include one day leads and lags of the game day indicator. Panel B of Table \ref{tab_soc_ext:reg_fe_assrate_displacement} contains the estimates when enriching the baseline model with the temporal spillover components. The estimates of the gameday itself are not significantly different from the baseline model. The coefficients of one day before and after the game are almost always small in magnitude and not statistically significant. Only exception is the estimate of the day before the game in column 4, which implies that a soccer game leads to an average increase of 0.352 assaults per million population on the day before a game. The positive coefficient, however, does not suggest temporal displacement effects, which would require a negative estimate. This rather indicates additional assaults due to activities on the day preceding important games. 
 
 
 
@@ -810,46 +810,26 @@ larger effects for prominent games
 \end{landscape}
 \restoregeometry 
 
+
 %--------------------------------------------
-% SPATIAL DISPLACEMENT - neighboring regions
+% SPATIAL & TEMPORAL DISPLACEMENT 
 \vspace*{\fill}
 \begin{table}[H] \centering 
-	\begin{threeparttable} \centering \caption{Spatial displacement effect: Impact on \textbf{Assault rate}}\label{tab_soc_ext:reg_fe_assrate_neighbor_regions}
+	\begin{threeparttable} \centering \caption{Displacement effects}\label{tab_soc_ext:reg_fe_assrate_displacement}
 		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
 			\begin{tabular}{l*{6}{c}}
 				\toprule 
 				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
 				\midrule
-				\input{reg_fe/assrate_neighbor_regions_fixed_effects} 
+				\input{reg_fe/assrate_fixed_effects_displacement} 
 				\bottomrule 
 		\end{tabular}}
 		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that share a common boundary with a distract that contains a stadium of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+			\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. Panel A contains specifications that use daily data (excluding June) spanning the time window 2011-2015 for regions that share a common boundary with a distract that contains a stadium of a soccer team from the first three leagues of the German football league system. Panel B shows specifications that use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first three leagues of the German football league system.	The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
 		\end{tablenotes} 
 	\end{threeparttable} 
 \end{table}
 \vspace*{\fill}\clearpage 
-
-%--------------------------------------------
-% TEMPORAL DISPLACEMENT: include leads and lags
-\vspace*{\fill}
-\begin{table}[H] \centering 
-	\begin{threeparttable} \centering \caption{Temporal displacement effect: Effects on \textbf{Assault rate with leads/lags}}\label{tab_soc_ext:reg_fe_assrate_leads_lags}
-		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
-			\begin{tabular}{l*{6}{c}}
-				\toprule 
-				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
-				\midrule
-				\input{reg_fe/assrate_fixed_effects_leads_lags} 
-				\bottomrule 
-		\end{tabular}}
-		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
-		\end{tablenotes} 
-	\end{threeparttable} 
-\end{table}
-\vspace*{\fill}\clearpage 
-
 %--------------------------------------------
 % HOME & AWAY games
 
@@ -1165,7 +1145,45 @@ larger effects for prominent games
 
 
 
-
+%%--------------------------------------------
+%% SPATIAL DISPLACEMENT - neighboring regions
+%\vspace*{\fill}
+%\begin{table}[H] \centering 
+%	\begin{threeparttable} \centering \caption{Spatial displacement effect: Impact on \textbf{Assault rate}}\label{tab_soc_ext:reg_fe_assrate_neighbor_regions}
+%		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+%			\begin{tabular}{l*{6}{c}}
+%				\toprule 
+%				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+%				\midrule
+%				\input{reg_fe/assrate_neighbor_regions_fixed_effects} 
+%				\bottomrule 
+%		\end{tabular}}
+%		\begin{tablenotes} 
+%			\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that share a common boundary with a distract that contains a stadium of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+%		\end{tablenotes} 
+%	\end{threeparttable} 
+%\end{table}
+%\vspace*{\fill}\clearpage 
+%
+%%--------------------------------------------
+%% TEMPORAL DISPLACEMENT: include leads and lags
+%\vspace*{\fill}
+%\begin{table}[H] \centering 
+%	\begin{threeparttable} \centering \caption{Temporal displacement effect: Effects on \textbf{Assault rate with leads/lags}}\label{tab_soc_ext:reg_fe_assrate_leads_lags}
+%		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+%			\begin{tabular}{l*{6}{c}}
+%				\toprule 
+%				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+%				\midrule
+%				\input{reg_fe/assrate_fixed_effects_leads_lags} 
+%				\bottomrule 
+%		\end{tabular}}
+%		\begin{tablenotes} 
+%			\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+%		\end{tablenotes} 
+%	\end{threeparttable} 
+%\end{table}
+%\vspace*{\fill}\clearpage 
 
 
 %--------------------------------------------
