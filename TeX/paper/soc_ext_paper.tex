@@ -176,16 +176,19 @@ labelfont={bf}
 %	BEGIN DOCUMENT
 %--------------------------------------------------------------------
 \begin{document}
-\setcounter{page}{0}
+\setcounter{page}{1}
 % \tableofcontents
 \newpage
 
 \maketitle
-\thispagestyle{empty}
+\vspace{-4 em}
+%\thispagestyle{empty}
+
 
 \renewcommand{\abstractname}{\vspace{-\baselineskip}} % GET RID OF ABSTRACT TITLE
 \begin{abstract}\noindent 
-	\footnotesize{\begin{center}\textbf{Abstract}\end{center} Place abstract here\\\newline \textbf{Keywords:} soccer games, violent crime, assaults. \newline \textbf{JEL codes:} J19, K42, Z13, Z29.}
+	\footnotesize{\begin{center}\textbf{Abstract}\end{center} This paper investigates the impact of football games on the rate of physical assaults. I exploit time series and cross-sectional variation in crime registers, which contain detailed information on all victims from 2011-2015. I find that a home game leads to an increase of the assault rate by 21.5\%. The effects are largely driven by male victims, who do not know the perpetrator. The effect size is decreasing with age.
+	\\\newline \textbf{Keywords:} soccer games, violent crime, assaults. \newline \textbf{JEL codes:} J19, K42, Z13, Z29.}
 
 \end{abstract}
 
@@ -197,10 +200,10 @@ labelfont={bf}
 %--------------------------------------------------------------------
 % INTRODUCTION
 %--------------------------------------------------------------------
-\newpage
-\section{Introduction}\label{sec_soc_ext:introduction}
 
+%\section{Introduction}\label{sec_soc_ext:introduction}
 
+\vspace{4 em}
 football is synonymous with soccer 
 
 % introductory paragraph
@@ -1048,7 +1051,7 @@ larger effects for prominent games
 			Bielefeld	& Münster	& Westfalenderby \\
 			Braunschweig& Hannover	& Niedersachsenderby \\
 			Bremen		& Hamburg	& Nordderby \\
-			Dortmund	& München	& "German Clasico" \\
+			Dortmund	& München	& `German Clasico' \\
 			Dortmund 	& Schalke 	& Revierderby \\
 			Dresden		& Rostock	& Ostderby \\
 			Düsseldorf	& Köln		& Rheinderby \\
