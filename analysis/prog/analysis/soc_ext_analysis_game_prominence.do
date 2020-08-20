@@ -271,3 +271,30 @@ d_gameday#d_derby |
 	esttab b*, se star(* 0.10 ** 0.05 *** 0.01) keep(d_gameday) 
 
 
+
+	
+	
+	
+	
+	
+********************************************************************************
+/// Check whether there are more fouls and the like in derbies
+********************************************************************************
+
+
+		keep if d_gameday == 1
+		qui gen red_cards = home_red + away_red
+		qui gen yellow_cards = home_yellow + away_yellow
+		qui gen cards = red_cards + yellow_cards
+				
+		
+		mean penalties, over(d_derby)
+		mean red_cards, over(d_derby)
+		mean yellow_cards, over(d_derby)
+		mean cards, over(d_derby)
+
+
+
+	
+	
+	
