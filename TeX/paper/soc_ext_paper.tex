@@ -126,6 +126,12 @@ labelfont={bf}
 
 \usepackage{lettrine} % makes first letter large
 
+% no one-liners on new page
+\clubpenalty=1000000
+\widowpenalty=1000000
+\displaywidowpenalty=1000000
+
+
 % CAPTIAL LETTERS FOR SECTION CAPTIONS
 %\usepackage{sectsty}
 %\sectionfont{\normalfont\scshape\centering\textbf}
@@ -502,31 +508,19 @@ Due to the nonlinearity of the model, the coefficient in Table \ref{tab_soc_ext:
 \bigskip
 \section{Concluding remarks}\label{sec_soc_ext:conclusion}
 
-In this paper, I analyze the impact of public mass gatherings on criminal behavior. More specifically, the effect of football games on the assault rate is investigated.
-
-larger effects for prominent games
-
-
-
+% summary
+In this paper, I analyze the impact of public mass gatherings on criminal behavior. To estimate the causal effects of football games on assaults, I use a generalized difference-in-differences approach that exploits the plausibly random variation in the timing of matches. I compare regional assault levels on days with and without matches conditional on the day of the week, month, and year while additionally accounting for potential confounding variation coming from weather and holidays. I match web-scraped information on 4,461 football matches with data on local assault rates, weather, holidays, and population figures to construct a panel at the municipality-day level over the period 2011-2015. I find that a home game increases the average assault rate by 21.5\%. The victimization rates of males are driving the results and are particularly high for the age group 18-29 years. Besides, the impact is 
+larger for victims with no prior relationship to the suspect and `successful' offenses. There are no offsetting reductions in assaults on adjacent days to the match day or in nearby regions. When investigating potential channels, I find no evidence that emotional cues are responsible for the spike of assaults on match days. Although there is no support for the frustration-aggression hypothesis, I find large effects for prominent games and teams. In fact, this set of results is suggestive for the fact that spectators mimic players' behavior, select into specific matches, or that the pure agglomeration of fans is causing the higher level of assaults on game days. 
 
 
 
 
 % policy perspective
-I find the external effects of football games on violent behavior to be large in magnitude and economically relevant. The market failure resulting from the externalities can be solved without public intervention, i.e. the tax payers do not have to pay for police operations, if there are no transaction costs, complete information, and clearly defined property rights \citep{coase1960problem}. The questions is whether the negative externalities would be internalized in absence of state action. To this end, the football clubs (i) must have an incentive to prevent violence in the context of the event and (ii) be able to implement the incentive effectively \citep{daumann2012}. Concerning the former, the clubs have a credible interest in maintaining a peaceful atmosphere otherwise fans, sponsors, and media might stay away from the matches. Moreover, the clubs can either employ private security agencies or reimburse police operations to effectively prevent violence in and around the stadiums. Therefore, it should be in the club's own interest to take over the funding of the security on the premises.
-
-
- 
+I find the external effects of football games on violent behavior to be large in magnitude and economically relevant. A back-of-the-envelope calculation estimates the annual social costs of football games in the first three leagues of the German league system at 95 million euros (just for the additional assaults). The \cite{coase1960problem} theorem states that market failures resulting from externalities can be solved without public intervention (here: the tax payers do not have to pay for police operations), if there are clearly defined property rights, complete information, and low/no transaction costs. The question is whether the negative externalities would be internalized in absence of state action. To this end, the football clubs (i) must have an incentive to prevent violence in the context of the event and (ii) be able to implement the incentive effectively \citep{daumann2012}. Concerning the former, the clubs have a credible interest in maintaining a peaceful atmosphere otherwise fans, sponsors, and media might avoid the matches. Moreover, the clubs can either employ private security agencies or reimburse police operations to effectively prevent violence in and around the stadiums. Therefore, it should be in the club's own interest to take over the funding of the security. Critics would argue that this procedure is incompatible with the constitution as public safety is a sovereign right and obligation. However, from a economic perspective, it helps to make a distinction between the premises of the football matches and the public domain when discussing the reimbursement of costs for police operations \citep{mause2020}. On the premises, a football match can be considered as a private good, for whose security consumers and producers should pay for.\footnote{The attendance of a football match can be regarded as a private good as both conditions of rivalry (every seat can only be sold once) and excludability (the host can deny entry to some individuals) are satisfied.} In contrast, the socialization of police costs is justifiable in the public domain as all members of the society benefit equally. This regulation, the assumption of police costs on the club's premises, is consistent with statutes in France, Switzerland and Great Britain. From the point of view of welfare economics, you have to consider both positive and negative externalities and analyze whether football matches increases social welfare. Many positive effects generated by football matches are, however, not externalities in the strict sense as they have already been internalized.\footnote{Many economic agents have to pay a fee in order to be included into the value chain in the environment of professional soccer, such as television companies who pay fees to be allowed to broadcast the sport events.} Therefore, an interesting point of future research is to assess all relevant externalities, positive and negative alike, and evaluate whether there is a positive social net utility coming from football games. 
 
 
 
-\cite{mause2020}
-- Persepective of welfare economics: 
-- footnote: social net utility: not onyl negative, buyt also psoitive external effects. However, many aspects are already internalized. 
-- cover costs on the stadium premises -> same regulations as in France, Switzerland and GB
 
-
-Pareto efficient outcome is possible.
 
 
 
