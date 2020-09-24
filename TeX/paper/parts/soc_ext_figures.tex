@@ -1,0 +1,143 @@
+
+
+%WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
+% DATA
+%WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
+
+
+%--------------------------------------------
+
+% crime - assault distribution over time
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{Distribution of assaults across time}\label{fig_soc_ext:assault_time_distribution_2014}
+	\begin{subfigure}[h]{0.48\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_hour.pdf}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.48\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_dow.pdf}
+	\end{subfigure}
+
+	\begin{subfigure}[h]{0.48\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_month_2014.pdf}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.48\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/soc_ext_assaults_per_day_2014_single.pdf}
+	\end{subfigure}
+	\begin{minipage}{\linewidth}
+		\scriptsize{\emph{Notes:} The figure shows the distribution of assaults across the course of a day, days of the week, across months (adjusted for the number of days per month), and across the days of the year in the Federal Republic of Germany.\newline \emph{Source:} Own representation with data from the Federal Criminal Police Office.\newline \hspace{1 em} $^1$ The figures in panel C and D are solely based on the year 2014. Please consult the appendix for figures from the other years.}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
+
+%--------------------------------------------
+
+
+% MAP: STADIUMS
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{The stadiums}\label{fig_soc_ext:map_gem_stadiums}
+	\includegraphics[width=0.9\linewidth]{maps/soc_ext_2010_2015_Gemeinde_stadiums_100.png}
+	\begin{minipage}{0.95\linewidth}
+		\scriptsize{\emph{Notes:} This map shows the stadiums used in the analysis over the seasons 2010/11 until 2014/15. The black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
+
+
+
+
+%--------------------------------------------
+% Descriptives about soccer matches
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{Soccer matches}\label{fig_soc_ext:descriptives_matches_time_attendance}
+	\includegraphics[width=0.9 \linewidth]{descriptive/soc_ect_desc_soccer_macthes_attendance.pdf}	
+	\begin{minipage}{\linewidth}
+		\scriptsize{\emph{Notes:} The figures show key aspects of soccer games in the data set. Panel A shows how the number of matches vary over the course of a week, Panel B plots the distribution of matches over the course of a day, and Panel C shows kernel densities for the number of spectators (in thousand) across the three leagues.\newline \emph{Source:} Own representation with data obtained from kicker.de.}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
+
+
+
+%--------------------------------------------
+% MAP : (I) WEATHER monitors & (II) NEIGHBOUR regions
+\newgeometry{left=1cm,right=1cm,top=3cm,bottom=3cm} 
+\begin{landscape}
+	\vspace*{\fill}
+	\begin{figure}[H]\centering
+		\caption{The stadiums and the closest weather monitors and neighboring regions}\label{fig_soc_ext:map_gem_stadiums_monitor_and_neighboring_regions}
+
+		\begin{subfigure}[h]{0.47\linewidth}\centering\caption{The closest weather monitors}
+			\includegraphics[width=\linewidth]{maps/soc_ext_2010_2015_Gemeinde_stadiums_nearest_monitor_100.png}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.47\linewidth}\centering\caption{Spatial displacement - neighboring regions}
+			\includegraphics[width=\linewidth]{maps/soc_ext_2010_2015_map_stadiums_neighbor_regions_zoom_100.png}
+		\end{subfigure}
+		\scriptsize
+		\begin{minipage}{0.95\linewidth}
+			\scriptsize{\emph{Notes:} The map on the left shows the stadiums used in the analysis over the seasons 2010/11 until 2014/15 (red dots) and their closest weather monitors (blue dots). The orange lines indicate how the weather monitors are assigned to the stadiums. The map on the right shows the regions that are used in the analysis for spatial displacement effects. The neighboring municipalities are chosen to be in the sample for estimating spatial displacement effects if they have a common border with a region that contains a stadium. The red dots are the stadiums, the black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
+		\end{minipage}
+	\end{figure}
+	\vspace*{\fill}\clearpage
+\end{landscape}
+\restoregeometry
+
+
+
+%--------------------------------------------
+
+%WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
+% RESULTS
+%WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWM
+
+
+
+%--------------------------------------------
+% fig: intuitive representation: assrate across DOW
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{The average assault rate on gamedays and days where no game takes place}\label{fig_soc_ext:assault_rate_across_dows}
+	\includegraphics[width=0.9 \linewidth]{descriptive/soc_ext_descr_assaultrate_gd_nongd_hor.pdf}
+	\begin{minipage}{0.95\linewidth}
+		\scriptsize{\emph{Notes:} The figure shows the daily average number of assaults per million population for regions that host games of a soccer team from the first three leagues of the German football league system. The daily rates are shown for weeks in which a game is played and for weeks in which no game takes place.}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
+
+%--------------------------------------------
+% age profile of effect, ba gender
+
+
+	\begin{figure}[H]\centering
+		\caption{The age profile of the impact of soccer matches on the assault rate}\label{fig_soc_ext:fe_age_profile}
+		% \begin{subfigure}[h]{0.31\linewidth}\centering\caption{Total}
+		% 	\includegraphics[width=\linewidth]{regression/fe_agebrackets_t.pdf}
+		% \end{subfigure}
+		\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Women}
+			\includegraphics[width=\linewidth]{regression/fe_agebrackets_f.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Men}
+			\includegraphics[width=\linewidth]{regression/fe_agebrackets_m.pdf}
+		\end{subfigure}
+		\scriptsize
+		\begin{minipage}{\linewidth}
+			\emph{Notes:} The figure shows estimates and 95\% confidence intervals across age brackets and by gender. To estimate the effect, I used the model shown in equation \ref{eq_soc_ext:model} in its richest specification with all covariates and population weights. The outcome variable is defined as the number of assaults per million population.
+		\end{minipage}
+	\end{figure}
+
+
+
+%--------------------------------------------
+% Robustness: PLACEBO GAMES
+\vspace*{\fill}
+\begin{figure}[H]\centering
+	\caption{The effect of placebo games}\label{fig_soc_ext:robustness_placebo_games}
+	\includegraphics[width=0.9 \linewidth]{regression/robustness_placebo_games.pdf}
+	\begin{minipage}{0.95\linewidth}
+		\scriptsize{\emph{Notes:} The figure shows the effect of placebo games. Panel A presents the distribution of the coefficients (along with a normal density) after 10,000 iterations. Panel B shows the distribution of the t-statistics and the resulting ranges of significant coefficients, with a level of significance $\alpha=0.05$. Panel C shows the fraction of significant estimates across the number of iterations.}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
+

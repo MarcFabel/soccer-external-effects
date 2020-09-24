@@ -1,0 +1,436 @@
+%--------------------------------------------------------------------
+%	DOCUMENT CLASS
+%--------------------------------------------------------------------
+\documentclass[11pt, a4paper]{article} % type of document (paper, presentation, book,...); scrartcl class with sans serif titles, European layout 
+\usepackage{fullpage} % leaves less space at margins of page
+\usepackage[onehalfspacing]{setspace} % determine line pitch to 1.5
+
+%--------------------------------------------------------------------
+%	INPUT
+%--------------------------------------------------------------------
+\usepackage[T1]{fontenc} 	% Use 8-bit encoding that has 256 glyphs
+\usepackage[utf8]{inputenc} % Required for including letters with accents, Umlaute,...
+\usepackage{float} 			% better control over placement of tables and figures in the text
+\usepackage{graphicx} 		% input of graphics
+\usepackage{xcolor} 		% advanced color package
+\usepackage{url, hyperref} 	% include (clickable) URLs
+\usepackage{pdfpages}		% insert pages of external pdf documents
+\setlength{\parskip}{0.75em}	% vertical spacing for paragraphs
+\setlength{\parindent}{0em}	% horizonzal spacing for paragraphs
+\usepackage{tikz}
+\usepackage{tikzscale}		% helps to adjust tikz pictures to textwidth/linewidth
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{arrows}
+\usepackage{eurosym}		% Eurosymbol
+
+% Have sections in TOC, but not in text
+\usepackage{xparse}% for easier management of optional arguments
+\ExplSyntaxOn
+\NewDocumentCommand{\TODO}{msom}
+{
+	\IfBooleanF{#1}% do nothing if it's starred
+	{
+		\cs_if_eq:NNT #1 \chapter { \cleardoublepage\mbox{} }
+		\refstepcounter{\cs_to_str:N #1}
+		\IfNoValueTF{#3}
+		{
+			\addcontentsline{toc}{\cs_to_str:N #1}{\protect\numberline{\use:c{the\cs_to_str:N #1}}#4}
+		}
+		{
+			\addcontentsline{toc}{\cs_to_str:N #1}{\protect\numberline{\use:c{the\cs_to_str:N #1}}#3}
+		}
+	}
+	\cs_if_eq:NNF #1 \chapter { \mbox{} }% allow page breaks after sections
+}
+\ExplSyntaxOff
+
+%--------------------------------------------------------------------
+%	TABLES, FIGURES, LISTS
+%--------------------------------------------------------------------
+\usepackage{booktabs} 		% better tables
+\usepackage{longtable}		% tables that may be continued on the next page
+\usepackage{threeparttable} % add notes below tables
+\renewcommand\TPTrlap{}		% add margins on the side of the notes
+	\renewcommand\TPTnoteSettings{%
+	\setlength\leftmargin{5 pt}%
+	\setlength\rightmargin{5 pt}%
+}
+\usepackage[
+center, format=plain,
+font=normalsize,
+nooneline,
+labelfont={bf}
+]{caption} 				% change format of captions of tables and graphs 
+%USED IN MPHIL: \usepackage[labelfont=bf,labelsep = period, singlelinecheck=off,justification=raggedright]{caption}, other specifications which are nice: labelformat = parens -> number in paranthesis 
+
+
+%\usepackage{threeparttablex} % for "ThreePartTable" environment, helps to combine threepart and longtable
+
+% Allow line breaks with \\ in column headings of tables
+\newcommand{\clb}[3][c]{%
+	\begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}
+
+% allow line breaks with \\ in row titles
+\usepackage{multirow}
+
+\newcommand{\rlb}[3][c]{%
+\multirow{2}{*}{\begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}}% optional argument: b = bottom or t= top alignment
+
+
+\usepackage[singlelinecheck=on]{subcaption}%both together help to have subfigures
+\usepackage{wrapfig}				% wrap text around figure
+
+
+\usepackage{rotating}				% rotating figures & tables
+\usepackage{enumerate}				% change appearance of the enumerator
+\usepackage{paralist, enumitem}		% better enumerations
+\setlist{noitemsep}					% no additional vertical spacing for enurations
+%--------------------------------------------------------------------
+%	MATH
+%--------------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsfonts} % more math symbols and commands
+\let\vec\mathbf				 % make vector bold, with no arrow and not in italic
+
+%--------------------------------------------------------------------
+%	LANGUAGE SPECIFICS
+%--------------------------------------------------------------------
+\usepackage[american]{babel} % man­ages cul­tur­ally-de­ter­mined ty­po­graph­i­cal (and other) rules, and hy­phen­ation pat­terns
+\usepackage{csquotes} % language specific quotations
+
+%--------------------------------------------------------------------
+%	BIBLIOGRAPHY & CITATIONS
+%--------------------------------------------------------------------
+\usepackage{csquotes} % language specific quotations
+\usepackage{etex}		% some more Tex functionality
+\usepackage[nottoc]{tocbibind} %add bibliography to TOC
+\usepackage[authoryear, round, comma]{natbib} %biblatex
+
+%--------------------------------------------------------------------
+%	PATHS
+%--------------------------------------------------------------------
+\makeatletter
+\def\input@path{{../../analysis/output/tables/}}	%PATH TO TABLES
+%or: \def\input@path{{/path/to/folder/}{/path/to/other/folder/}}
+\makeatother
+\graphicspath{{../../analysis/output/graphs/}}		% PATH TO GRAPHS
+
+%--------------------------------------------------------------------
+%	LAYOUT
+%--------------------------------------------------------------------
+\usepackage[left=3cm,right=3cm,top=2cm,bottom=3cm]{geometry}
+\usepackage{pdflscape} % lscape.sty Produce landscape pages in a (mainly) portrait document.
+
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\newcommand\natalia[1]{\textcolor{orange}{#1}}
+
+\usepackage{lettrine} % makes first letter large
+
+% no one-liners on new page
+\clubpenalty=1000000
+\widowpenalty=1000000
+\displaywidowpenalty=1000000
+
+
+% CAPTIAL LETTERS FOR SECTION CAPTIONS
+%\usepackage{sectsty}
+%\sectionfont{\normalfont\scshape\centering\textbf}
+%\renewcommand{\thesection}{\Roman{section}.}
+%\renewcommand{\thesubsection}{\Alph{subsection}.}%\thesection\Alph{subsection}.
+%\subsectionfont{\itshape}
+%\subsubsectionfont{\scshape}
+%\newcommand\relphantom[1]{\mathrel{\phantom{#1}}}
+%\setlength\topmargin{0.1in} \setlength\headheight{0.1in}
+%\setlength\headsep{0in} \setlength\textheight{9.2in}
+%\setlength\textwidth{6.3in} \setlength\oddsidemargin{0.1in}
+%\setlength\evensidemargin{0.1in}
+
+\hypersetup{
+  colorlinks  = true,
+  citecolor   = darkblue,
+ 	linkcolor   = darkblue,
+  urlcolor    = darkblue 
+} % macht die URLS blau 
+ 
+\usepackage{lettrine}	% First letter capitalized
+
+% have date in month year format (i.e. omit the day in dates)
+\usepackage{datetime}
+\newdateformat{monthyeardate}{%
+\monthname[\THEMONTH], \THEYEAR}
+%--------------------------------------------------------------------
+%	AUTHOR & TITLE
+%--------------------------------------------------------------------
+\title{Crime Externalities from Soccer Games in Germany\footnote{I am very grateful to Helmut Rainer for valuable comments and discussions. Furthermore, I thank conference participants at the ifo Institute. The author gratefully acknowledges financial support from the Leibniz association. Dominik Ammon provided excellent research assistance. All errors and omissions are my own.
+}}
+\author{
+	Marc Fabel 
+		\thanks{Munich Graduate School of Economics (MGSE) and ifo Institute for Economic Research, ifo Center for Labor and Demographic Economics (email: \href{mailto:fabel@ifo.de}{fabel@ifo.de}).
+		}
+}
+
+% Month year
+%\date{\monthyeardate\today}
+
+\date{Last modified: \today}
+
+
+
+
+
+
+
+%--------------------------------------------------------------------
+%	BEGIN DOCUMENT
+%--------------------------------------------------------------------
+\begin{document}
+
+
+
+
+
+
+
+
+\setcounter{page}{1}
+% \tableofcontents
+\newpage
+
+\maketitle
+\vspace{-4 em}
+%\thispagestyle{empty}
+
+
+\renewcommand{\abstractname}{\vspace{-\baselineskip}} % GET RID OF ABSTRACT TITLE
+\begin{abstract}\noindent 
+	\footnotesize{\begin{center}\textbf{Abstract}\end{center} This paper investigates the impact of football games on the rate of physical assaults. I exploit time series and cross-sectional variation in crime registers, which contain detailed information on all victims from 2011-2015. I find that a home game leads to an increase of the assault rate by 21.5\%. The effects are largely driven by male victims, who do not know the perpetrator. The effect size is decreasing with age.	\\\newline \textbf{Keywords:} soccer games, violent crime, assaults. \newline \textbf{JEL codes:} J19, K42, Z13, Z29.}
+
+\end{abstract}
+
+
+
+
+
+
+%--------------------------------------------------------------------
+% INTRODUCTION
+%--------------------------------------------------------------------
+
+\vspace{2 em}
+%\section{Introduction}\label{sec_soc_ext:introduction}
+
+
+\input{parts/soc_ext_body}
+
+
+
+
+
+%--------------------------------------------------------------------
+% BIBLIOGRAPHY
+%--------------------------------------------------------------------
+\newpage
+
+
+\bibliographystyle{ecca_edited}%previous style-chicago
+\bibliography{soc_ext_bibliography}
+
+%\printbibliography
+
+
+%--------------------------------------------------------------------
+% FIGURES 
+%--------------------------------------------------------------------
+%\newpage
+%\section{Figures and tables}
+\newpage
+\TODO\section{Figures}
+\vspace*{\fill}
+{\Huge \begin{center}\textbf{FIGURES}\end{center}}
+\vspace*{\fill}\clearpage
+%--------------------------------------------
+
+\input{parts/soc_ext_figures}
+
+
+
+
+%--------------------------------------------------------------------
+% TABLES
+%--------------------------------------------------------------------
+\newpage
+\TODO\section{Tables}
+\vspace*{\fill}
+{\Huge \begin{center}\textbf{TABLES}\end{center}}
+\vspace*{\fill}\clearpage
+
+\input{parts/soc_ext_tables}
+
+
+
+
+%--------------------------------------------------------------------
+% APPENDIX FIGURES
+%--------------------------------------------------------------------
+\newpage
+\TODO\section{Appendix}
+\vspace*{\fill}
+{\Huge \begin{center}\textbf{APPENDIX}\end{center}}
+\vspace*{\fill}\clearpage
+
+\input{parts/soc_ext_appendix_figures}
+
+
+%--------------------------------------------------------------------
+% APPENDIX TABLES
+%--------------------------------------------------------------------
+\newpage
+\input{parts/soc_ext_appendix_tables}
+
+
+%--------------------------------------------------------------------
+% IDEA COLLECTION FOR ANALYSIS
+%--------------------------------------------------------------------
+
+\newpage
+\section*{Idea collection}
+\underline{Further Possible interactions:} 
+\begin{itemize}
+	\item $(\gamma_d \times \delta_m)$: month-specific DOW fixed effects
+	\item $r \times time$: e.g. $r \times w$, $r \times y \times m$, $r \times y \times w$
+\end{itemize}
+
+\underline{Other approaches to compute standard errors:}
+\begin{itemize}
+	\item clustered at club level $c$ (allow for correlation over time within region and across regions corresponding to the same club)
+
+	\item adjust for serial correlation: 
+	\begin{itemize}
+		\item BDM (2004) clustered at club level
+		\item CGM (2008) wild cluster bootstrap t-procedures
+	\end{itemize}
+\end{itemize}
+
+\underline{drop observations:}
+\begin{itemize}
+	\item focus on only season (i.e. exclude winter break)
+	\item how many games are played on holidays? drop these? 
+	\item drop when information of crime is not available on the hour
+\end{itemize}
+
+
+
+
+
+
+\newpage
+{\color{red}\textbf{TO DO (decreasing priority)}}
+\begin{itemize}
+	\item ML application
+	\item break it down to hour windows: before, during, and after the game - do I see a incapacitation effect as Dahl and Della Vigna (2009)
+	\item different specification of what are the affected regions, vary radius around stadium which region is affected: at first use only region (gemeinde/Kreis) in which the stadium is located, then play around with radius.
+	\item placebo outcomes (any type that is not affected)?
+	\item control for mass gatherings (see BHR paper)
+\end{itemize}
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%--------------------------------------------
+%% SPATIAL DISPLACEMENT - neighboring regions
+%\vspace*{\fill}
+%\begin{table}[H] \centering 
+%	\begin{threeparttable} \centering \caption{Spatial displacement effect: Impact on \textbf{Assault rate}}\label{tab_soc_ext:reg_fe_assrate_neighbor_regions}
+%		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+%			\begin{tabular}{l*{6}{c}}
+%				\toprule 
+%				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+%				\midrule
+%				\input{reg_fe/assrate_neighbor_regions_fixed_effects} 
+%				\bottomrule 
+%		\end{tabular}}
+%		\begin{tablenotes} 
+%			\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that share a common boundary with a distract that contains a stadium of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+%		\end{tablenotes} 
+%	\end{threeparttable} 
+%\end{table}
+%\vspace*{\fill}\clearpage 
+%
+%%--------------------------------------------
+%% TEMPORAL DISPLACEMENT: include leads and lags
+%\vspace*{\fill}
+%\begin{table}[H] \centering 
+%	\begin{threeparttable} \centering \caption{Temporal displacement effect: Effects on \textbf{Assault rate with leads/lags}}\label{tab_soc_ext:reg_fe_assrate_leads_lags}
+%		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+%			\begin{tabular}{l*{6}{c}}
+%				\toprule 
+%				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+%				\midrule
+%				\input{reg_fe/assrate_fixed_effects_leads_lags} 
+%				\bottomrule 
+%		\end{tabular}}
+%		\begin{tablenotes} 
+%			\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+%		\end{tablenotes} 
+%	\end{threeparttable} 
+%\end{table}
+%\vspace*{\fill}\clearpage 
+
+
+%--------------------------------------------
+
+%% MAP: Stadium and Weather monitors
+%\vspace*{\fill}
+%\begin{figure}[H]\centering
+%	\caption{The stadiums and their closest weather monitors}\label{fig_soc_ext:map_gem_stadiums_nearest_monitor}
+%	\includegraphics[width=0.9 \linewidth]{maps/soc_ext_2010_2015_Gemeinde_stadiums_nearest_monitor_75.png}
+%	\begin{minipage}{0.95\linewidth}
+%		\scriptsize{\emph{Notes:} This map shows the stadiums used in the analysis over the seasons 2010/11 until 2014/15 (red dots) and the closest weather monitors (blue dots). The orange lines indicate how the weather monitors are assigned to the stadiums. The black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
+%	\end{minipage}
+%\end{figure}
+%\vspace*{\fill}\clearpage
+%--------------------------------------------
+
+%% map SPATIAL DISPLACEMENT - neighboring regions
+%\vspace*{\fill}
+%\begin{figure}[H]\centering
+%	\caption{Spatial displacement - neighboring regions}\label{fig_soc_ext:map_neighboring_regions}
+%	\includegraphics[width=0.9\linewidth]{maps/soc_ext_2010_2015_map_stadiums_neighbor_regions_zoom_100.png}
+%	\begin{minipage}{0.95\linewidth}
+%		\scriptsize{\emph{Notes:} This map shows the regions that are used in the analysis for spatial displacement effects over the seasons 2010/11 until 2014/15. The neighboring municipalities are chosen to be in the sample for estimating spatial displacement effects if they have a common border with a region that contains a stadium. The red dots are the stadiums, the black outlines indicate federal state boundaries.\newline \emph{Source:} Own representation with data from the Federal Institute for Research on Building, Urban Affairs and Spatial Development (BBSR).}
+%	\end{minipage}
+%\end{figure}
+%\vspace*{\fill}\clearpage
+%--------------------------------------------
+
+%--------------------------------------------
+
+
+%% Attendance across leagues (violin plots)
+%\vspace*{\fill}
+%\begin{figure}[H]\centering
+%	\caption{Attendance across the leagues}\label{fig_soc_ext:violin_attendance_per_league}
+%	\includegraphics[width=0.9 \linewidth]{descriptive/soc_ext_attendance_per_league.pdf}
+%	\begin{minipage}{0.95\linewidth}
+%		\scriptsize{\emph{Notes:} The figure shows the distributions of the number of spectators (in thousand) per league. The white dot represents the median and the thick bar in the center depicts the interquartile range. The median number of viewers are 42,000 for league one, 15,000 for league two, and 5,000 for league three. \newline \emph{Source:} Own representation with data obtained from kicker.de.}
+%	\end{minipage}
+%\end{figure}
+%\vspace*{\fill}\clearpage

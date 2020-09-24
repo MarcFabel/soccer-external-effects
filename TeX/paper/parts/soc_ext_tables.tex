@@ -1,0 +1,178 @@
+
+%--------------------------------------------
+% main regression table: include fixed effects
+\vspace*{\fill}
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Effects on \textbf{Assault rate}}\label{tab_soc_ext:reg_fe_assrate}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{6}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+				\midrule
+				\input{reg_fe/assrate_fixed_effects} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+\vspace*{\fill}\clearpage 
+
+%--------------------------------------------
+% subcategories: VICTIM characteristics
+\newgeometry{left=1cm,right=1cm,top=3cm,bottom=3cm} 
+\begin{landscape}
+	\vspace*{\fill}
+	\begin{table}[H] \centering 
+		\begin{threeparttable} \centering \caption{Effects on Assault rate, by victim characteristics}
+			\label{tab_soc_ext:reg_fe_assrate_victim_chars}
+			{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+				\begin{tabular}{l*{7}{c}}
+					\toprule 
+					&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}\\
+					& & \multicolumn{2}{c}{\textbf{Gender}} & \multicolumn{3}{c}{\textbf{Victim-suspect-relationship}} & \textbf{Occupation} \\
+					\cmidrule(lr){3-4} \cmidrule(lr){5-7} \cmidrule(lr){8-8}
+					& baseline & women & men & strangers$^a$ & \clb{c}{prior$^a$\\relationship} & domestic$^b$ & police \\
+					\midrule
+					\input{reg_fe/assrate_fixed_effects_subcat_victim_chars} 
+					\bottomrule 
+			\end{tabular}}
+			\begin{tablenotes} 
+				\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.\newline \hspace*{15pt} $^a$: covers formal relationships (e.g. types of kin or acquaintances). \newline \hspace*{15pt} $^b$: covers spatial-social relationships. In this instance, whether victim and suspect live in the same household.
+			\end{tablenotes} 
+		\end{threeparttable} 
+	\end{table}
+	\vspace*{\fill}\clearpage 
+\end{landscape}
+
+%--------------------------------------------
+% subcategories: CRIME characteristics
+\begin{landscape}
+	\vspace*{\fill}
+	\begin{table}[H] \centering 
+		\begin{threeparttable} \centering \caption{Effects on Assault rate, by crime characteristics}
+			\label{tab_soc_ext:reg_fe_assrate_crime_chars}
+			{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+				\begin{tabular}{l*{7}{c}}
+					\toprule 
+					&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)} &\multicolumn{1}{c}{(7)}\\
+					& & \multicolumn{4}{c}{\textbf{Timing}$^a$} & \multicolumn{2}{c}{\textbf{assault execution}} \\
+					\cmidrule(lr){3-6} \cmidrule(lr){7-8}
+					& baseline & spring & summer & fall & winter & attempt & success \\
+					\midrule
+					\input{reg_fe/assrate_fixed_effects_subcat_crime_chars} 
+					\bottomrule 
+			\end{tabular}}
+			\begin{tablenotes} 
+				\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.\newline \hspace*{10pt}$^a$: spring (March - May), summer (July and August), fall (September - November), winter (December - February).
+			\end{tablenotes} 
+		\end{threeparttable} 
+	\end{table}
+	\vspace*{\fill}\clearpage 
+\end{landscape}
+\restoregeometry 
+
+
+%--------------------------------------------
+% SPATIAL & TEMPORAL DISPLACEMENT 
+\vspace*{\fill}
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Displacement effects}\label{tab_soc_ext:reg_fe_assrate_displacement}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{6}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+				\midrule
+				\input{reg_fe/assrate_fixed_effects_displacement} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. Panel A contains specifications that use daily data (excluding June) spanning the time window 2011-2015 for regions that share a common boundary with a distract that contains a stadium of a soccer team from the first three leagues of the German football league system. Panel B shows specifications that use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first three leagues of the German football league system.	The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+\vspace*{\fill}\clearpage 
+%--------------------------------------------
+% HOME & AWAY games
+
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Effect of soccer games on the assault rate, distinction of home and away game}\label{tab_soc_ext:reg_fe_assrate_home_away}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{2}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+				&\clb{c}{baseline\\w/o L3} & \clb{c}{distinction\\home/away$^1$}\\
+				\midrule
+				\input{reg_fe/assrate_fixed_effects_home_away} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first two leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.\newline
+			\hspace*{15 pt}$^1$: Effect size corresponds to the coefficient of Home game day.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+%--------------------------------------------
+% channels: EMOTIONAL CUES
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Effect of emotional cues}\label{tab_soc_ext:reg_fe_assrate_emotional_cues}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{3}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+				&&\multicolumn{2}{c}{Card \& Dahl (2011) specification}\\
+				\cmidrule(lr){3-4}
+				&\clb{c}{Upset\\event index} & \clb{c}{predicted\\outcomes}& \clb{c}{predicted\\and actual\\outcomes}\\
+				\midrule
+				\input{reg_fe/assrate_fixed_effects_emotional_cues} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The gameday indicator is replaced by an index that captures unsettling events. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01. \newline 	The upset event index in column 1 is defined as a dummy variable equal to one if one of the following events take place: a penalty is awarded (20\% of all games), a red card is being issued (10\% of all games), or the referee receives a non-sufficient grade (15\% of all games). In columns 2 and 3 I use data from oddsportal.com to classify games as expected to win/lose/be close.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+%--------------------------------------------
+% channels: TEAM/GAME prominence
+\vspace*{\fill}
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Effect of game/team prominence}\label{tab_soc_ext:reg_fe_assrate_prominent_games}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{5}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
+				&\multicolumn{2}{c}{Rivals/derbies} & \multicolumn{3}{c}{League}\\
+				\cmidrule(lr){2-3}\cmidrule(lr){4-6}
+				& rival & non-rival & league 1 & league 2 & league 3\\
+				\midrule
+				\input{reg_fe/assrate_fixed_effects_prominent_games} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The gameday indicator is replaced by interactions with dummy variables for rival matches and league affiliation. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+\vspace*{\fill}\clearpage 
+%--------------------------------------------
+% Robustness: ECONOMETRICS & other VIOLENCE
+\vspace*{\fill}
+\begin{table}[H] \centering 
+	\begin{threeparttable} \centering \caption{Robustness tests: Impact on \textbf{Assault rate}}\label{tab_soc_ext:reg_fe_assrate_robustness}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{4}{c}}
+				\toprule 
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+				& coefficient & \clb{c}{standard\\error} & \clb{c}{Effect\\ size [\%]} & $N$ \\
+				\midrule
+				\input{reg_fe/assrate_fixed_effects_robustness} 
+				\bottomrule 
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first two leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Except where otherwise noted, the specifications use population-weights. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. All specifications use region and date fe, their interactions, weather controls, and holiday FE. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.\newline \hspace*{15pt} $^1$: number of assaults is dependent variable.
+		\end{tablenotes} 
+	\end{threeparttable} 
+\end{table}
+\vspace*{\fill}\clearpage 
+%--------------------------------------------
