@@ -2,16 +2,16 @@
 
 
 \begin{table}[ht] \centering 
-	\begin{threeparttable} \centering \caption{Effects on Assault rate, by victim and crime characteristics}
-		\label{tab_soc_ext:reg_fe_assrate_victim_chars}
+	\begin{threeparttable} \centering \caption{Effect heterogeneity by victim and crime characteristics}
+		\label{tab_soc_ext:reg_fe_assrate_victim_crime_chars}
 		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
 			\begin{tabular}{l*{6}{c}}
 				\toprule 
 				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
 				\midrule
 
-				\\\\
-				\multicolumn{6}{l}{\textit{\underline{Panel A: Victm characteristics}}} \\
+				\\
+				\multicolumn{6}{l}{\textit{\textbf{Panel A: Victim characteristics}}} \\\\
 					& \multicolumn{2}{c}{Gender} & \multicolumn{3}{c}{Victim-suspect-relationship} & Occupation \\
 					\cmidrule(lr){2-3} \cmidrule(lr){4-6} \cmidrule(lr){7-7}
 				&  women & men & strangers$^a$ & \clb{c}{prior$^a$\\relationship} & domestic$^b$ & police \\
@@ -22,7 +22,7 @@
 				Observations        	 &    88,028         &      88,028         &      88,028         &      88,028         &      88,028         &      88,028         \\
 				
 				\\\\\\
-				\multicolumn{6}{l}{\textit{\underline{Panel B: Crime characteristics}}} \\
+				\multicolumn{6}{l}{\textit{\textbf{Panel B: Crime characteristics}}} \\\\
 				& \multicolumn{4}{c}{Timing$^c$} & \multicolumn{2}{c}{assault execution} \\
 				\cmidrule(lr){2-5} \cmidrule(lr){6-7}
 				& spring & summer & fall & winter & attempt & success \\
@@ -32,16 +32,22 @@
 				Effect size [\%]&     21.00         &       13.40         &       20.71         &       22.51         &       56.21         &       19.58         \\
 				Observations        	 &    27,140         &      14,632         &      21,476         &      24,780         &      88,028         &      88,028         \\
 				
-				\\\\
-				Region FE           &              \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         \\
-				Date Fe             &              \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         \\
-				Weather Controls    &              \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         \\
-				Holiday FE          &              \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         \\
-				Interact FE         &              \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         \\
+				
+%				Region FE           &              \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         \\
+%				Date Fe             &              \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         \\
+%				Weather Controls    &              \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         \\
+%				Holiday FE          &              \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         \\
+%				Interact FE         &              \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         &         \checkmark         \\
 				\bottomrule 
 		\end{tabular}}
 		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.\newline \hspace*{15pt} $^a$: covers formal relationships (e.g. types of kin or acquaintances). \newline \hspace*{15pt} $^b$: covers spatial-social relationships. In this instance, whether victim and suspect live in the same household.\newline \hspace*{15pt} $^c$: spring (March - May), summer (July and August), fall (September - November), winter (December - February).
+			\item \scriptsize \emph{Notes:} The estimates are based on the model shown in equation \ref{eq_soc_ext:model} and use the same outcome and controls as column 4 of Table \ref{tab_soc_ext:reg_fe_assrate} (including region and date fixed effects, their interactions as well as holiday and weather controls). See Table \ref{tab_soc_ext:reg_fe_assrate} for additional details. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.\newline \hspace*{15pt} $^a$: covers formal relationships (e.g. types of kin or acquaintances). \newline \hspace*{15pt} $^b$: covers spatial-social relationships. In this instance, whether victim and suspect live in the same household.\newline \hspace*{15pt} $^c$: spring (March - May), summer (July and August), fall (September - November), winter (December - February).
 		\end{tablenotes} 
 	\end{threeparttable} 
 \end{table}
+
+
+
+
+% original notes
+% Estimates are based on the model shown in equation \ref{eq_soc_ext:model}. The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a soccer team from the first three leagues of the German football league system. The outcome variable is defined as the number of assaults per million population. Population-weighted coefficients show the change in the outcome variable due to a home game. Days are defined to run from 6:00 AM until 5:59 AM the following day to accommodate the fact that offenses committed in the early hours have their origin in the preceding day. The effect size corresponds to the percent change of the assault rate due to a soccer game in relation to the mean when no game takes place. Control variables shown as \textit{Date FE} include dummies for day-of-week, month, and year. \textit{Weather controls} include air temperature (average, maximum, and minimum), minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth and wind velocity. \textit{Holiday FE} is a dummy variable for public and school holidays, as well as for other peculiar days. Control variables shown as \textit{Interact FE} consist of interactions of region dummies with all elements of the date fixed effects. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.\newline \hspace*{15pt} $^a$: covers formal relationships (e.g. types of kin or acquaintances). \newline \hspace*{15pt} $^b$: covers spatial-social relationships. In this instance, whether victim and suspect live in the same household.\newline \hspace*{15pt} $^c$: spring (March - May), summer (July and August), fall (September - November), winter (December - February).
