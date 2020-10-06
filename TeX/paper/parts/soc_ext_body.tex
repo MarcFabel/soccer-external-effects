@@ -83,6 +83,76 @@ Alcohol plays a crucial role in the context of spectator violence in German foot
 
 
 	
+%--------------------------------------------------------------------
+% DATA & VARIABLES
+%--------------------------------------------------------------------
+\bigskip
+\section{Data}\label{sec_soc_ext:data} 
+% Description data
+The data set used for the analysis covers the time window 2011-2015 and contains regions in which professional soccer games take place. The analysis is carried out on the municipality level, the lowest territorial division in Germany. I combine various data sources in order to examine the impact of public mass gatherings on violent behavior.
+
+
+
+\subsection{Crime data}
+The crime data comes from the German Police Crime Statistics, which is provided by the Federal Criminal Police Office.\footnote{Many aspects of the data preparation is inspired from \cite{hener2019noise} who is using the same data in order to examine the causal effect of noise pollution on criminal behavior.} It covers the universe of individuals that fall victim to a crime against their legally protected personal rights between 2011 and 2015. Yet, as the data is only reported after the end of police procedures, the data is truncated to the period from January 2011 to May 2015 to avoid any problems with lags between the occurrence of the crime and when it is reported. Besides, the months of June are excluded from the analysis as no games are played during that time of the year. The data includes next to the time (up to the hour) and place (municipality level) of the crime, the crime type code, the victim's age and gender, characteristics of the assault execution (attempt/successful, usage of firearm, lone operator/crime was committed by a group) and information on the relationship between victim and suspect.\footnote{The relationship between victim and suspect is retrieved in two ways. On the one hand, this covers formal relationships (such as types of kin or acquaintances). On the other hand, this examines relationships in a spatial-social manner (for instance living in the same household, or being in an education or care context).} Roughly 40\% of the victims are female, their average age is 32 years, and 40\% of the victims haven't had any prior relationship with the suspect.
+
+	% crime - assault distribution over time
+	\input{parts/soc_ext_fig__assault_time_distribution_2014}
+
+The micro-data is aggregated to the municipality-day level and the main outcome, the assault rate, is defined as the number of assaults per million population. Assaults are defined as actions involving physical violence. For that purpose, I use the crime type code of 'intentional simple bodily harm' (Vorsätzliche einfache Körperverletzung § 223 StGB). There are roughly 120 types of criminal offenses in use (recorded in 6 digit codes), though the vast majority of the cases concentrate on only a handful of codes.\footnote{The top 10 of the most prevalent crime keys comprise more than 90\% of the cases.} Figure \ref{fig_soc_ext:offense_types_distribution_2014} in the Appendix shows the distribution of cases per crime key for the twenty most common offense types in 2014. The intentional simple bodily injury is by far the most prevalent offense and it contributes to about 45\% of all cases. The prevalence of the offense type and its association with aggression motivates the decision to have assaults in this definition as the main outcome variable.
+
+Figure \ref{fig_soc_ext:assault_time_distribution_2014} shows the distribution of assaults over time. Panel A displays the variation of assaults per hour of the day.\footnote{Roughly 15\% of the observations do not contain information on the hour. This does not entail any consequences for the main analysis, as I examine daily variation in the assault rate.} The number of assaults is increasing over the course of a day and peaks around midnight. In order to assign the cases that occur during the early hours to the day, in which they are rooted in, I define a day as running from 6:00 AM until 5:59 AM. Panel B shows the distribution of assaults across days of the week. You can see higher values on Friday and Saturday, whereas the other days have assault rates belonging to the same ballpark. Panel C shows that the number of assaults have a strong seasonal pattern with the highest value recorded in May, and the smallest figure in August.\footnote{Panel C shows the number of assaults across months of the year while adjusting for the number of days per month.} Panel D confirms this impression by plotting the daily number of assaults. New year's eve is a particular impressive outlier in this context. \footnote{Panels C and D are showing data for the year 2014 only. Appendix Figure \ref{fig_soc_ext:assault_year_distribution} shows the distribution per day for different years.}
+
+% XXX per day roughly around 320 per day, peak on new year's eve, high on holidays (carneval) 
+
+	% MAP : (I) WEATHER monitors & (II) NEIGHBOUR regions
+	\input{parts/soc_ext_fig__map_gem_stadiums_monitor_and_neighboring_regions}
+
+\subsection{Soccer data}
+
+
+
+The data on soccer matches is self-collected and is obtained via web-scraping from kicker.de and transfermarkt.de. It captures all matches that are carried out in the context of the first three leagues of the German football league system over the period January 2011 until May 2015. The data contains detailed match and table standing parameters, e.g. time and place of the match, attendance, pregame point difference, goals, penalties, cards, referee characteristics, among others. Furthermore, there is comprehensive data on the single teams; such as size of the team, average age, market value, and number of foreign players. The stadiums where the matches take place are geographically encoded and will "activate" the treatment in the region in which the stadium is located. Figure \ref{fig_soc_ext:map_gem_stadiums_monitor_and_neighboring_regions} depicts a map with all 69 stadiums in the data set. 
+
+
+
+% XXX stadiums in which not at least a full season is played are excluded from the analysis.\footnote{This affects the stadiums in Lübeck (1), Reutlingen (12), Elversberg (14), and the Air-Berlin stadium in Dusseldorf (3). The number in parenthesis indicates the number of games that were held in that venue. This excludes 0.6\% of all matches.}
+
+	% Descriptives about soccer matches
+	\input{parts/soc_ext_fig__descriptives_matches_time_attendance}
+
+Figure \ref{fig_soc_ext:descriptives_matches_time_attendance} illustrates some insights into key variables. Panel A shows the number of matches per day of the week and league. The vast majority of the matches is taking place between Friday and Sunday. This is particularly true for the highest league, whereas lower leagues play occasionally on weekdays, too. Matches happening on weekdays are exclusively held in the evenings. In contrast, matches on weekends occur usually in the afternoon. The inclusion of day-of-week fixed effects in the baseline specification helps to account for the higher share of games played on weekends, which are associated with higher levels of criminal behavior. The three different divisions can attract spectators differently, as depicted in Panel C. The `Bundesliga' draws the highest attention with an average audience of 44,000 people per game, followed by the second league with an average 17,000 fans per match, and the lowest league can attract on average a bit less than 6,000 fans per game to show up in the stadium.
+
+
+
+When investigating channels of how soccer games can affect assaults, I exploit betting odds that were obtained via webscraping from oddsportal.com. The betting odds give an idea about pregame expectations. I translate the odds of the three game outcomes to probabilities, which are the inverse of the betting odds. The probabilities serve as good predictors for game outcomes, as it is shown by Appendix Figure \ref{fig_soc_ext:pregame_probability_spread_outcomes}. In panel A, I show the close relationship between the realized score differential and the probability spread. Panel B and C show that the probability of victory is increasing with higher values of the probability spread. 
+
+
+\subsection{Weather data}
+The weather data comes from Germany's National Meteorological Service (Deutscher Wetterdienst). In order to construct the weather control variables, I use the sample of weather monitors, which measure relevant weather variables all at the same time.\footnote{I use the following weather variables as daily averages: the daily average, minimum and maximum air temperature, minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth, and wind velocity.} From this set of monitors I choose the weather monitor with the closest proximity to a stadium. The assigned monitor-stadium pairs can be found in Figure \ref{fig_soc_ext:map_gem_stadiums_monitor_and_neighboring_regions}. The quality of the matches between weather monitors and stadiums is high, as the average distance between stadiums and monitors is 15 kilometers.\footnote{The distribution of the distance of monitor-stadium pairs can be found in Appendix Figure \ref{fig_soc_ext:hist_distance_stadium_monitors}.} Few of the weather variables have missing data, which are filled in the following way: propagate the last valid observation forward to the next valid observation (i.e. forward fill).\footnote{The weather variables with missing data are (with the share of missing data in parenthesis): Cloud cover (<1.2\%) and snow depth (<0.6\%).}
+
+
+
+\subsection{Holidays}
+In order to capture any variation of the crime rate between ordinary and special days, I add controls for public and school holidays, which may differ on the state level.\footnote{The data for the school holiday comes from The Standing Conference of the Ministers of Education and Cultural Affairs of the Länder in the Federal Republic of Germany (Kultusminister Konferenz).} Furthermore, I also add a dummy variable for peculiar days (New Year's Eve and the days surrounding Carnival), which are not holidays, but certainly shift the crime rate anyways.
+
+
+
+\subsection{Regional Database}
+The Federal Statistical Office and the statistical offices of the Länder provide a data base of detailed statistics by various subject areas on a very granular spatial level. Thus, I am able to build a panel on the municipality-year level containing comprehensive information on topics such as territory, population, labor market, election results, housing, economic sectors, and public budgets. The information is used to construct weights for the regression analysis or to build assault rates. {\color{red}Furthermore, the plan for the future is to leverage the high dimensionality of the data in order to investigate treatment effect heterogeneity with the help of machine learning algorithms (e.g. by making use of causal forests).} 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 %--------------------------------------------------------------------
 % IDENTIFICATION
@@ -109,72 +179,6 @@ The implicit assumption to interpret the parameter of interest $\beta$ as the ca
 
 % control group problem - away games
 Given the setup of the empirical approach, there could be another threat to the validity of the identification strategy. By focusing on home games in the main analysis, the counterfactuals could potentially be biased downwards as days with away games are part of the control group. This control group problem might stem from the fact that violent fan groups travel with their team on away games and the assault rate in the home region might consequently decline. In order to alleviate this concern, I redo the analysis and differentiate between home and away games. When allowing for distinct effects for home and away games, I find that away games do not significantly affect the assault rate in the home region. 
-
-
-
-
-
-
-
-
-%--------------------------------------------------------------------
-% DATA & VARIABLES
-%--------------------------------------------------------------------
-\bigskip
-\section{Data}\label{sec_soc_ext:data} 
-% Description data
-The data set used for the analysis covers the time window 2011-2015 and contains regions in which professional soccer games take place. The analysis is carried out on the municipality level, the lowest territorial division in Germany. I combine various data sources in order to examine the impact of public mass gatherings on violent behavior.
-
-
-
-\subsection{Crime data}
-The crime data comes from the German Police Crime Statistics, which is provided by the Federal Criminal Police Office.\footnote{Many aspects of the data preparation is inspired from \cite{hener2019noise} who is using the same data in order to examine the causal effect of noise pollution on criminal behavior.} It covers the universe of individuals that fall victim to a crime against their legally protected personal rights between 2011 and 2015. Yet, as the data is only reported after the end of police procedures, the data is truncated to the period from January 2011 to May 2015 to avoid any problems with lags between the occurrence of the crime and when it is reported. Besides, the months of June are excluded from the analysis as no games are played during that time of the year. The data includes next to the time (up to the hour) and place (municipality level) of the crime, the crime type code, the victim's age and gender, characteristics of the assault execution (attempt/successful, usage of firearm, lone operator/crime was committed by a group) and information on the relationship between victim and suspect.\footnote{The relationship between victim and suspect is retrieved in two ways. On the one hand, this covers formal relationships (such as types of kin or acquaintances). On the other hand, this examines relationships in a spatial-social manner (for instance living in the same household, or being in an education or care context).} Roughly 40\% of the victims are female, their average age is 32 years, and 40\% of the victims haven't had any prior relationship with the suspect.
-
-	% crime - assault distribution over time
-	\input{parts/soc_ext_fig__assault_time_distribution_2014}
-
-The micro-data is aggregated to the municipality-day level and the main outcome, the assault rate, is defined as the number of assaults per million population. Assaults are defined as actions involving physical violence. For that purpose, I use the crime type code of 'intentional simple bodily harm' (Vorsätzliche einfache Körperverletzung § 223 StGB). There are roughly 120 types of criminal offenses in use (recorded in 6 digit codes), though the vast majority of the cases concentrate on only a handful of codes.\footnote{The top 10 of the most prevalent crime keys comprise more than 90\% of the cases.} Figure \ref{fig_soc_ext:offense_types_distribution_2014} in the Appendix shows the distribution of cases per crime key for the twenty most common offense types in 2014. The intentional simple bodily injury is by far the most prevalent offense and it contributes to about 45\% of all cases. The prevalence of the offense type and its association with aggression motivates the decision to have assaults in this definition as the main outcome variable.
-
-Figure \ref{fig_soc_ext:assault_time_distribution_2014} shows the distribution of assaults over time. Panel A displays the variation of assaults per hour of the day.\footnote{Roughly 15\% of the observations do not contain information on the hour. This does not entail any consequences for the main analysis, as I examine daily variation in the assault rate.} The number of assaults is increasing over the course of a day and peaks around midnight. In order to assign the cases that occur during the early hours to the day, in which they are rooted in, I define a day as running from 6:00 AM until 5:59 AM. Panel B shows the distribution of assaults across days of the week. You can see higher values on Friday and Saturday, whereas the other days have assault rates belonging to the same ballpark. Panel C shows that the number of assaults have a strong seasonal pattern with the highest value recorded in May, and the smallest figure in August.\footnote{Panel C shows the number of assaults across months of the year while adjusting for the number of days per month.} Panel D confirms this impression by plotting the daily number of assaults. New year's eve is a particular impressive outlier in this context. \footnote{Panels C and D are showing data for the year 2014 only. Appendix Figure \ref{fig_soc_ext:assault_year_distribution} shows the distribution per day for different years.}
-
-% XXX per day roughly around 320 per day, peak on new year's eve, high on holidays (carneval) 
-
-
-
-\subsection{Soccer data}
-
-	% MAP : (I) WEATHER monitors & (II) NEIGHBOUR regions
-	\input{parts/soc_ext_fig__map_gem_stadiums_monitor_and_neighboring_regions}
-
-The data on soccer matches is self-collected and is obtained via web-scraping from kicker.de and transfermarkt.de. It captures all matches that are carried out in the context of the first three leagues of the German football league system over the period January 2011 until May 2015. The data contains detailed match and table standing parameters, e.g. time and place of the match, attendance, pregame point difference, goals, penalties, cards, referee characteristics, among others. Furthermore, there is comprehensive data on the single teams; such as size of the team, average age, market value, and number of foreign players. The stadiums where the matches take place are geographically encoded and will "activate" the treatment in the region in which the stadium is located. Figure \ref{fig_soc_ext:map_gem_stadiums} depicts a map with all 69 stadiums in the data set. 
-
-% XXX stadiums in which not at least a full season is played are excluded from the analysis.\footnote{This affects the stadiums in Lübeck (1), Reutlingen (12), Elversberg (14), and the Air-Berlin stadium in Dusseldorf (3). The number in parenthesis indicates the number of games that were held in that venue. This excludes 0.6\% of all matches.}
-
-	% Descriptives about soccer matches
-	\input{parts/soc_ext_fig__descriptives_matches_time_attendance}
-	
-Figure \ref{fig_soc_ext:descriptives_matches_time_attendance} illustrates some insights into key variables. Panel A shows the number of matches per day of the week and league. The vast majority of the matches is taking place between Friday and Sunday. This is particularly true for the highest league, whereas lower leagues play occasionally on weekdays, too. Matches happening on weekdays are exclusively held in the evenings. In contrast, matches on weekends occur usually in the afternoon. The inclusion of day-of-week fixed effects in the baseline specification helps to account for the higher share of games played on weekends, which are associated with higher levels of criminal behavior. The three different divisions can attract spectators differently, as depicted in Panel C. The `Bundesliga' draws the highest attention with an average audience of 44,000 people per game, followed by the second league with an average 17,000 fans per match, and the lowest league can attract on average a bit less than 6,000 fans per game to show up in the stadium.
-
-When investigating channels of how soccer games can affect assaults, I exploit betting odds that were obtained via webscraping from oddsportal.com. The betting odds give an idea about pregame expectations. I translate the odds of the three game outcomes to probabilities, which are the inverse of the betting odds. The probabilities serve as good predictors for game outcomes, as it is shown by Appendix Figure \ref{fig_soc_ext:pregame_probability_spread_outcomes}. In panel A, I show the close relationship between the realized score differential and the probability spread. Panel B and C show that the probability of victory is increasing with higher values of the probability spread. 
-
-
-\subsection{Weather data}
-The weather data comes from Germany's National Meteorological Service (Deutscher Wetterdienst). In order to construct the weather control variables, I use the sample of weather monitors, which measure relevant weather variables all at the same time.\footnote{I use the following weather variables as daily averages: the daily average, minimum and maximum air temperature, minimum ground temperature, vapor pressure, air pressure, cloud cover, air humidity, precipitation, sun shine duration, snow depth, and wind velocity.} From this set of monitors I choose the weather monitor with the closest proximity to a stadium. The assigned monitor-stadium pairs can be found in Figure \ref{fig_soc_ext:map_gem_stadiums_monitor_and_neighboring_regions}. The quality of the matches between weather monitors and stadiums is high, as the average distance between stadiums and monitors is 15 kilometers.\footnote{The distribution of the distance of monitor-stadium pairs can be found in Appendix Figure \ref{fig_soc_ext:hist_distance_stadium_monitors}.} Few of the weather variables have missing data, which are filled in the following way: propagate the last valid observation forward to the next valid observation (i.e. forward fill).\footnote{The weather variables with missing data are (with the share of missing data in parenthesis): Cloud cover (<1.2\%) and snow depth (<0.6\%).}
-
-
-
-\subsection{Holidays}
-In order to capture any variation of the crime rate between ordinary and special days, I add controls for public and school holidays, which may differ on the state level.\footnote{The data for the school holiday comes from The Standing Conference of the Ministers of Education and Cultural Affairs of the Länder in the Federal Republic of Germany (Kultusminister Konferenz).} Furthermore, I also add a dummy variable for peculiar days (New Year's Eve and the days surrounding Carnival), which are not holidays, but certainly shift the crime rate anyways.
-
-
-
-\subsection{Regional Database}
-The Federal Statistical Office and the statistical offices of the Länder provide a data base of detailed statistics by various subject areas on a very granular spatial level. Thus, I am able to build a panel on the municipality-year level containing comprehensive information on topics such as territory, population, labor market, election results, housing, economic sectors, and public budgets. The information is used to construct weights for the regression analysis or to build assault rates. {\color{red}Furthermore, the plan for the future is to leverage the high dimensionality of the data in order to investigate treatment effect heterogeneity with the help of machine learning algorithms (e.g. by making use of causal forests).} 
-
-
-
-
-
 
 
 
@@ -213,13 +217,13 @@ Table \ref{tab_soc_ext:reg_fe_assrate} reports estimates corresponding to equati
 	\input{parts/soc_ext_tab__reg_fe_asrate_victim_crime_chars}
 
 % victim characteristics
-After establishing that soccer games lead to more assaults, I shed light on who are the victims of these additional offenses. Table \ref{tab_soc_ext:reg_fe_assrate_victim_chars} shows the effect of soccer games on the assault rate by victim characteristics. First, Columns 2 and 3 show the effect heterogeneity by gender. Although the estimates for women and men are statistically different from zero, the large majority of the additional victims are male. Male victimization rates increase on average by 2.432 offenses per million population. The increased assault rate for males consumes more than 90 percent of the effect found on the entire sample. Figure \ref{fig_soc_ext:fe_age_profile} shows the age profile of the effects for each gender separately. For women, the point estimates are small in magnitude and not significantly different from zero. The one exception is women aged 40-49 years. In contrast, the effects of adult men are throughout significant. The largest effect for males is found in the age bracket 18-29 years and is decreasing thereafter. Second, I explore effect heterogeneity by the relationship between victim and suspect. The columns 4 and 5 distinguish the relations from a formal perspective, such as kin or acquaintances. Although both estimates are positive and statistically significant, the majority of additional assaults is coming from victims who haven't had any prior connection to the suspect. The victimization rate of strangers to the suspect rises by on average 1.939 assaults per million population. This implies that almost three out of four extra cases originate from this type of victim-suspect pair. Column 6 considers spatial-social relationships, in this instance whether victim and suspect live in the same household. The assault rate in the domestic context is increasing due to a soccer game by on average 0.096 assaults per million population. This implies that only few (13 percent) victims that have known the suspect also live in the same household. Third, the effect of the victim's occupation is investigated. Column 7 shows the impact of soccer games on violent behavior experienced by police officers on duty. The victimization rate of police officers increases on average by 0.434 assaults per million population. Thus, almost 16 percent of the additional assaults due to soccer games can be attributed to attacks on police officers. Taken together, the additional victims due to soccer games are young males with no prior relationship to the suspect. This description of the victims has demographic similarities with the population who usually gathers in and around soccer stadiums \citep{pwc2016}.
+After establishing that soccer games lead to more assaults, I shed light on who are the victims of these additional offenses. Panel A of Table \ref{tab_soc_ext:reg_fe_assrate_victim_crime_chars} shows the effect of soccer games on the assault rate by victim characteristics. First, Columns 1 and 2 show the effect heterogeneity by gender. Although the estimates for women and men are statistically different from zero, the large majority of the additional victims are male. Male victimization rates increase on average by 2.432 offenses per million population. The increased assault rate for males consumes more than 90 percent of the effect found on the entire sample. Figure \ref{fig_soc_ext:fe_age_profile} shows the age profile of the effects for each gender separately. For women, the point estimates are small in magnitude and not significantly different from zero. The one exception is women aged 40-49 years. In contrast, the effects of adult men are throughout significant. The largest effect for males is found in the age bracket 18-29 years and is decreasing thereafter. Second, I explore effect heterogeneity by the relationship between victim and suspect. The columns 3 and 4 distinguish the relations from a formal perspective, such as kin or acquaintances. Although both estimates are positive and statistically significant, the majority of additional assaults is coming from victims who haven't had any prior connection to the suspect. The victimization rate of strangers to the suspect rises by on average 1.939 assaults per million population. This implies that almost three out of four extra cases originate from this type of victim-suspect pair. Column 5 considers spatial-social relationships, in this instance whether victim and suspect live in the same household. The assault rate in the domestic context is increasing due to a soccer game by on average 0.096 assaults per million population. This implies that only few (13 percent) victims that have known the suspect also live in the same household. Third, the effect of the victim's occupation is investigated. Column 6 shows the impact of soccer games on violent behavior experienced by police officers on duty. The victimization rate of police officers increases on average by 0.434 assaults per million population. Thus, almost 16 percent of the additional assaults due to soccer games can be attributed to attacks on police officers. Taken together, the additional victims due to soccer games are young males with no prior relationship to the suspect. This description of the victims has demographic similarities with the population who usually gathers in and around soccer stadiums \citep{pwc2016}.
 
 	% age profile of effect, ba gender
 	\input{parts/soc_ext_fig__fe_age_profile}
 
 % crime characteristics
-In the next step, I consider effect heterogeneity by crime characteristics. Columns 2-5 of Table \ref{tab_soc_ext:reg_fe_assrate_crime_chars} show the heterogeneity of the effect by the time of the offense. The impact of a soccer game on the assault rate is smallest in summer months with 1.482 assaults per million population, corresponding to an increase of 13.4\%. The summer months (July and August) are the time when the soccer season starts and results are not yet so important. The estimates are higher (but not significantly different from each other) during other times of the season. Columns 6 and 7 consider effect heterogeneity by assault execution. I find that the effects of soccer games on the assault rate are mostly driven by 'successfully' committed offenses with by on average 2.310 additional assaults per million population.
+In the next step, I consider effect heterogeneity by crime characteristics. Columns 1-4 in Panel B of Table \ref{tab_soc_ext:reg_fe_assrate_victim_crime_chars} show the heterogeneity of the effect by the time of the offense. The impact of a soccer game on the assault rate is smallest in summer months with 1.482 assaults per million population, corresponding to an increase of 13.4\%. The summer months (July and August) are the time when the soccer season starts and results are not yet so important. The estimates are higher (but not significantly different from each other) during other times of the season. Columns 5 and 6 consider effect heterogeneity by assault execution. I find that the effects of soccer games on the assault rate are mostly driven by 'successfully' committed offenses with by on average 2.310 additional assaults per million population.
 
 
 
@@ -241,13 +245,12 @@ In order to estimate \textit{spatial displacement effects}, I investigate the im
 % temporal displacement
 In the next step, \textit{temporal displacement effects} are being considered. To capture this possibility, I include one day leads and lags of the game day indicator. Panel B of Table \ref{tab_soc_ext:reg_fe_assrate_displacement} contains the estimates when enriching the baseline model with the temporal spillover components. The estimates of the gameday itself are not significantly different from the baseline model. The coefficients of one day before and after the game are almost always small in magnitude and not statistically significant. Only exception is the estimate of the day before the game in column 4, which implies that a soccer game leads to an average increase of 0.352 assaults per million population on the day before a game. The positive coefficient, however, does not suggest temporal displacement effects, which would require a negative estimate. This rather indicates additional assaults due to activities on the day preceding important games. 
 
-
+	% table  HOME & AWAY games 
+	\input{parts/soc_ext_tab__reg_fe_assrate_home_away}
 
 % Home and Away games
 As discussed above, the baseline model considers the effect of soccer matches, but for home games only. This restriction could entail serious problems for the validity of the design. When away matches are not accounted for, they end up in the control group. The control observations might be biased downwards when the local team is playing away and the most devoted (and eventually violent) fans travel with their team out of the municipality. This could mean that the assault rate at home is decreasing due to the absence of local agitators and days with away matches cannot be used as control units anymore. In order to address this concern, I investigate the \textit{effect of home and away matches separately}. To analyze the effect of away matches I have to build up my data set differently. In the baseline version, the soccer data is merged to the other data on the match level (with the home team's region ID as identifier). In contrast, in this case I use the soccer data on the table standings level. In other words, both the home and away team are matched to a region. One consequence of this approach is that it makes the treatment status of single regions less clear.\footnote{When only considering home games, the treatment status is not a problem. This is due to the fact that local authorities do not allow two home games on the same day.} For instance, the treatment status of regions that have more than one team is ambiguous when there is a home and an away match at the same day. In order to alleviate this concern, I drop the third league from the sample and focus only on the first two leagues.\footnote{There remain still a few ambiguities but they are solved in the following way: in 12\% of the matches there is still a doubling of two teams of one region play on the same day, either home and away game, or two away games. The status of the region on that day in the latter case is set to away. In the former case, I put it to home game.} This approach helps to clarify the treatment status of a region considerably. Table \ref{tab_soc_ext:reg_fe_assrate_home_away} shows the results when investigating home and away matches separately. To be able to compare the estimated effects, column 1 shows estimates retrieved from the baseline model (home matches only) when adjusting the sample as it is described above. Column 2 presents the estimates when allowing home and away games to have an impact on the assault rate. The estimate of an away game is small in magnitude and not significantly different from zero. In contrast, the effect of a home game is sizable and leads to an average increase in the assault rate by 2.910 assaults per million population. The coefficient is not significantly different from the one in column one. Overall, the results suggest that the focus on home games only does not lead to an invalid identification scheme, which would have been represented by a negative and significant estimate of the away game effect. 
 
-	% table  HOME & AWAY games 
-	\input{parts/soc_ext_tab__reg_fe_assrate_home_away}
 
 
 % Channels
@@ -256,19 +259,21 @@ As discussed above, the baseline model considers the effect of soccer matches, b
 This section investigates potential mechanisms through which football games can lead to additional assaults. I consider emotional cues and game prominence as potential channels.
 
 
+	% table EMOTIONAL CUES
+	\input{parts/soc_ext_tab__reg_fe_assrate_emotional_cues}
+
 % emotional cues
 In the first step, I consider emotional cues as potential channels of how soccer games can affect assault rates. This is motivated by the findings of \cite{card2011family} who demonstrate that unexpected losses of local football teams spur family violence. The results fit well into the context of the frustration-aggression hypothesis, first proposed by \cite{dollard1939frustration}, which predicts belligerent behavior in the event of frustrating events. \cite{rees2009college} show in a similar fashion that there are more violent offenses when the local football team loses. For this reason, I analyze in Table \ref{tab_soc_ext:reg_fe_assrate_emotional_cues} whether visceral factors may be the reason for the additional assaults. Column 1 investigates whether the mere existence of an emotionally upsetting event during a game leads to a higher assault rate. To answer this question, I build an index that equals one for games in which there occurs at least one of the following potentially unsettling events: a penalty is awarded (20\% of all games), a red card is being issued (10\% of all games), or the referee receives a non-sufficient grade (15\% of all games). The index shows that 35\% of all games experience at least one upsetting episode as defined in the previous categories. The estimates in column 1 do not suggest that emotional cues trigger more violent behavior as the estimates for games with and without upsetting events are not significantly different from each other. 	In the second and third column I show estimates following the approach of \cite{card2011family}, in which I examine the impact of game outcomes relative to their pregame expectations. Pregame expectations are included in the analysis as matches with contrasting predictions may be very different from each other. By including predicted outcomes, you can estimate the effect when a team is expected to win but loses, and vice versa. Using data from oddsportal.com, I define a game too close to be predictable when the absolute probability difference between win and loss is smaller than 20 percent.\footnote{Similar results are obtained when defining other threshold values and when I deviate from the symmetry around the origin.} When the spread's value is exceeding the threshold then the home game is expected to win or lose, respectively. Around 45\% of the games are expected to be close or to be won, while 10\% of the games are expected to be lost. The significantly larger share of wins may be attributed to the home-advantage. Column 2 starts out by examining the effects of matches with distinct predicted match outcomes. The estimates do not suggest that the effect of games with different predicted outcomes differ systematically from each other. In column 3, I include additionally interactions between expected and true game outcomes. The estimates are relatively small in magnitude and not significantly different from zero, implying that unexpected wins/losses do not cause additional assaults. Taken all together, there is no evidence that emotional cues drive violent behavior in the context of professional soccer games in Germany.
 
-	% table EMOTIONAL CUES
-	\input{parts/soc_ext_tab__reg_fe_assrate_emotional_cues}
+	% table TEAM/GAME prominence
+	\input{parts/soc_ext_tab__reg_fe_assrate_prominent_games}
 	
 
 % game/team prominence (rivals & league)
 Second, I use information about game and team prominence as potential channels. For many sport fans, the affection for the own soccer team plays a central role \citep{wann1993sports}. Almost as important as the passion for the own team is the cultivation of animosities against rivals. Often resentments and hatred can translate into violent actions \citep{nassauer2011hate}. In order to test the hypothesis that the additional assaults are the result of feelings of dislike, I compare the impact of matches in which known rival teams are playing against each other to regular matches. To answer this question, the game day indicator of equation \ref{eq_soc_ext:model} is replaced by an interaction with a dummy variable that equals one for rival matches.\footnote{Appendix Table \ref{tab_soc_ext:prominent_games_derbies} gives an overview of rival matches.} The estimates are shown in columns 1 and 2 of Table \ref{tab_soc_ext:reg_fe_assrate_prominent_games}. Games that are classified as rival matches lead to an average increase of 8.320 assaults per million population. This corresponds to more than three times the baseline effect. Although the standard errors are relatively large, as only 2.5\% of the games are classified as rival matches, the effect is significantly different from regular matches. The higher rate of physical assaults during rival matches could also be rationalized by the social learning theory, in which spectators mimic the behavior displayed on the pitch. For instance, the number of cards awarded is significantly higher in rival matches.\footnote{The number of cards in derby matches is 4.324\ (s.e.=0.174), while for regular matches the number of issued cards is 3.906 (s.e.=0.029).} Next to the explanation of mutual dislike of opposing fan groups or social learning, it could be the mere prominence of teams/games that attract more (violent) people. As shown in Figure \ref{fig_soc_ext:descriptives_matches_time_attendance}, attendance varies substantially across the tiers of the German football league system. Columns 3-5 shows the effect of games by the league in which the teams are playing. The largest effect is in the highest tier, the Bundesliga, in which a game leads to a rise in the assault rate by, on average, 3.530 assaults per million population. The impact of matches from the first league are significantly larger than the effect of matches from the other two leagues.
 Summing up, there is evidence that the prominence of games are a crucial determinant for the size of the effect of soccer matches on the assault rate, where rival matches and games in the top league lead to more assaults.
 
-	% table TEAM/GAME prominence
-	\input{parts/soc_ext_tab__reg_fe_assrate_prominent_games}
+
 
 
 % Machine Learning application: effect heterogeneity in other dimensions
