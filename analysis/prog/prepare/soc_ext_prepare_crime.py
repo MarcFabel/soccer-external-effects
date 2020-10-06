@@ -38,6 +38,7 @@ z_crime_source =        'F:/econ/soc_ext/analysis/data/source/BKA/opfer-hashed-'
 z_crime_figures_desc =  'F:/econ/soc_ext/analysis/output/graphs/descriptive/'
 z_maps_stadiums =       'F:/econ/soc_ext/analysis/data/intermediate/maps/'
 z_crime_output =        'F:/econ/soc_ext/analysis/data/intermediate/crime/'
+z_crime_stata_output =  'F:/econ/soc_ext/analysis/output/temp/'
 z_prefix =              'soc_ext_'
 
 
@@ -258,7 +259,7 @@ ass_h['freq'] = ass_h['counts']/float(ass_h['counts'].sum())
 ass_h.sort_values(['hour_num'], inplace=True, ascending=True)
 ass_h.reset_index(inplace=True, drop=True)
 #plot
-ax = sns.barplot(ass_h.hour_num, ass_h.freq, color = 'darkblue')
+ax = sns.barplot(ass_h.hour_num, ass_h.freq, color = 'dimgray')
 ax.set(xlabel='', ylabel='Relative frequency') #xlabel='months',
 ax.set_xticklabels(ass_h.hour)
 plt.title("Panel A: Assaults across the course of a day", fontweight="bold", loc='left')
@@ -284,7 +285,7 @@ ass_dow = ass_dow.merge(temp_dows, on=['dow'])
 ass_dow['freq'] = ass_dow['counts']/float(ass_dow['counts'].sum())
 ass_dow.sort_values(['dow_num'], inplace=True, ascending=True)
 #plot
-ax = sns.barplot(ass_dow.dow, ass_dow.freq, color = 'darkblue')
+ax = sns.barplot(ass_dow.dow, ass_dow.freq, color = 'dimgray')
 ax.set(xlabel='', ylabel='Relative frequency') #xlabel='months',
 plt.title("Panel B: Assaults across days of the week", fontweight="bold", loc='left')
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
@@ -321,7 +322,7 @@ ass_month['freq'] = ass_month['counts']/float(ass_month['counts'].sum())
 ass_month['freq_norm'] = ass_month['counts_norm']/float(ass_month['counts_norm'].sum())
 ass_month.sort_values(['month_num'], inplace=True, ascending=True)
 #plot
-ax = sns.barplot(ass_month.month, ass_month.freq_norm, color = 'darkblue')
+ax = sns.barplot(ass_month.month, ass_month.freq_norm, color = 'dimgray')
 ax.set(xlabel='', ylabel='Relative frequency') #xlabel='months',
 plt.title("Panel C: Assaults across months of the year $^1$", fontweight="bold", loc='left')
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
@@ -348,13 +349,24 @@ ass_day['freq'] = ass_day['counts']/float(ass_day['counts'].sum())
 ass_day.sort_values(['date_d_mod'], inplace=True, ascending=True)
 ass_day.reset_index(inplace=True, drop=True)
 
-ax = sns.lineplot(ass_day.date_d_mod, ass_day.freq, color = 'darkblue')   #, kind='line'
+ax = sns.lineplot(ass_day.date_d_mod, ass_day.freq, color = 'dimgray')   #, kind='line'
 ax.set(xlabel='', ylabel='Relative frequency') #xlabel='months',
 plt.title("Panel D: Assaults across days of the year $^1$", fontweight="bold", loc='left')
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 plt.savefig(z_crime_figures_desc + z_prefix + 'assaults_per_day_2014_single.pdf')
+
+
+
+# export for stata 
+ass_h.to_stata(z_crime_stata_output + 'ass_h.dta', write_index=False)
+ass_dow.to_stata(z_crime_stata_output + 'ass_dow.dta', write_index=False)
+ass_month.to_stata(z_crime_stata_output + 'ass_month.dta', write_index=False)
+ass_day.to_stata(z_crime_stata_output + 'ass_day.dta', write_index=False, convert_dates={'date_d_mod':'td'})
+
+
+z_crime_output + 'crime_prepared.csv', sep=';', encoding='UTF-8', index=False
 
 
 
