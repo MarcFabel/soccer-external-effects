@@ -945,6 +945,45 @@ restore
 
 
 
+
+
+// export 2019 for the greta_cons project
+preserve
+	qui gen year = year(mdy)
+	keep if year == 2019
+	drop year
+	
+	*corrections school_holiday dummy
+	replace sch_hday = 1 if bula == 2  & mdy == td(01nov2019)
+	replace sch_hday = 1 if bula == 8  & mdy == td(31oct2019)
+	replace sch_hday = 1 if bula == 13 & mdy == td(01nov2019)
+	replace sch_hday = 1 if bula == 15 & mdy == td(01nov2019)
+	
+	* correction of pub_hday
+	replace pub_hday = 1 if bula == 1  & mdy == td(31oct2019)
+	replace pub_hday = 1 if bula == 3  & mdy == td(31oct2019)
+	replace pub_hday = 1 if bula == 4  & mdy == td(31oct2019)
+	
+	
+	format mdy %td 
+	drop bew_Ferien type*
+	
+	
+	* generate fasching dummy
+		xtset bula mdy
+		qui gen ft10 = 1 if feiertag == "Ostermontag"
+		qui gen fasching = 0 
+		qui replace fasching = 1 if F47.ft10==1 |  F48.ft10==1 |  F49.ft10==1 |  F50.ft10==1 |  F51.ft10==1 |  F52.ft10==1 |  F53.ft10==1
+		drop ft10
+		rename mdy date
+	
+	
+	save  "${outputdata}\Schulferien_2019.dta",replace 
+restore
+
+
+
+
 *drop if mdy<mdy(01,01,1995) | mdy>mdy(12,31,2014) 
 
 *format mdy %td 
