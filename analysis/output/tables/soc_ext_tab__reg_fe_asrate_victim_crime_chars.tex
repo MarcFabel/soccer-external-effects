@@ -14,7 +14,7 @@
 				\multicolumn{6}{l}{\textit{\textbf{Panel A: Victim characteristics}}} \\\\
 					& \multicolumn{2}{c}{Gender} & \multicolumn{3}{c}{Victim-suspect-relationship} & Occupation \\
 					\cmidrule(lr){2-3} \cmidrule(lr){4-6} \cmidrule(lr){7-7}
-				&  women & men & strangers$^a$ & \clb{c}{prior$^a$\\relationship} & domestic$^b$ & police \\
+				&  women & men & strangers$^a$ & \clb{c}{prior$^a$\\relation} & domestic$^b$ & police \\
 				\midrule			
 				Game day           		 &     0.245\sym{***}&       2.432\sym{***}&       1.939\sym{***}&       0.738\sym{***}&       0.096\sym{**} &       0.434\sym{***}\\
 				                    	 &   (0.090)         &     (0.232)         &     (0.207)         &     (0.116)         &     (0.045)         &     (0.078)         \\
@@ -25,7 +25,7 @@
 				\multicolumn{6}{l}{\textit{\textbf{Panel B: Crime characteristics}}} \\\\
 				& \multicolumn{4}{c}{Timing$^c$} & \multicolumn{2}{c}{Assault execution} \\
 				\cmidrule(lr){2-5} \cmidrule(lr){6-7}
-				& spring & summer & fall & winter & attempt & completed act \\
+				& spring & summer & fall & winter & attempt & \clb{c}{completed\\act} \\
 				\midrule
 				Game day            	 &     2.817\sym{***}&       1.482\sym{**} &       2.478\sym{***}&       2.849\sym{***}&       0.367\sym{***}&       2.310\sym{***}\\
 										 &   (0.404)         &     (0.484)         &     (0.372)         &     (0.535)         &     (0.060)         &     (0.238)         \\
@@ -41,7 +41,7 @@
 				\bottomrule 
 		\end{tabular}}
 		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The estimates are based on the model shown in equation \ref{eq_soc_ext:model} and use the same outcome and controls as column 4 of Table \ref{tab_soc_ext:reg_fe_assrate} (including region and date fixed effects, their interactions as well as holiday and weather controls). See Table \ref{tab_soc_ext:reg_fe_assrate} for additional details. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.\newline \hspace*{15pt} $^a$: covers formal relationships (e.g. types of kin or acquaintances). \newline \hspace*{15pt} $^b$: covers spatial-social relationships. In this instance, whether victim and suspect live in the same household.\newline \hspace*{15pt} $^c$: spring (March - May), summer (July and August), fall (September - November), winter (December - February).
+			\item \scriptsize \emph{Notes:} The estimates are based on the model shown in equation \ref{eq_soc_ext:model} and use the same outcome and controls as column 4 of Table \ref{tab_soc_ext:reg_fe_assrate} (including region and date fixed effects, their interactions as well as holiday and weather controls). See Table \ref{tab_soc_ext:reg_fe_assrate} for additional details. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.\newline \hspace*{15pt} $^a$: covers formal relationships (e.g. types of kinship or acquaintance). \newline \hspace*{15pt} $^b$: covers spatial-social relationships (whether victim and suspect live in the same household). \newline \hspace*{15pt} $^c$: spring (Mar-May), summer (Jul+Aug), fall (Sep-Nov), winter (Dec-Feb).
 		\end{tablenotes} 
 	\end{threeparttable} 
 \end{table}

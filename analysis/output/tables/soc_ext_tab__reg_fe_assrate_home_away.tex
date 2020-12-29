@@ -1,17 +1,18 @@
 \begin{table}[t] \centering 
 	\begin{threeparttable} \centering \caption{Effect of football games on the assault rate, distinction of home and away games}\label{tab_soc_ext:reg_fe_assrate_home_away}
 		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
-			\begin{tabular}{l*{2}{c}}
+			\begin{tabular*}{.7\linewidth}{@{\extracolsep{\fill}}l*{2}{c}}
 				\toprule 
 				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
 				\midrule
 				&\clb{c}{Baseline\\w/o L3} & \clb{c}{Distinction\\home/away$^1$}\\
+				%&Baseline w/o L3 & Distinction home/away$^1$\\
 				\midrule
 				\input{reg_fe/assrate_fixed_effects_home_away} 
 				\bottomrule 
-		\end{tabular}}
+		\end{tabular*}}
 		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a football team from the first two leagues of the German football league system. The estimates are based on the model shown in equation \ref{eq_soc_ext:model} and use the same set of controls as column 4 of Table \ref{tab_soc_ext:reg_fe_assrate} (including region and date fixed effects, their interactions as well as holiday and weather controls). See Table \ref{tab_soc_ext:reg_fe_assrate} for additional details. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.\newline
+			\item \scriptsize \emph{Notes:} The specifications use daily data (excluding June) spanning the time window 2011-2015 for regions that host games of a football team from the top two leagues. The estimates are based on the model shown in equation \ref{eq_soc_ext:model} and use the same set of controls as column 4 of Table \ref{tab_soc_ext:reg_fe_assrate} (including region and date fixed effects, their interactions as well as holiday and weather controls). See Table \ref{tab_soc_ext:reg_fe_assrate} for additional details. Two-way clustered standard errors at region-year and year-month level are reported in parentheses. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.\newline
 			\hspace*{15 pt}$^1$: Effect size corresponds to the coefficient of Home game day.
 		\end{tablenotes} 
 	\end{threeparttable} 
