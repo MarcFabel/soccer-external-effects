@@ -53,7 +53,7 @@ label val hour_num HOUR
 graph bar freq, over(hour_num)  stack ///
 	title("Panel A: Assaults across the course of a day",pos(11) span  size(vlarge)) ///
 		plotregion(color(white)) scheme(s1mono) ///
-		ytitle("Relative frequency") ///
+		ytitle("Relative frequency") ylabel(,nogrid) ///
 		saving($graphs_temp/soc_ext_desc_crime_h, replace)
 		
 		
@@ -76,7 +76,7 @@ label val dow_num DOW
 graph bar freq, over(dow_num)  stack ///
 	title("Panel B: Assaults across days of the week",pos(11) span  size(vlarge)) ///
 		plotregion(color(white)) scheme(s1mono) ///
-		ytitle("Relative frequency") ///
+		ytitle("Relative frequency") ylabel(,nogrid) ///
 		saving($graphs_temp/soc_ext_desc_crime_dow, replace)
 		
 		
@@ -102,7 +102,7 @@ label val month_num MONTH
 graph bar freq_norm, over(month_num)  stack ///
 	title("Panel C: Assaults across months of the year{superscript:1}",pos(11) span  size(vlarge)) ///
 		plotregion(color(white)) scheme(s1mono) ///
-		ytitle("Relative frequency") ///
+		ytitle("Relative frequency") ylabel(,nogrid) ///
 		saving($graphs_temp/soc_ext_desc_crime_month, replace)	
 		
 		
@@ -114,8 +114,8 @@ use "$data/ass_day.dta", clear
 line freq date_d_mod, ///
 	title("Panel D: Assaults across days of the year{superscript:1}",pos(11) span  size(vlarge)) ///
 		plotregion(color(white)) scheme(s1mono) ///
-		ytitle("Relative frequency") xtitle("") ///
-		ylabel(,grid) tlabel(01jan2014 01mar2014 01may2014 01jul2014 01sep2014 01nov2014,format(%tdm)) ///
+		ytitle("Relative frequency") xtitle("") ylabel(,nogrid) ///
+		tlabel(01jan2014 01mar2014 01may2014 01jul2014 01sep2014 01nov2014,format(%tdm)) ///
 		tmtick(01feb2014 01apr2014 01jun2014 01aug2014 01oct2014 01dec2014) ///
 		saving($graphs_temp/soc_ext_desc_crime_days, replace)	
 		

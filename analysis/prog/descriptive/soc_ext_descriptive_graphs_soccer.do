@@ -51,7 +51,7 @@ keep if d_gameday == 1
 		ytitle("Number of matches") ///
 		title("Panel A: Matches by day of the week",pos(11) span  size(vlarge)) ///
 		plotregion(color(white)) scheme(s1mono) ///
-		ylabel(0 (500) 2000) ///
+		ylabel(0 (500) 2000, nogrid) ///
 		saving($graphs_temp/soc_ext_desc_soccer_matches_dow, replace)
 	*graph export "$graphs/soc_ext_desc_soccer_matches_dow.pdf", as(pdf) replace
 		
@@ -75,7 +75,7 @@ keep if d_gameday == 1
 		plotregion(color(white)) scheme(s1mono) freq /// 
 		ytitle(Number of matches) ylabel(0 500 1000) ///
 		title("Panel B: Matches by time of the day",pos(11) span  size(vlarge)) ///
-		ylabel(,grid) ///
+		ylabel(,nogrid) ///
 		saving($graphs_temp/soc_ext_desc_soccer_matches_hour, replace)
 	*graph export "$graphs/soc_ext_desc_soccer_matches_hour.pdf", as(pdf) replace
 
@@ -90,7 +90,7 @@ keep if d_gameday == 1
 		legend(label(1 "1st league") label(2 "2nd league") label(3 "3rd league") ///
 		pos(2) ring(0) col(1) ) ///
 		xtitle("Attendance [in thousand]") ytitle("Density") ///
-		ylabel(0 .05 .1,grid) plotregion(color(white)) scheme(s1mono) ///
+		ylabel(0 .05 .1,nogrid) plotregion(color(white)) scheme(s1mono) ///
 		title("Panel C: Attendance across leagues",pos(11) span  size(vlarge)) ///
 		saving($graphs_temp/soc_ext_desc_soccer_attendance_league, replace)
 	*graph export "$graphs/soc_ext_desc_soccer_attendance_league.pdf", as(pdf) replace
@@ -122,11 +122,11 @@ keep if d_gameday == 1
 	
 	twoway bar freq  dow_num, horizontal ///
 		xscale(rev) yscale(alt rev lc(white))  ///
-		ytitle("") xlabel(0 0.25 0.5,grid ) ///
+		ytitle("") xlabel(0 0.25 0.5,nogrid ) ///
 		plotregion(color(white)) scheme(s1mono) ///		
-		ylabel(none) xtitle("Frequency of games") ///
+		ylabel(none) xtitle("Frequency" "of games") ///
 		plotregion(margin(right)) ///
-		fxsize(25) ///
+		fxsize(15) ///
 		saving($graphs_temp/distr_gamedays_hor,replace)
 
 		
@@ -141,7 +141,7 @@ keep if d_gameday == 1
 		legend(label(1 "w/o game") label(2 "with game") order(2 1) ///
 		pos(2) ring(0) col(1) ) ///
 		bar(1, color(gs4)) bar(2, color(forest_green)) ///
-		ytitle("Average assault rate") ///
+		ytitle("Average assault rate" " ") ylabel(,nogrid) ///
 		plotregion(color(white)) scheme(s1mono) ///
 		saving($graphs_temp/assrate_gd_nongd_hor,replace)
 		
@@ -168,7 +168,7 @@ keep if d_gameday == 1
 		legend(label(1 "w/o game") label(2 "with game") order(2 1) ///
 		pos(2) ring(0) col(1) ) ///
 		bar(1, color(gs4)) bar(2, color(forest_green)) ///
-		ytitle("Average number of assaults") ///
+		ytitle("Average number of assaults" " ")  ylabel(,nogrid) ///
 		plotregion(color(white)) scheme(s1mono) ///
 		saving($graphs_temp/ass_gd_nongd_hor,replace)	
 	
