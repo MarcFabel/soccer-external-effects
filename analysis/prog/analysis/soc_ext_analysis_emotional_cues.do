@@ -105,7 +105,7 @@
 	
 	graph bar dwin dtie dloss, over(pred_outc) stack bar(1,color(forest_green)) ///
 		bar(2,color(gs6)) bar(3,color(maroon)) ytitle("Fraction") ///
-		scheme(s1mono) plotregion(color(white)) ///
+		scheme(s1mono) plotregion(color(white)) ylabel(,nogrid) ///
 		title("Panel B: Outcomes versus predicted outcome",pos(11) span  ) ///
 		legend(label(3 "loss") label(2 "tie") label(1 "win") pos(6) ring(1) col(3)) ///
 		saving($graphs_temp/soc_ext_desc_share_outcomes_per_pred_outcome, replace)
